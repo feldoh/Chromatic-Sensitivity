@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThoughtDef>
+		<defName>Feldoh_AteFoodChromavore</defName>
+		<durationDays>3</durationDays>
+		<stackLimit>1</stackLimit>
+		<stages>
+			<li>
+				<label>ate chromatic food</label>
+				<description>How deliciously colorful.</description>
+			</li>
+		</stages>
+	</ThoughtDef>
+</Defs>

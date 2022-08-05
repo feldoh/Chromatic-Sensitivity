@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<HediffDef ParentName="InfectionBase" Class="Chromatic_Sensitivity.HediffDef_ChromaticSensitivity">
+		<description>A curious condition which causes those with this condition to be highly affected by colors.</description>
+		<hediffClass>Chromatic_Sensitivity.Hediff_ChromaticSensitivity</hediffClass>
+		<defName>Feldoh_ChromaticSensitivity</defName>
+		<label>Chromatic Sensitivity</label>
+		<makesSickThought>false</makesSickThought>
+		<initialSeverity>0.05</initialSeverity>
+		<lethalSeverity>-1</lethalSeverity>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<tendable>false</tendable>
+		<comps>
+			<li Class="HediffCompProperties_DisappearsOnDeath"/>
+		</comps>
+		<stages>
+			<li>
+				<label>noticable</label>
+			</li>
+		</stages>
+	</HediffDef>
+</Defs>
