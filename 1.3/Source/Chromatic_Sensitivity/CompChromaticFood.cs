@@ -9,7 +9,7 @@ namespace Chromatic_Sensitivity
 		public override void PostIngested(Pawn ingester)
 		{
 			base.PostIngested(ingester);
-			(ingester.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("Feldoh_ChromaticSensitivity")) as
+			(ingester.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("Taggerung_ChromaticSensitivity")) as
 				Hediff_ChromaticSensitivity)?.FoodIngested(parent, Props.forcedColorDef?.color);
 		}
 	}

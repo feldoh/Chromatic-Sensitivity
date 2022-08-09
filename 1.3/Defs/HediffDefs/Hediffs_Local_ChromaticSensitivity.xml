@@ -3,7 +3,7 @@
 	<HediffDef ParentName="InfectionBase" Class="Chromatic_Sensitivity.HediffDef_ChromaticSensitivity">
 		<description>A curious condition which causes those with this condition to be highly affected by colors.</description>
 		<hediffClass>Chromatic_Sensitivity.Hediff_ChromaticSensitivity</hediffClass>
-		<defName>Feldoh_ChromaticSensitivity</defName>
+		<defName>Taggerung_ChromaticSensitivity</defName>
 		<label>Chromatic Sensitivity</label>
 		<makesSickThought>false</makesSickThought>
 		<initialSeverity>0.05</initialSeverity>
