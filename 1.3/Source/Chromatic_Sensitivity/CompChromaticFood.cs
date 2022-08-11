@@ -10,7 +10,7 @@ namespace Chromatic_Sensitivity
 		{
 			base.PostIngested(ingester);
 			(ingester.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("Taggerung_ChromaticSensitivity")) as
-				Hediff_ChromaticSensitivity)?.FoodIngested(parent, Props.forcedColorDef?.color);
+				Hediff_ChromaticSensitivity)?.FoodIngested(parent, Props.GetForcedColor());
 		}
 	}
 }

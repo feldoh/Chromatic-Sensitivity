@@ -49,7 +49,7 @@ namespace Chromatic_Sensitivity
 		{
 			return ingredient.stuffProps?.color is Color stuffColor
 				? MoveColorsCloser(color, stuffColor)
-				: _colorExtractor.ExtractDominantColor(TextureAtlasHelper.MakeReadableTextureInstance((Texture2D)ingredient.graphic.MatSingle.mainTexture)) is Color newColor
+				: _colorExtractor.ExtractDominantColor(ingredient) is Color newColor
 					? MoveColorsCloser(color, newColor)
 					: color;
 		}
@@ -58,16 +58,24 @@ namespace Chromatic_Sensitivity
 
 		public void FoodIngested(Thing food, Color? forcedColor)
 		{
-			var startingColor = pawn.story.SkinColor;
-			pawn.story.skinColorOverride = forcedColor.HasValue
+			var hasSkin = pawn.story?.SkinColor != null;
+			var startingColor = pawn.story?.SkinColor ?? pawn.Graphic.color;
+			var newColor = forcedColor.HasValue
 				? MoveColorsCloser(startingColor, forcedColor.Value)
 				: MoveTowardsColorFromFood(food, startingColor) ?? startingColor;
-
-			Log.Verbose($"Colour changed from ({startingColor}) to ({pawn.story.skinColorOverride.Value})");
+			if (hasSkin)
+			{
+				pawn.story.skinColorOverride = newColor;
+			}
+			else
+			{
+				pawn.Graphic.color = newColor;
+			}
+			Log.Verbose($"Colour changed from ({startingColor}) to ({pawn.story?.skinColorOverride ?? pawn.Graphic.color})");
 			pawn.Drawer.renderer.graphics.SetAllGraphicsDirty();
 			PortraitsCache.SetDirty(pawn);
 
-			if (pawn.Awake() && pawn.story.SkinColor.b > 0.9 && startingColor.b < pawn.story.SkinColor.b)
+			if (!pawn.NonHumanlikeOrWildMan() && pawn.Awake() && newColor.b > 0.9 && startingColor.b < newColor.b)
 				MoteMaker.ThrowText(pawn.DrawPos, pawn.Map,
 					"TextMote_ChromaticSensitivity_FeelingBlue".Translate(), 6.5f);
 		}
