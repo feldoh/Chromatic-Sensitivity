@@ -2,6 +2,7 @@ using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Debug = System.Diagnostics.Debug;
 
 namespace Chromatic_Sensitivity
 {
@@ -58,26 +59,20 @@ namespace Chromatic_Sensitivity
 
 		public void FoodIngested(Thing food, Color? forcedColor)
 		{
-			var hasSkin = pawn.story?.SkinColor != null;
+			if (pawn.story?.SkinColor == null) return; // We can only recolor things with skin for now
 			var startingColor = pawn.story?.SkinColor ?? pawn.Graphic.color;
 			var newColor = forcedColor.HasValue
 				? MoveColorsCloser(startingColor, forcedColor.Value)
 				: MoveTowardsColorFromFood(food, startingColor) ?? startingColor;
-			if (hasSkin)
-			{
-				pawn.story.skinColorOverride = newColor;
-			}
-			else
-			{
-				pawn.Graphic.color = newColor;
-			}
+			Debug.Assert(pawn.story != null, "pawn.story != null");
+			pawn.story.skinColorOverride = newColor;
 			Log.Verbose($"Colour changed from ({startingColor}) to ({pawn.story?.skinColorOverride ?? pawn.Graphic.color})");
 			pawn.Drawer.renderer.graphics.SetAllGraphicsDirty();
 			PortraitsCache.SetDirty(pawn);
-
 			if (!pawn.NonHumanlikeOrWildMan() && pawn.Awake() && newColor.b > 0.9 && startingColor.b < newColor.b)
 				MoteMaker.ThrowText(pawn.DrawPos, pawn.Map,
 					"TextMote_ChromaticSensitivity_FeelingBlue".Translate(), 6.5f);
+
 		}
 	}
 }
