@@ -11,6 +11,9 @@ namespace Chromatic_Sensitivity
 {
 	public class ChromaticSensitivitySettings : ModSettings
 	{
+		private const float RowHeight = 22f;
+		private const float TweakedColorRowHeight = 32f;
+		private const float Indent = 9f;
 		private static Vector2 _scrollPosition;
 		private Listing_Standard _options = new Listing_Standard();
 
@@ -30,7 +33,14 @@ namespace Chromatic_Sensitivity
 		 */
 		public Dictionary<int, string> ExcludedColors = new Dictionary<int, string>(DefaultExcludedColors);
 
-		private static readonly Dictionary<int, string> DefaultExcludedColors = new Dictionary<int, string>()
+		public Dictionary<string, Color> ThingDefColors = new Dictionary<string, Color>(DefaultThingDefColors);
+
+		private static readonly Dictionary<string, Color> DefaultThingDefColors = new Dictionary<string, Color>
+		{
+			{ "Meat_Megaspider", new Color32(128, 128, 75, Byte.MaxValue) }
+		};
+
+		private static readonly Dictionary<int, string> DefaultExcludedColors = new Dictionary<int, string>
 		{
 			{ 140 | 101 << 8 | 49 << 16, "Raw Food Boxes" },
 			{ 165 | 125 << 8 | 57 << 16, "Raw Food Boxes 2" },
@@ -44,10 +54,11 @@ namespace Chromatic_Sensitivity
 			_options.Begin(wrect);
 
 			_options.CheckboxLabeled("Enable Verbose logging", ref VerboseLogging);
-			_options.CheckboxLabeled("Allow infection", ref AllowInfection, "Allow the scenario to add the Chromatic_Sensitivity hediff to pawns");
+			_options.CheckboxLabeled("Allow infection", ref AllowInfection,
+				"Allow the scenario to add the Chromatic_Sensitivity hediff to pawns");
 			_options.Gap();
 
-			var severityRect = _options.GetRect(22f);
+			var severityRect = _options.GetRect(RowHeight);
 			Severity = Widgets.HorizontalSlider(severityRect, Severity * 100, 0f, 100.0f, false,
 				$"Severity Percent: {Severity * 100}", "0", "100",
 				0.5f) / 100f;
@@ -61,47 +72,65 @@ namespace Chromatic_Sensitivity
 				DumpAllTexturesWithSelectedColors(_exportPath);
 			}
 
-			_options.Label("Add colors to exclude from consideration for chromatic sensitivity");
+			_options.Label("Chromatic sensitivity colour tweaking");
 			_options.Label("<color=#FF0000>Red</color>");
-			var rectR = _options.GetRect(22f);
-			_red = (byte)Widgets.HorizontalSlider(rectR, _red, 0f, 255f, false, _red.ToString(CultureInfo.InvariantCulture), "0",
+			var rectR = _options.GetRect(RowHeight);
+			_red = (byte)Widgets.HorizontalSlider(rectR, _red, 0f, 255f, false, _red.ToString(CultureInfo.InvariantCulture),
+				"0",
 				"255", 1f);
 
 			_options.Label("<color=#00FF00>Green</color>");
-			var rectG = _options.GetRect(22f);
+			var rectG = _options.GetRect(RowHeight);
 			_green = (byte)Widgets.HorizontalSlider(rectG, _green, 0f, 255f, false,
 				_green.ToString(CultureInfo.InvariantCulture), "0", "255", 1f);
 
 			_options.Label("<color=#0000FF>Blue</color>");
-			var rectB = _options.GetRect(22f);
-			_blue = (byte)Widgets.HorizontalSlider(rectB, _blue, 0f, 255f, false, _blue.ToString(CultureInfo.InvariantCulture),
+			var rectB = _options.GetRect(RowHeight);
+			_blue = (byte)Widgets.HorizontalSlider(rectB, _blue, 0f, 255f, false,
+				_blue.ToString(CultureInfo.InvariantCulture),
 				"0", "255", 1f);
 
 			_options.Gap();
-			_colorName = _options.TextEntryLabeled(
-				$"<color=#{(int)_red:X2}{(int)_green:X2}{(int)_blue:X2}>Color from sliders</color>", _colorName);
-			_options.Gap();
+			_options.Label($"Selected color is: <color=#{CurrentColorAsHexString()}>{CurrentColorAsHexString()}</color>");
+			_colorName = _options.TextEntryLabeled("Name", _colorName);
 			if (_options.ButtonTextLabeled("Add color to excluded list", "add"))
 			{
-				ExcludedColors.SetOrAdd(ColorExtractor.CompactColor(new Color32(_red, _green, _blue, byte.MaxValue)), _colorName);
+				ExcludedColors.SetOrAdd(ColorExtractor.CompactColor(new Color32(_red, _green, _blue, byte.MaxValue)),
+					_colorName);
+			}
+
+			if (_options.ButtonTextLabeled("Use selected color for def with given name", "add"))
+			{
+				ThingDefColors.SetOrAdd(_colorName, new Color32(_red, _green, _blue, byte.MaxValue));
 			}
 
 			_options.Gap();
-			_options.Label("Currently Excluded Colors");
+			_options.Label("Tweaked Colors");
 
 			var scrollRect = viewPort.BottomPartPixels(viewPort.yMax - _options.CurHeight);
-			var excludedRect = new Rect(0, 0, scrollRect.width - 32, 32f * ExcludedColors.Count + 32f)
+			var tweakColorsRect = new Rect(0, _options.CurHeight, scrollRect.width - 32,
+				TweakedColorRowHeight * (ExcludedColors.Count + ThingDefColors.Count) + 100f);
+			_options.Indent(Indent);
+			Widgets.BeginScrollView(scrollRect, ref _scrollPosition, tweakColorsRect);
+			var tweakedColourListing = new Listing_Standard();
+			tweakedColourListing.Begin(tweakColorsRect);
+			tweakedColourListing.Label("ThingDef Color Overrides");
+			tweakedColourListing.Indent(Indent);
+			foreach (var colorForDef in ThingDefColors.ToList()
+				         .Where(colorForDef => tweakedColourListing.ButtonTextLabeled(
+					         $"Using <color=#{AsHexString(colorForDef.Value)}>{AsHexString(colorForDef.Value)}</color> for {colorForDef.Key}",
+					         "remove")))
 			{
-				y = _options.CurHeight,
-				height = 32f * ExcludedColors.Count + 32f
-			};
-			_options.Indent(17);
-			Widgets.BeginScrollView(scrollRect, ref _scrollPosition, excludedRect, true);
-			var options2 = new Listing_Standard();
-			options2.Begin(excludedRect);
+				ThingDefColors.Remove(colorForDef.Key);
+			}
+
+			tweakedColourListing.Outdent(Indent);
+			tweakedColourListing.GapLine();
+			tweakedColourListing.Label("Colors to avoid unless there is no better option");
+			tweakedColourListing.Indent(Indent);
 			foreach (var unpacked in from excludedColor in ExcludedColors.ToList()
 			         let unpacked = ColorExtractor.UnpackColor(excludedColor.Key)
-			         where options2.ButtonTextLabeled(
+			         where tweakedColourListing.ButtonTextLabeled(
 				         $"Excluded {excludedColor.Value} <color=#{AsHexString(unpacked)}>{unpacked.ToString()}</color>",
 				         "remove")
 			         select unpacked)
@@ -110,7 +139,7 @@ namespace Chromatic_Sensitivity
 					ColorExtractor.CompactColor(new Color32(unpacked.r, unpacked.g, unpacked.b, byte.MaxValue)));
 			}
 
-			options2.End();
+			tweakedColourListing.End();
 			Widgets.EndScrollView();
 			_options.End();
 		}
@@ -131,6 +160,11 @@ namespace Chromatic_Sensitivity
 		private static string AsHexString(Color32 color)
 		{
 			return $"{(int)color.r:X2}{(int)color.g:X2}{(int)color.b:X2}";
+		}
+
+		private string CurrentColorAsHexString()
+		{
+			return $"{(int)_red:X2}{(int)_green:X2}{(int)_blue:X2}";
 		}
 
 		private static void DumpAllTexturesWithSelectedColors(string path)
@@ -176,14 +210,13 @@ namespace Chromatic_Sensitivity
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look(ref VerboseLogging, "VerboseLogging", false);
-			Scribe_Values.Look(ref AllowInfection, "AllowInfection", false);
+			Scribe_Values.Look(ref VerboseLogging, "VerboseLogging");
+			Scribe_Values.Look(ref AllowInfection, "AllowInfection");
 			Scribe_Values.Look(ref Severity, "Severity", 0.05f);
 			Scribe_Collections.Look(ref ExcludedColors, "ExcludedColors", LookMode.Value, LookMode.Value);
-			if ((ExcludedColors?.Count ?? 0) == 0)
-			{
-				ExcludedColors = DefaultExcludedColors;
-			}
+			Scribe_Collections.Look(ref ThingDefColors, "ThingDefColors", LookMode.Value, LookMode.Value);
+			if ((ExcludedColors?.Count ?? 0) == 0) ExcludedColors = DefaultExcludedColors;
+			if ((ThingDefColors?.Count ?? 0) == 0) ThingDefColors = DefaultThingDefColors;
 			UpdateHediffDef();
 		}
 	}

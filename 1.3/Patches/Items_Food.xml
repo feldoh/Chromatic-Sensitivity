@@ -35,14 +35,6 @@
 				</value>
 			</li>
 			<li Class="PatchOperationAdd">
-				<xpath>Defs/ThingDef[defName='Meat_Megaspider']/comps</xpath>
-				<value>
-					<li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
-						<forcedColor>(128,128,75)</forcedColor>
-					</li>
-				</value>
-			</li>
-			<li Class="PatchOperationAdd">
 				<xpath>Defs/ThingDef[defName='Plant_Rose']/comps</xpath>
 				<value>
 					<li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">

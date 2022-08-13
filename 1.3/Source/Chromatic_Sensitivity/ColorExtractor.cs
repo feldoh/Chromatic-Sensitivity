@@ -8,16 +8,24 @@ namespace Chromatic_Sensitivity
 	{
 		public Color? ExtractDominantColor(ThingDef thingDef)
 		{
-			return thingDef.comps.Find(c => c.compClass == typeof(CompChromaticFood)) is CompProperties_ChromaticFood comp &&
-			       comp.GetForcedColor().HasValue
-				? comp.forcedColor
-				: ExtractDominantColor((Texture2D)thingDef.graphic.MatSingle.mainTexture);
+			return GetDefColorOverride(thingDef.defName) ??
+			       (thingDef.comps.Find(c => c.compClass == typeof(CompChromaticFood)) is CompProperties_ChromaticFood comp &&
+			        comp.GetForcedColor().HasValue
+				       ? comp.forcedColor
+				       : ExtractDominantColor((Texture2D)thingDef.graphic.MatSingle.mainTexture));
+		}
+
+		private Color? GetDefColorOverride(string defName)
+		{
+			return ChromaticSensitivity.Settings.ThingDefColors.TryGetValue(defName, out var colorForDef)
+				? colorForDef
+				: (Color?)null;
 		}
 
 		public Color? ExtractDominantColor(Thing thing)
 		{
-			return thing.TryGetComp<CompChromaticFood>()?.Props?.GetForcedColor() ??
-			       ExtractDominantColor((Texture2D)thing.Graphic.MatSingle.mainTexture);
+			return GetDefColorOverride(thing.def.defName) ?? thing.TryGetComp<CompChromaticFood>()?.Props?.GetForcedColor() ??
+				ExtractDominantColor((Texture2D)thing.Graphic.MatSingle.mainTexture);
 		}
 
 		public Color? ExtractDominantColor(Texture2D texture)
