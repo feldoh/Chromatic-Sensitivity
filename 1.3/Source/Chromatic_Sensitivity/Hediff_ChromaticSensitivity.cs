@@ -1,8 +1,8 @@
 using System.Linq;
+using AlienRace;
 using RimWorld;
 using UnityEngine;
 using Verse;
-using Debug = System.Diagnostics.Debug;
 
 namespace Chromatic_Sensitivity
 {
@@ -57,19 +57,56 @@ namespace Chromatic_Sensitivity
 		
 		#endregion Helpers
 
+		private Color? GetSkinColorFromHumanoidAlienRacePawn()
+		{
+			var channels = pawn.TryGetComp<AlienPartGenerator.AlienComp>()?.ColorChannels;
+			if (channels == null) return null;
+			if (!channels.TryGetValue("skin", out var skinColorChannels)) channels.TryGetValue("base", out skinColorChannels);
+			Log.Verbose($"Found probable HAR skin color channel {skinColorChannels}");
+			return skinColorChannels?.first;
+		}
+		
+		private Color? GetSkinColor()
+		{
+			return GetSkinColorFromHumanoidAlienRacePawn() ?? pawn.story?.SkinColor;
+		}
+
+		private bool SetSkinColorFromHumanoidAlienRacePawn(Color color)
+		{
+			var channels = pawn.TryGetComp<AlienPartGenerator.AlienComp>()?.ColorChannels;
+			if (channels == null) return false;
+			var channelName = channels.ContainsKey("skin") ? "skin" : "base";
+			if (!channels.ContainsKey(channelName)) return false;
+			channels[channelName].first = color;
+			Log.Verbose($"Updating probable HAR skin color channel {channelName} to {color}");
+			return true;
+		}
+		
+		private void SetSkinColor(Color color)
+		{
+			if (SetSkinColorFromHumanoidAlienRacePawn(color) || pawn.story == null) return;
+			pawn.story.skinColorOverride = color;
+		}
+		
 		public void FoodIngested(Thing food, Color? forcedColor)
 		{
-			if (pawn.story?.SkinColor == null) return; // We can only recolor things with skin for now
-			var startingColor = pawn.story?.SkinColor ?? pawn.Graphic.color;
+			var startingColor = GetSkinColor();
+			if (startingColor == null)
+			{
+				Log.Verbose($"Unable to determine skin color for pawn of def {pawn.def.defName}");
+				return;
+			}
+			
 			var newColor = forcedColor.HasValue
-				? MoveColorsCloser(startingColor, forcedColor.Value)
-				: MoveTowardsColorFromFood(food, startingColor) ?? startingColor;
-			Debug.Assert(pawn.story != null, "pawn.story != null");
-			pawn.story.skinColorOverride = newColor;
-			Log.Verbose($"Colour changed from ({startingColor}) to ({pawn.story?.skinColorOverride ?? pawn.Graphic.color})");
+				? MoveColorsCloser(startingColor.Value, forcedColor.Value)
+				: MoveTowardsColorFromFood(food, startingColor.Value) ?? startingColor;
+			
+			SetSkinColor(newColor.Value);
+			
+			Log.Verbose($"Colour changed from ({startingColor}) to ({newColor.Value})");
 			pawn.Drawer.renderer.graphics.SetAllGraphicsDirty();
 			PortraitsCache.SetDirty(pawn);
-			if (!pawn.NonHumanlikeOrWildMan() && pawn.Awake() && newColor.b > 0.9 && startingColor.b < newColor.b)
+			if (!pawn.NonHumanlikeOrWildMan() && pawn.Awake() && newColor.Value.b > 0.9 && startingColor.Value.b < newColor.Value.b)
 				MoteMaker.ThrowText(pawn.DrawPos, pawn.Map,
 					"TextMote_ChromaticSensitivity_FeelingBlue".Translate(), 6.5f);
 
