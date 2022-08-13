@@ -2,7 +2,7 @@
 <Defs>
 	<ThoughtDef>
 		<defName>Taggerung_AteFoodChromavore</defName>
-		<durationDays>3</durationDays>
+		<durationDays>1</durationDays>
 		<stackLimit>1</stackLimit>
 		<stages>
 			<li>

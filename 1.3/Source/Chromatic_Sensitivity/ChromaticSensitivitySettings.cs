@@ -15,7 +15,7 @@ namespace Chromatic_Sensitivity
 		private const float TweakedColorRowHeight = 32f;
 		private const float Indent = 9f;
 		private static Vector2 _scrollPosition;
-		private Listing_Standard _options = new Listing_Standard();
+		private readonly Listing_Standard _options = new Listing_Standard();
 
 		public bool AllowInfection;
 		public bool VerboseLogging;
@@ -31,81 +31,86 @@ namespace Chromatic_Sensitivity
 		 * List of colors to exclude from possible consideration
 		 * Used to avoid the box counting as the dominant color for things like Rice, Corn etc.
 		 */
-		public Dictionary<int, string> ExcludedColors = new Dictionary<int, string>(DefaultExcludedColors);
+		public Dictionary<int, string> ExcludedColors = new Dictionary<int, string>();
 
-		public Dictionary<string, Color> ThingDefColors = new Dictionary<string, Color>(DefaultThingDefColors);
+		public Dictionary<string, Color> ThingDefColors = new Dictionary<string, Color>();
 
 		private static readonly Dictionary<string, Color> DefaultThingDefColors = new Dictionary<string, Color>
 		{
 			{ "Meat_Megaspider", new Color32(128, 128, 75, Byte.MaxValue) }
 		};
 
-		private static readonly Dictionary<int, string> DefaultExcludedColors = new Dictionary<int, string>
-		{
-			{ 140 | 101 << 8 | 49 << 16, "Raw Food Boxes" },
-			{ 165 | 125 << 8 | 57 << 16, "Raw Food Boxes 2" },
-			{ 123 | 85 << 8 | 33 << 16, "Raw Food Boxes 3" },
-			{ 0, "Outline; pure black" }
-		};
+		private static readonly Lazy<Dictionary<int, string>> DefaultExcludedColors = new Lazy<Dictionary<int, string>>(
+			() => new Dictionary<int, string>
+			{
+				{ 140 | 101 << 8 | 49 << 16, "ChromaticSensitivity_RawFoodBoxes".Translate() },
+				{ 165 | 125 << 8 | 57 << 16, "ChromaticSensitivity_RawFoodBoxes".Translate() },
+				{ 123 | 85 << 8 | 33 << 16, "ChromaticSensitivity_RawFoodBoxes".Translate() },
+				{ 0, "ChromaticSensitivity_Outline".Translate() }
+			});
 
 		public void DoWindowContents(Rect wrect)
 		{
 			var viewPort = wrect.GetInnerRect();
 			_options.Begin(wrect);
 
-			_options.CheckboxLabeled("Enable Verbose logging", ref VerboseLogging);
-			_options.CheckboxLabeled("Allow infection", ref AllowInfection,
-				"Allow the scenario to add the Chromatic_Sensitivity hediff to pawns");
+			_options.CheckboxLabeled("ChromaticSensitivity_Verbose".Translate(), ref VerboseLogging);
+			_options.CheckboxLabeled("ChromaticSensitivity_Infection".Translate(), ref AllowInfection,
+				"ChromaticSensitivity_InfectionHelp".Translate());
 			_options.Gap();
 
 			var severityRect = _options.GetRect(RowHeight);
+			var severityLabel = "ChromaticSensitivity_SeverityPercent".Translate(Severity * 100);
 			Severity = Widgets.HorizontalSlider(severityRect, Severity * 100, 0f, 100.0f, false,
-				$"Severity Percent: {Severity * 100}", "0", "100",
-				0.5f) / 100f;
+				severityLabel, "0", "100", 0.5f) / 100f;
 
 			UpdateHediffDef();
 
 			_options.Gap();
-			_exportPath = _options.TextEntryLabeled("Export path", _exportPath);
-			if (_options.ButtonText("Dump All"))
+			_exportPath = _options.TextEntryLabeled("ChromaticSensitivity_ExportPath".Translate() + "\t", _exportPath);
+			if (_options.ButtonText("ChromaticSensitivity_DumpAll".Translate()))
 			{
 				DumpAllTexturesWithSelectedColors(_exportPath);
 			}
 
-			_options.Label("Chromatic sensitivity colour tweaking");
-			_options.Label("<color=#FF0000>Red</color>");
+			_options.Label("ChromaticSensitivity_ColorTweaking".Translate());
+			_options.Label("ChromaticSensitivity_Red".Translate().Colorize(Color.red));
 			var rectR = _options.GetRect(RowHeight);
 			_red = (byte)Widgets.HorizontalSlider(rectR, _red, 0f, 255f, false, _red.ToString(CultureInfo.InvariantCulture),
 				"0",
 				"255", 1f);
 
-			_options.Label("<color=#00FF00>Green</color>");
+			_options.Label("ChromaticSensitivity_Green".Translate().Colorize(Color.green));
 			var rectG = _options.GetRect(RowHeight);
 			_green = (byte)Widgets.HorizontalSlider(rectG, _green, 0f, 255f, false,
 				_green.ToString(CultureInfo.InvariantCulture), "0", "255", 1f);
 
-			_options.Label("<color=#0000FF>Blue</color>");
+			_options.Label("ChromaticSensitivity_Blue".Translate().Colorize(Color.blue));
 			var rectB = _options.GetRect(RowHeight);
 			_blue = (byte)Widgets.HorizontalSlider(rectB, _blue, 0f, 255f, false,
 				_blue.ToString(CultureInfo.InvariantCulture),
 				"0", "255", 1f);
 
 			_options.Gap();
-			_options.Label($"Selected color is: <color=#{CurrentColorAsHexString()}>{CurrentColorAsHexString()}</color>");
-			_colorName = _options.TextEntryLabeled("Name", _colorName);
-			if (_options.ButtonTextLabeled("Add color to excluded list", "add"))
+			_options.Label(
+				"ChromaticSensitivity_SelectedColor".Translate(CurrentColorAsHexString()
+					.Colorize(GetSelectedColor32())));
+			_colorName = _options.TextEntryLabeled($"{"ChromaticSensitivity_ColorName".Translate()}\t", _colorName);
+			if (_options.ButtonTextLabeled("ChromaticSensitivity_ExcludeColor".Translate(),
+				    "ChromaticSensitivity_Add".Translate()))
 			{
-				ExcludedColors.SetOrAdd(ColorExtractor.CompactColor(new Color32(_red, _green, _blue, byte.MaxValue)),
+				ExcludedColors.SetOrAdd(ColorExtractor.CompactColor(GetSelectedColor32()),
 					_colorName);
 			}
 
-			if (_options.ButtonTextLabeled("Use selected color for def with given name", "add"))
+			if (_options.ButtonTextLabeled("ChromaticSensitivity_OverrideColor".Translate(),
+				    "ChromaticSensitivity_Add".Translate()))
 			{
-				ThingDefColors.SetOrAdd(_colorName, new Color32(_red, _green, _blue, byte.MaxValue));
+				ThingDefColors.SetOrAdd(_colorName, GetSelectedColor32());
 			}
 
 			_options.Gap();
-			_options.Label("Tweaked Colors");
+			_options.Label("ChromaticSensitivity_TweakedColors".Translate());
 
 			var scrollRect = viewPort.BottomPartPixels(viewPort.yMax - _options.CurHeight);
 			var tweakColorsRect = new Rect(0, _options.CurHeight, scrollRect.width - 32,
@@ -114,25 +119,31 @@ namespace Chromatic_Sensitivity
 			Widgets.BeginScrollView(scrollRect, ref _scrollPosition, tweakColorsRect);
 			var tweakedColourListing = new Listing_Standard();
 			tweakedColourListing.Begin(tweakColorsRect);
-			tweakedColourListing.Label("ThingDef Color Overrides");
+			tweakedColourListing.Label("ChromaticSensitivity_ColorOverridesLabel".Translate());
 			tweakedColourListing.Indent(Indent);
 			foreach (var colorForDef in ThingDefColors.ToList()
-				         .Where(colorForDef => tweakedColourListing.ButtonTextLabeled(
-					         $"Using <color=#{AsHexString(colorForDef.Value)}>{AsHexString(colorForDef.Value)}</color> for {colorForDef.Key}",
-					         "remove")))
+				         .Where(colorForDef =>
+				         {
+					         var taggedString = "ChromaticSensitivity_UsingColorOverride"
+						         .Translate(RGBString(colorForDef.Value).Colorize(colorForDef.Value),
+							         colorForDef.Key).ToString();
+					         return tweakedColourListing.ButtonTextLabeled(
+						         taggedString,
+						         "ChromaticSensitivity_Remove".Translate());
+				         }))
 			{
 				ThingDefColors.Remove(colorForDef.Key);
 			}
 
 			tweakedColourListing.Outdent(Indent);
 			tweakedColourListing.GapLine();
-			tweakedColourListing.Label("Colors to avoid unless there is no better option");
+			tweakedColourListing.Label("ChromaticSensitivity_ColorExclusionLabel".Translate());
 			tweakedColourListing.Indent(Indent);
 			foreach (var unpacked in from excludedColor in ExcludedColors.ToList()
 			         let unpacked = ColorExtractor.UnpackColor(excludedColor.Key)
-			         where tweakedColourListing.ButtonTextLabeled(
-				         $"Excluded {excludedColor.Value} <color=#{AsHexString(unpacked)}>{unpacked.ToString()}</color>",
-				         "remove")
+			         let translatedKey = "ChromaticSensitivity_ExcludingColor".Translate(excludedColor.Value,
+				         RGBString(unpacked).Colorize(unpacked)).ToString()
+			         where tweakedColourListing.ButtonTextLabeled(translatedKey, "ChromaticSensitivity_Remove".Translate())
 			         select unpacked)
 			{
 				ExcludedColors.Remove(
@@ -142,6 +153,16 @@ namespace Chromatic_Sensitivity
 			tweakedColourListing.End();
 			Widgets.EndScrollView();
 			_options.End();
+		}
+
+		private Color32 GetSelectedColor32()
+		{
+			return new Color32(_red, _green, _blue, byte.MaxValue);
+		}
+
+		private string RGBString(Color32 color32)
+		{
+			return $"({color32.r},{color32.g},{color32.b})";
 		}
 
 		private void UpdateHediffDef()
@@ -215,7 +236,7 @@ namespace Chromatic_Sensitivity
 			Scribe_Values.Look(ref Severity, "Severity", 0.05f);
 			Scribe_Collections.Look(ref ExcludedColors, "ExcludedColors", LookMode.Value, LookMode.Value);
 			Scribe_Collections.Look(ref ThingDefColors, "ThingDefColors", LookMode.Value, LookMode.Value);
-			if ((ExcludedColors?.Count ?? 0) == 0) ExcludedColors = DefaultExcludedColors;
+			if ((ExcludedColors?.Count ?? 0) == 0) ExcludedColors = DefaultExcludedColors.Value;
 			if ((ThingDefColors?.Count ?? 0) == 0) ThingDefColors = DefaultThingDefColors;
 			UpdateHediffDef();
 		}

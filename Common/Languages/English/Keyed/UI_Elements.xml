@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<ChromaticSensitivity_RawFoodBoxes>Raw Food Boxes</ChromaticSensitivity_RawFoodBoxes>
+	<ChromaticSensitivity_Outline>Outline; pure black</ChromaticSensitivity_Outline>
+	<ChromaticSensitivity_Verbose>Enable Verbose logging</ChromaticSensitivity_Verbose>
+	<ChromaticSensitivity_Infection>Allow infection</ChromaticSensitivity_Infection>
+	<ChromaticSensitivity_InfectionHelp>Allow the scenario to add the Chromatic_Sensitivity hediff to pawns</ChromaticSensitivity_InfectionHelp>
+	<ChromaticSensitivity_SeverityPercent>Severity Percent: {0}</ChromaticSensitivity_SeverityPercent>
+	<ChromaticSensitivity_ExportPath>Export path</ChromaticSensitivity_ExportPath>
+	<ChromaticSensitivity_DumpAll>Dump All</ChromaticSensitivity_DumpAll>
+	<ChromaticSensitivity_ColorTweaking>Chromatic sensitivity colour tweaking</ChromaticSensitivity_ColorTweaking>
+	<ChromaticSensitivity_Red>Red</ChromaticSensitivity_Red>
+	<ChromaticSensitivity_Green>Green</ChromaticSensitivity_Green>
+	<ChromaticSensitivity_Blue>Blue</ChromaticSensitivity_Blue>
+	<ChromaticSensitivity_SelectedColor>Selected color is: {0}</ChromaticSensitivity_SelectedColor>
+	<ChromaticSensitivity_ColorName>Name</ChromaticSensitivity_ColorName>
+	<ChromaticSensitivity_ExcludeColor>Add color to excluded list</ChromaticSensitivity_ExcludeColor>
+	<ChromaticSensitivity_OverrideColor>Use selected color for def with given name</ChromaticSensitivity_OverrideColor>
+	<ChromaticSensitivity_Add>Add</ChromaticSensitivity_Add>
+	<ChromaticSensitivity_Remove>Remove</ChromaticSensitivity_Remove>
+	<ChromaticSensitivity_TweakedColors>Tweaked Colors</ChromaticSensitivity_TweakedColors>
+	<ChromaticSensitivity_ColorOverridesLabel>ThingDef Color Overrides</ChromaticSensitivity_ColorOverridesLabel>
+	<ChromaticSensitivity_UsingColorOverride>Using {0} for {1}</ChromaticSensitivity_UsingColorOverride>
+	<ChromaticSensitivity_ColorExclusionLabel>Colors to avoid unless there is no better option</ChromaticSensitivity_ColorExclusionLabel>
+	<ChromaticSensitivity_ExcludingColor>Excluding {0}: {1}</ChromaticSensitivity_ExcludingColor>
+</LanguageData>
