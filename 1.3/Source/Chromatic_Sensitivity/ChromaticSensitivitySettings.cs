@@ -9,18 +9,20 @@ using Verse;
 
 namespace Chromatic_Sensitivity
 {
-	[StaticConstructorOnStartup]
 	public class ChromaticSensitivitySettings : ModSettings
 	{
+		private static Vector2 _scrollPosition;
+		private Listing_Standard _options = new Listing_Standard();
+
 		public bool AllowInfection;
 		public bool VerboseLogging;
 		public float Severity;
 
-		private byte red = 125;
-		private byte green = 125;
-		private byte blue = 125;
-		private string colorName = "helpful name for color";
-		private string exportPath = "C:\\RimworldExport"; 
+		private byte _red = 125;
+		private byte _green = 125;
+		private byte _blue = 125;
+		private string _colorName = "helpful name for color";
+		private string _exportPath = "C:\\RimworldExport";
 
 		/**
 		 * List of colors to exclude from possible consideration
@@ -38,76 +40,97 @@ namespace Chromatic_Sensitivity
 
 		public void DoWindowContents(Rect wrect)
 		{
-			var options = new Listing_Standard();
-			options.Begin(wrect);
+			var viewPort = wrect.GetInnerRect();
+			_options.Begin(wrect);
 
-			options.Label("Add colors to exclude from consideration for chromatic sensitivity");
-			options.Label("<color=#FF0000>Red</color>");
-			var rectR = options.GetRect(22f);
-			red = (byte)Widgets.HorizontalSlider(rectR, red, 0f, 255f, false, red.ToString(CultureInfo.InvariantCulture), "0",
-				"255", 1f);
+			_options.CheckboxLabeled("Enable Verbose logging", ref VerboseLogging);
+			_options.CheckboxLabeled("Allow infection", ref AllowInfection, "Allow the scenario to add the Chromatic_Sensitivity hediff to pawns");
+			_options.Gap();
 
-			options.Label("<color=#00FF00>Green</color>");
-			var rectG = options.GetRect(22f);
-			green = (byte)Widgets.HorizontalSlider(rectG, green, 0f, 255f, false,
-				green.ToString(CultureInfo.InvariantCulture), "0", "255", 1f);
-
-			options.Label("<color=#0000FF>Blue</color>");
-			var rectB = options.GetRect(22f);
-			blue = (byte)Widgets.HorizontalSlider(rectB, blue, 0f, 255f, false, blue.ToString(CultureInfo.InvariantCulture),
-				"0", "255", 1f);
-
-			options.Gap();
-			colorName = options.TextEntryLabeled(
-				$"<color=#{(int)red:X2}{(int)green:X2}{(int)blue:X2}>Color from sliders</color>", colorName);
-			options.Gap();
-			if (options.ButtonTextLabeled("Add color to excluded list", "add"))
-			{
-				ExcludedColors.Add(ColorExtractor.CompactColor(new Color32(red, green, blue, byte.MaxValue)), colorName);
-			}
-
-			options.Gap();
-			options.Label("Currently Excluded Colors");
-			foreach (var excludedColor in ExcludedColors.ToList())
-			{
-				var unpacked = ColorExtractor.UnpackColor(excludedColor.Key);
-				if (options.ButtonTextLabeled(
-					    $"Excluded {excludedColor.Value} <color=#{(int)unpacked.r:X2}{(int)unpacked.g:X2}{(int)unpacked.b:X2}>({unpacked.r},{unpacked.g},{unpacked.b})</color>",
-					    "remove"))
-				{
-					ExcludedColors.Remove(
-						ColorExtractor.CompactColor(new Color32(unpacked.r, unpacked.g, unpacked.b, byte.MaxValue)));
-				}
-			}
-
-			options.Gap();
-			options.CheckboxLabeled("Enable Verbose logging", ref VerboseLogging);
-			options.CheckboxLabeled("Allow infection", ref AllowInfection);
-			options.Gap();
-
-			var severityRect = options.GetRect(22f);
-			Severity = Widgets.HorizontalSlider(severityRect, Severity * 100, 0f, 100.0f, false, $"Severity Percent: {Severity * 100}", "0", "100",
+			var severityRect = _options.GetRect(22f);
+			Severity = Widgets.HorizontalSlider(severityRect, Severity * 100, 0f, 100.0f, false,
+				$"Severity Percent: {Severity * 100}", "0", "100",
 				0.5f) / 100f;
 
-			var hediffDef = DefDatabase<HediffDef>.GetNamed("Taggerung_ChromaticSensitivity");
-			hediffDef.scenarioCanAdd = AllowInfection;
-			if (Math.Abs(Severity - hediffDef.initialSeverity) > 0.005)
+			UpdateHediffDef();
+
+			_options.Gap();
+			_exportPath = _options.TextEntryLabeled("Export path", _exportPath);
+			if (_options.ButtonText("Dump All"))
 			{
-				foreach (var p in PawnsFinder.AllMapsAndWorld_Alive)
-					if (p.health.hediffSet.GetFirstHediffOfDef(
-						    HediffDef.Named("Taggerung_ChromaticSensitivity")) is Hediff hediff)
-						hediff.Severity = Severity;
-				hediffDef.initialSeverity = Severity;
-			}
-			
-			options.Gap();
-			exportPath = options.TextEntryLabeled("Export path", exportPath);
-			if (options.ButtonText("Dump All"))
-			{
-				DumpAllTexturesWithSelectedColors(exportPath);
+				DumpAllTexturesWithSelectedColors(_exportPath);
 			}
 
-			options.End();
+			_options.Label("Add colors to exclude from consideration for chromatic sensitivity");
+			_options.Label("<color=#FF0000>Red</color>");
+			var rectR = _options.GetRect(22f);
+			_red = (byte)Widgets.HorizontalSlider(rectR, _red, 0f, 255f, false, _red.ToString(CultureInfo.InvariantCulture), "0",
+				"255", 1f);
+
+			_options.Label("<color=#00FF00>Green</color>");
+			var rectG = _options.GetRect(22f);
+			_green = (byte)Widgets.HorizontalSlider(rectG, _green, 0f, 255f, false,
+				_green.ToString(CultureInfo.InvariantCulture), "0", "255", 1f);
+
+			_options.Label("<color=#0000FF>Blue</color>");
+			var rectB = _options.GetRect(22f);
+			_blue = (byte)Widgets.HorizontalSlider(rectB, _blue, 0f, 255f, false, _blue.ToString(CultureInfo.InvariantCulture),
+				"0", "255", 1f);
+
+			_options.Gap();
+			_colorName = _options.TextEntryLabeled(
+				$"<color=#{(int)_red:X2}{(int)_green:X2}{(int)_blue:X2}>Color from sliders</color>", _colorName);
+			_options.Gap();
+			if (_options.ButtonTextLabeled("Add color to excluded list", "add"))
+			{
+				ExcludedColors.SetOrAdd(ColorExtractor.CompactColor(new Color32(_red, _green, _blue, byte.MaxValue)), _colorName);
+			}
+
+			_options.Gap();
+			_options.Label("Currently Excluded Colors");
+
+			var scrollRect = viewPort.BottomPartPixels(viewPort.yMax - _options.CurHeight);
+			var excludedRect = new Rect(0, 0, scrollRect.width - 32, 32f * ExcludedColors.Count + 32f)
+			{
+				y = _options.CurHeight,
+				height = 32f * ExcludedColors.Count + 32f
+			};
+			_options.Indent(17);
+			Widgets.BeginScrollView(scrollRect, ref _scrollPosition, excludedRect, true);
+			var options2 = new Listing_Standard();
+			options2.Begin(excludedRect);
+			foreach (var unpacked in from excludedColor in ExcludedColors.ToList()
+			         let unpacked = ColorExtractor.UnpackColor(excludedColor.Key)
+			         where options2.ButtonTextLabeled(
+				         $"Excluded {excludedColor.Value} <color=#{AsHexString(unpacked)}>{unpacked.ToString()}</color>",
+				         "remove")
+			         select unpacked)
+			{
+				ExcludedColors.Remove(
+					ColorExtractor.CompactColor(new Color32(unpacked.r, unpacked.g, unpacked.b, byte.MaxValue)));
+			}
+
+			options2.End();
+			Widgets.EndScrollView();
+			_options.End();
+		}
+
+		private void UpdateHediffDef()
+		{
+			var hediffDef = DefDatabase<HediffDef>.GetNamed("Taggerung_ChromaticSensitivity", false);
+			if (hediffDef == null) return;
+			hediffDef.scenarioCanAdd = AllowInfection;
+			if (!(Math.Abs(Severity - hediffDef.initialSeverity) > 0.005)) return;
+			foreach (var p in PawnsFinder.AllMapsAndWorld_Alive)
+				if (p.health.hediffSet.GetFirstHediffOfDef(
+					    HediffDef.Named("Taggerung_ChromaticSensitivity")) is Hediff hediff)
+					hediff.Severity = Severity;
+			hediffDef.initialSeverity = Severity;
+		}
+
+		private static string AsHexString(Color32 color)
+		{
+			return $"{(int)color.r:X2}{(int)color.g:X2}{(int)color.b:X2}";
 		}
 
 		private static void DumpAllTexturesWithSelectedColors(string path)
@@ -161,6 +184,7 @@ namespace Chromatic_Sensitivity
 			{
 				ExcludedColors = DefaultExcludedColors;
 			}
+			UpdateHediffDef();
 		}
 	}
 }

@@ -16,7 +16,7 @@ namespace Chromatic_Sensitivity
 
 		public Color? ExtractDominantColor(Thing thing)
 		{
-			return thing.TryGetComp<CompChromaticFood>().Props.GetForcedColor() ??
+			return thing.TryGetComp<CompChromaticFood>()?.Props?.GetForcedColor() ??
 			       ExtractDominantColor((Texture2D)thing.Graphic.MatSingle.mainTexture);
 		}
 
@@ -57,10 +57,7 @@ namespace Chromatic_Sensitivity
 				bestColor = countedColor.First();
 				bestKey = countedColor.Key;
 				commonality = newCommonality;
-				if (ChromaticSensitivity.Settings.VerboseLogging)
-				{
-					Log.Verbose($"New most dominant colour ({bestColor}): {commonality} pixels");
-				}
+				Log.Verbose($"New most dominant colour ({bestColor}): {commonality} pixels");
 			}
 
 			return bestColor is Color32 chosen
