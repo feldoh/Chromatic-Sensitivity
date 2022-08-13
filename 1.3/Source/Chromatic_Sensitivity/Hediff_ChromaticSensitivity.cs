@@ -30,6 +30,8 @@ namespace Chromatic_Sensitivity
 			return Color.Lerp(currentColor, targetColor, Severity);
 		}
 
+		public override float Severity => ChromaticSensitivity.Settings.Severity;
+
 		private Color? MoveTowardsColorFromFood(Thing food, Color startingColor)
 		{
 			var comp = food.TryGetComp<CompIngredients>();

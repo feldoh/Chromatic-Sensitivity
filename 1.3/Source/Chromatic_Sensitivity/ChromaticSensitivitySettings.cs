@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -170,17 +169,6 @@ namespace Chromatic_Sensitivity
 			var hediffDef = DefDatabase<HediffDef>.GetNamed("Taggerung_ChromaticSensitivity", false);
 			if (hediffDef == null) return;
 			hediffDef.scenarioCanAdd = AllowInfection;
-			if (!(Math.Abs(Severity - hediffDef.initialSeverity) > 0.005)) return;
-			foreach (var p in PawnsFinder.AllMapsAndWorld_Alive)
-				if (p.health.hediffSet.GetFirstHediffOfDef(
-					    HediffDef.Named("Taggerung_ChromaticSensitivity")) is Hediff hediff)
-					hediff.Severity = Severity;
-			hediffDef.initialSeverity = Severity;
-		}
-
-		private static string AsHexString(Color32 color)
-		{
-			return $"{(int)color.r:X2}{(int)color.g:X2}{(int)color.b:X2}";
 		}
 
 		private string CurrentColorAsHexString()

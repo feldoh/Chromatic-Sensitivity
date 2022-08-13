@@ -14,6 +14,7 @@
     <ReleaseFiles Include="About\**;Common\**;1.3\**;loadFolders.xml" Exclude="About\About-Debug.xml;About\About-Release.xml;About\About.xml;1.3\Source\**" />
     <AboutFiles Include="About\About-Debug.xml;About\About-Release.xml" />
     <ReleaseFiles Include="README.md" />
+    <ReleaseFiles Include="_PublisherPlus.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\Sounds" />
