@@ -11,6 +11,16 @@ Eating food will slowly transform the pawn making them
 * Approximately the same colour as their food
   * If they eat food with ingredients then the effect will be applied for each ingredient.
 
+### Compatibility
+* This should be compatible with Aliens defined using the [HAR Framework](https://github.com/erdelf/AlienRaces)
+  * The color modification is applied to the first of the two color channels, it uses `skin` where possible or falls back to `base`.
+* Combat extended - Probably ¯\\(ツ)/¯
+
+## Contributing
+Please do, this is my first published mod and I'm sure I've made mistakes.
+Please let me know so I can learn or raise a PR yourself.
+
 ## Thanks
 * ThatBartGuy for the inspiration and help with the art
 * Bratwurstinator for pointing me at some good resources for texture processing
+* [Classifiedgiant](https://github.com/classifiedgiant) for help understanding Unity graphics concepts
