@@ -8,7 +8,7 @@
     <OutputPath>.\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-	<OutputPath>..\$(SolutionName) - Release\</OutputPath>
+	<OutputPath>.\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <ReleaseFiles Include="About\**;Common\**;1.3\**;loadFolders.xml" Exclude="About\About-Debug.xml;About\About-Release.xml;About\About.xml;1.3\Source\**" />
