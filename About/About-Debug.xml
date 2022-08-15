@@ -8,7 +8,7 @@
 	<packageId>Taggerung.DEBChromaticSensitivity</packageId>
 	<description>Allows pawns to be affected by the colours they interact with. If you eat too many blueberries you might just become one! 
 (This is the dev version of Chromatic Sensitivity. The release version of About.xml is available for editing at About/About-Release.xml. Edits made on this file or on the temporary About/About.xml won't show up on the release version. Use VisualStudio to build a "Release" version of this mod when ready to upload your mod!)</description>
-	<url>https://steamcommunity.com/id/Taggerung/myworkshopfiles/?appid=294100</url>
+	<url>https://github.com/feldoh/Chromatic-Sensitivity</url>
 	<modDependencies>
 		<li>
 			<packageId>erdelf.HumanoidAlienRaces</packageId>
