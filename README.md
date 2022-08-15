@@ -21,6 +21,8 @@ Please do, this is my first published mod and I'm sure I've made mistakes.
 Please let me know so I can learn or raise a PR yourself.
 
 ## Thanks
-* ThatBartGuy for the inspiration and help with the art
-* Bratwurstinator for pointing me at some good resources for texture processing
-* [Classifiedgiant](https://github.com/classifiedgiant) for help understanding Unity graphics concepts
+* Ludeon for such a great game with excellent mod support.
+* ThatBartGuy for the inspiration and help with the art.
+* Bratwurstinator for pointing me at some good resources for texture processing.
+* [Classifiedgiant](https://github.com/classifiedgiant) for help understanding Unity graphics concepts.
+* Evelyn, without whom I would not be where I am today and could never have made something like this.
