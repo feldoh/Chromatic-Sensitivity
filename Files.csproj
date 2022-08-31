@@ -22,6 +22,9 @@
     <Folder Include="Common\Textures" />
     <Folder Include="Common\Languages" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="About\PublishedFileId.txt" />
+  </ItemGroup>
   <Target Name="Clean" />
   <Target Name="Build">
     <Copy SourceFiles="About\About-$(Configuration).xml" DestinationFiles="$(OutputPath)About\About.xml" SkipUnchangedFiles="true" />
