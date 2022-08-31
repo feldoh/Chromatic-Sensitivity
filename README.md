@@ -4,12 +4,17 @@ Rimworld mod to make pawns more affected by the colours they interact with.
 
 ## Features
 Most of the features of this mod are related to the `ChromaticSensitivity` Hediff.
+The Hediff is very rare by default, you can stop it naturally occurring altogether in the mod settings.
 If your pawn has this Hediff they can look forward to some of the following.
 
 ### You are what you eat
-Eating food will slowly transform the pawn making them
-* Approximately the same colour as their food
-  * If they eat food with ingredients then the effect will be applied for each ingredient.
+Eating food will slowly transform the pawn making them approximately the same colour as their food.
+* If they eat food with ingredients then the effect will be applied for each ingredient.
+* The severity dictates how quickly their color will change. This defaults to 5% per item consumed. This is quite slow but makes it smooth and natural. You can change this in the modsettings all the way up to 100% if you want them to change color after every snack.
+* The color is determined by simply finding the most common pixel color in the texture so sometimes this can be a little off, e.g. if the border ends up being the most common color. Core items should all have reasonable colors but you can add your own if you really want someone eating something silver to go blue.
+  * If you wish to exclude specific colors or specify a color for a specific item you can do so in the mod settings or via XML patch.
+  * To patch a new color add the `Chromatic_Sensitivity.CompProperties_ChromaticFood` with a `forcedColor` tag in the RGB format, e.g. `(255,255,255)` for white into the comps for the `ThingDef` you want to set a color for.
+* If you want to see what colours specific foods will turn you hit the dump all button in the mod settings. This will export each graphic along with the color you can expect to become when you eat it. See one you don't like, then change it!
 
 ### Compatibility
 * This should be compatible with Aliens defined using the [HAR Framework](https://github.com/erdelf/AlienRaces)
