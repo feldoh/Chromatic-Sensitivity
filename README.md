@@ -20,6 +20,26 @@ Eating food will slowly transform the pawn making them
 Please do, this is my first published mod and I'm sure I've made mistakes.
 Please let me know so I can learn or raise a PR yourself.
 
+### Building the project
+The Project is set up to produce a Debug folder which is gitignored for the assemblies.
+This is included via the loadFolders.xml
+There are two such loadFolders base files:
+* [loadFolders-Debug.xml](loadFolders-Debug.xml)
+* [loadFolders-Release.xml](loadFolders-Release.xml)
+
+When you build the Debug profile it will generate you a gitignored loadFolders file.
+
+When you run the release one it creates a ChromaticSensitivity folder one level up.
+i.e. if you have cloned this project to `D:\Epic\RimWorld\Mods\Chromatic Sensitivity Dev`
+then the release folder it will create is `D:\Epic\RimWorld\Mods\ChromaticSensitivity`.
+This avoids the need for publisher plus and means you have a totally clean folder with everything in it.
+This in turn makes it nice and easy to zip up this folder for non steam workshop releases.
+
+The same process is used for the About.xml file.
+
+Note that git really doesn't like having DLLs submitted to it because of how it works.
+So no DLLs are in the dev folder. However the releases section will include the zips.
+
 ## Thanks
 * Ludeon for such a great game with excellent mod support.
 * ThatBartGuy for the inspiration and help with the art.

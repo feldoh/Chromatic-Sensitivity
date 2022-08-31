@@ -25,7 +25,7 @@ namespace Chromatic_Sensitivity
 		private byte _blue = 125;
 		private string _colorName = "helpful name for color";
 		private string _exportPath = "C:\\RimworldExport";
-
+		
 		/**
 		 * List of colors to exclude from possible consideration
 		 * Used to avoid the box counting as the dominant color for things like Rice, Corn etc.
