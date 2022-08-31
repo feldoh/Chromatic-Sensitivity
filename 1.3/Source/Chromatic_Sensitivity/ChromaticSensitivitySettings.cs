@@ -15,17 +15,23 @@ namespace Chromatic_Sensitivity
 		private const float Indent = 9f;
 		private static Vector2 _scrollPosition;
 		private readonly Listing_Standard _options = new Listing_Standard();
+    private const float DefaultSeverity = 0.05f;
+    private float? _severity;
 
 		public bool AllowInfection;
 		public bool VerboseLogging;
-		public float Severity;
 
-		private byte _red = 125;
+    public float Severity {
+      get => _severity ?? DefaultSeverity;
+      set => _severity = value;
+    }
+
+    private byte _red = 125;
 		private byte _green = 125;
 		private byte _blue = 125;
 		private string _colorName = "helpful name for color";
 		private string _exportPath = "C:\\RimworldExport";
-		
+    
 		/**
 		 * List of colors to exclude from possible consideration
 		 * Used to avoid the box counting as the dominant color for things like Rice, Corn etc.
@@ -34,7 +40,7 @@ namespace Chromatic_Sensitivity
 
 		public Dictionary<string, Color> ThingDefColors = new Dictionary<string, Color>();
 
-		private static readonly Dictionary<string, Color> DefaultThingDefColors = new Dictionary<string, Color>
+    private static readonly Dictionary<string, Color> DefaultThingDefColors = new Dictionary<string, Color>
 		{
 			{ "Meat_Megaspider", new Color32(128, 128, 75, Byte.MaxValue) }
 		};
@@ -221,7 +227,7 @@ namespace Chromatic_Sensitivity
 			base.ExposeData();
 			Scribe_Values.Look(ref VerboseLogging, "VerboseLogging");
 			Scribe_Values.Look(ref AllowInfection, "AllowInfection");
-			Scribe_Values.Look(ref Severity, "Severity", 0.05f);
+			Scribe_Values.Look(ref _severity, "Severity", 0.05f);
 			Scribe_Collections.Look(ref ExcludedColors, "ExcludedColors", LookMode.Value, LookMode.Value);
 			Scribe_Collections.Look(ref ThingDefColors, "ThingDefColors", LookMode.Value, LookMode.Value);
 			if ((ExcludedColors?.Count ?? 0) == 0) ExcludedColors = DefaultExcludedColors.Value;

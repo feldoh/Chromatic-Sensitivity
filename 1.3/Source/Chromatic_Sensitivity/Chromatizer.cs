@@ -9,6 +9,7 @@ namespace Chromatic_Sensitivity
 	{
 		static Chromatizer()
 		{
+			ChromaticSensitivity.Settings.ExposeData();
 			var colorExtractor = new ColorExtractor();
 			foreach (var ingestible in DefDatabase<ThingDef>.AllDefs.Where(def =>
 				         def.IsIngestible && typeof(ThingWithComps).IsAssignableFrom(def.thingClass)))
@@ -20,7 +21,6 @@ namespace Chromatic_Sensitivity
 				if (maybeDominantColor is Color dominantColor) compPropertiesChromaticFood.forcedColor = dominantColor;
 				ingestible.comps.Add(compPropertiesChromaticFood);
 			}
-			ChromaticSensitivity.Settings.ExposeData();
 		}
 	}
 }
