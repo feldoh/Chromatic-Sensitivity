@@ -16,7 +16,6 @@
     <ReleaseFiles Include="Common\**" />
     <AboutFiles Include="About\About-Debug.xml;About\About-Release.xml" />
     <ReleaseFiles Include="README.md" />
-    <ReleaseFiles Include="loadFolders.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\Sounds" />
