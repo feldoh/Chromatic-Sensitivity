@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Chromatic Sensitivity - Dev Build</name>
-	<author>Taggerung</author>
-	<supportedVersions>
-		<li>1.3</li>
-	</supportedVersions>
-	<packageId>Taggerung.DEBChromaticSensitivity</packageId>
-	<description>Allows pawns to be affected by the colours they interact with. If you eat too many blueberries you might just become one! 
+  <name>Chromatic Sensitivity - Dev Build</name>
+  <author>Taggerung</author>
+  <supportedVersions>
+    <li>1.3</li>
+  </supportedVersions>
+  <packageId>Taggerung.DEBChromaticSensitivity</packageId>
+  <description>Allows pawns to be affected by the colours they interact with. If you eat too many blueberries you might just become one! 
 (This is the dev version of Chromatic Sensitivity. The release version of About.xml is available for editing at About/About-Release.xml. Edits made on this file or on the temporary About/About.xml won't show up on the release version. Use VisualStudio to build a "Release" version of this mod when ready to upload your mod!)</description>
-	<url>https://github.com/feldoh/Chromatic-Sensitivity</url>
-	<modDependencies>
-		<li>
-			<packageId>erdelf.HumanoidAlienRaces</packageId>
-			<displayName>Humanoid Alien Races</displayName>
-			<steamWorkshopUrl>steam://url/CommunityFilePage/839005762</steamWorkshopUrl>
-			<downloadUrl>https://github.com/erdelf/AlienRaces/releases/latest</downloadUrl>
-		</li>
-	</modDependencies>
-	<loadAfter>
-		<li>Ludeon.RimWorld</li>
-		<li>Ludeon.RimWorld.Ideology</li>
-		<li>Ludeon.RimWorld.Royalty</li>
-	</loadAfter>
+  <url>https://github.com/feldoh/Chromatic-Sensitivity</url>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+    <li>
+      <packageId>erdelf.HumanoidAlienRaces</packageId>
+      <displayName>Humanoid Alien Races</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/839005762</steamWorkshopUrl>
+      <downloadUrl>https://github.com/erdelf/AlienRaces/releases/latest</downloadUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>Ludeon.RimWorld</li>
+    <li>Ludeon.RimWorld.Ideology</li>
+    <li>Ludeon.RimWorld.Royalty</li>
+    <li>brrainz.harmony</li>
+    <li>erdelf.HumanoidAlienRaces</li>
+  </loadAfter>
 </ModMetaData>
