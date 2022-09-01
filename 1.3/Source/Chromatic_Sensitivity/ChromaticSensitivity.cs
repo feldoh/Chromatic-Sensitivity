@@ -1,29 +1,36 @@
-﻿using UnityEngine;
+﻿using Chromatic_Sensitivity.ColorControl;
+using UnityEngine;
 using Verse;
 
 namespace Chromatic_Sensitivity
 {
-	public class ChromaticSensitivity : Mod
-	{
-		public static ChromaticSensitivitySettings Settings;
+  public class ChromaticSensitivity : Mod
+  {
+    public static ChromaticSensitivitySettings Settings;
+    private const string AlienRacesPackageId = "erdelf.humanoidalienraces";
+    public static bool AlienRacesEnabled;
+    public static ISkinColorManager SkinColorManager;
 
-		public ChromaticSensitivity(ModContentPack content) : base(content)
-		{
-			Log.Verbose("Feel the rainbow");
+    public ChromaticSensitivity(ModContentPack content) : base(content)
+    {
+      Log.Verbose("Feel the rainbow");
 
-			// initialize settings
-			Settings = GetSettings<ChromaticSensitivitySettings>();
-		}
+      // initialize settings
+      Settings = GetSettings<ChromaticSensitivitySettings>();
+      AlienRacesEnabled = LoadedModManager.RunningModsListForReading.Any(m => m.PackageId == AlienRacesPackageId);
+      Log.Verbose($"AlienRacesEnabled: {AlienRacesEnabled}");
+      SkinColorManager = SkinColorManagerFactory.DefaultSkinColorManager;
+    }
 
-		public override void DoSettingsWindowContents(Rect inRect)
-		{
-			base.DoSettingsWindowContents(inRect);
-			Settings.DoWindowContents(inRect);
-		}
+    public override void DoSettingsWindowContents(Rect inRect)
+    {
+      base.DoSettingsWindowContents(inRect);
+      Settings.DoWindowContents(inRect);
+    }
 
-		public override string SettingsCategory()
-		{
-			return "Chromatic Sensitivity";
-		}
-	}
+    public override string SettingsCategory()
+    {
+      return "Chromatic Sensitivity";
+    }
+  }
 }

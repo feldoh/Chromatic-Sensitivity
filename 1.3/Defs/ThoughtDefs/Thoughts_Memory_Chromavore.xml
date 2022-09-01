@@ -7,7 +7,44 @@
     <stages>
       <li>
         <label>ate chromatic food</label>
-        <description>How deliciously colorful.</description>
+        <description>My meal was deliciously colorful</description>
+        <baseMoodEffect>1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>Taggerung_AteNonChromaticFoodChromavore</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>ate non-chromatic food</label>
+        <description>I ate a meal that was devoid of color</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>Taggerung_AteBoringChromaticFoodChromavore</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>ate boring chromatic food</label>
+        <description>The food here is very samey</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>Taggerung_AteExcitingChromaticFoodChromavore</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>ate exciting chromatic food</label>
+        <description>The color of a meal I ate sparked joy in my heart</description>
+        <baseMoodEffect>3</baseMoodEffect>
       </li>
     </stages>
   </ThoughtDef>

@@ -8,7 +8,7 @@
   <ChromaticSensitivity_SeverityPercent>Severity Percent: {0}</ChromaticSensitivity_SeverityPercent>
   <ChromaticSensitivity_ExportPath>Export path</ChromaticSensitivity_ExportPath>
   <ChromaticSensitivity_DumpAll>Dump All</ChromaticSensitivity_DumpAll>
-  <ChromaticSensitivity_ColorTweaking>Chromatic sensitivity colour tweaking</ChromaticSensitivity_ColorTweaking>
+  <ChromaticSensitivity_ColorTweaking>Chromatic sensitivity color tweaking</ChromaticSensitivity_ColorTweaking>
   <ChromaticSensitivity_Red>Red</ChromaticSensitivity_Red>
   <ChromaticSensitivity_Green>Green</ChromaticSensitivity_Green>
   <ChromaticSensitivity_Blue>Blue</ChromaticSensitivity_Blue>
@@ -22,5 +22,7 @@
   <ChromaticSensitivity_ColorOverridesLabel>ThingDef Color Overrides</ChromaticSensitivity_ColorOverridesLabel>
   <ChromaticSensitivity_UsingColorOverride>Using {0} for {1}</ChromaticSensitivity_UsingColorOverride>
   <ChromaticSensitivity_ColorExclusionLabel>Colors to avoid unless there is no better option</ChromaticSensitivity_ColorExclusionLabel>
+  <ChromaticSensitivity_DefExclusionLabel>ThingDefs to not consider for chromatic actions</ChromaticSensitivity_DefExclusionLabel>
   <ChromaticSensitivity_ExcludingColor>Excluding {0}: {1}</ChromaticSensitivity_ExcludingColor>
+  <ChromaticSensitivity_ExcludingDef>Excluding {0}</ChromaticSensitivity_ExcludingDef>
 </LanguageData>

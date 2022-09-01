@@ -35,18 +35,10 @@
         </value>
       </li>
       <li Class="PatchOperationAdd">
-        <xpath>Defs/ThingDef[defName='Plant_Rose']/comps</xpath>
+        <xpath>Defs/ThingDef[defName='Milk']/comps</xpath>
         <value>
           <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
-            <forcedColor>(239,136,190)</forcedColor>
-          </li>
-        </value>
-      </li>
-      <li Class="PatchOperationAdd">
-        <xpath>Defs/ThingDef[defName='Plant_Strawberry']/comps</xpath>
-        <value>
-          <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
-            <forcedColor>(240,0,60)</forcedColor>
+            <forcedColor>(239,239,239)</forcedColor>
           </li>
         </value>
       </li>

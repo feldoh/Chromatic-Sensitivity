@@ -1,6 +1,6 @@
 # Chromatic Sensitivity
 
-Rimworld mod to make pawns more affected by the colours they interact with.
+Rimworld mod to make pawns more affected by the colors they interact with.
 
 ## Features
 Most of the features of this mod are related to the `ChromaticSensitivity` Hediff.
@@ -8,15 +8,24 @@ The Hediff is very rare by default, you can stop it naturally occurring altogeth
 If your pawn has this Hediff they can look forward to some of the following.
 
 ### You are what you eat
-Eating food will slowly transform the pawn making them approximately the same colour as their food.
+Eating food will slowly transform the pawn making them approximately the same color as their food.
 * If they eat food with ingredients then the effect will be applied for each ingredient.
 * The severity dictates how quickly their color will change. This defaults to 5% per item consumed. This is quite slow but makes it smooth and natural. You can change this in the modsettings all the way up to 100% if you want them to change color after every snack.
 * The color is determined by simply finding the most common pixel color in the texture so sometimes this can be a little off, e.g. if the border ends up being the most common color. Core items should all have reasonable colors but you can add your own if you really want someone eating something silver to go blue.
   * If you wish to exclude specific colors or specify a color for a specific item you can do so in the mod settings or via XML patch.
-  * To patch a new color add the `Chromatic_Sensitivity.CompProperties_ChromaticFood` with a `forcedColor` tag in the RGB format, e.g. `(255,255,255)` for white into the comps for the `ThingDef` you want to set a color for.
-* If you want to see what colours specific foods will turn you hit the dump all button in the mod settings. This will export each graphic along with the color you can expect to become when you eat it. See one you don't like, then change it!
+  * To patch a new color in XML add the `Chromatic_Sensitivity.CompProperties_ChromaticFood` with a `forcedColor` tag in the RGB format, e.g. `(255,255,255)` for white into the comps for the `ThingDef` you want to set a color for.
+    * Note that as this is a comp it must be a `ThingWithComps` for this to work. You can set the color on any ThingDef in the mod settings but XML is restricted to ThingDefs where the thing supports comps i.e. where the `ThingDef` has `<thingClass>ThingWithComps</thingClass>`.
+* If you want to see what colors specific foods will turn you hit the dump all button in the mod settings. This will export each graphic along with the color you can expect to become when you eat it. See one you don't like, then change it!
+* Moodlets for chromatic food choices:
+  * Chance for a small mood buff when eating any food that results in a color change.
+  * Bigger buff if they eat things very similar to their favourite color (Ideology only). 
+  * Small mood debuff when eating food with no determinable colour (List of foods in mod settings, e.g. Packaged Survival Meals with no ingredients).
+  * Chance for a small food boredom mood debuff for eating food which has a defined colour but doesn't result in any changes. This might trigger if you have them eat only one thing constantly for example.   
 
 ### Compatibility
+* Safe to add mid-save: yes
+* Safe to remove mid-save: yes
+  * The first time you load in post removal you'll see errors about an unknown `Hediff` but it is benign and simply saving and reloading again clears it.
 * This should be compatible with Aliens defined using the [HAR Framework](https://github.com/erdelf/AlienRaces)
   * The color modification is applied to the first of the two color channels, it uses `skin` where possible or falls back to `base`.
 * Combat extended - Probably ¯\\(ツ)/¯
@@ -51,3 +60,4 @@ So no DLLs are in the dev folder. However the releases section will include the 
 * Bratwurstinator for pointing me at some good resources for texture processing.
 * [Classifiedgiant](https://github.com/classifiedgiant) for help understanding Unity graphics concepts.
 * Evelyn, without whom I would not be where I am today and could never have made something like this.
+* Marnador for the RimWorld font
