@@ -19,7 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\Sounds" />
-    <Folder Include="Common\Textures" />
     <Folder Include="Common\Languages" />
   </ItemGroup>
   <ItemGroup>
