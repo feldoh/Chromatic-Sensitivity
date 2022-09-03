@@ -23,6 +23,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About\PublishedFileId.txt" />
+    <Content Include="Assets\Things\Item\Drug\Taggerung_Chromosia\Chromosia_a.xcf" />
+    <Content Include="Assets\Things\Item\Drug\Taggerung_Chromosia\Chromosia_b.xcf" />
+    <Content Include="Assets\Things\Plant\Chromosia.xcf" />
+    <Content Include="Assets\Things\Plant\Chromosia_Immature.xcf" />
+    <Content Include="Assets\Things\Plant\Chromosia_Leafless.xcf" />
   </ItemGroup>
   <Target Name="Clean" />
   <Target Name="Build">
