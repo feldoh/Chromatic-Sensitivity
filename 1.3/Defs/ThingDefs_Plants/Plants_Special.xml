@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="PlantBase">
+    <defName>Plant_Taggerung_Chromosia</defName>
+    <label>chromosia bush</label>
+    <description>A rare wild bush which yields the chromosia fruit. Chromosia fruit is delicious and can affect the perception of color. Chromosia cannot be farmed, which makes wild chromosia groves quite valuable.\n\nIt reminds those lucky enough to find some of ambrosia, but with a hypnotic pattern of colors which seems to swirl to infinity.</description>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Nutrition>0.5</Nutrition>
+      <Beauty>10</Beauty>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Plant/Taggerung_Chromosia</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.7</drawSize>
+      <shadowData>
+        <volume>(0.1, 0.2, 0.1)</volume>
+      </shadowData>
+    </graphicData>
+    <selectable>true</selectable>
+    <neverMultiSelect>false</neverMultiSelect>
+    <pathCost>14</pathCost>
+    <ingestible />
+    <comps>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <chromaticIntensity>5</chromaticIntensity>
+        <chromaticColorType>Random</chromaticColorType>
+      </li>
+    </comps>
+    <plant>
+      <fertilitySensitivity>0.15</fertilitySensitivity>
+      <growDays>6</growDays>
+      <leaflessGraphicPath>Things/Plant/Taggerung_Chromosia_Leafless</leaflessGraphicPath>
+      <immatureGraphicPath>Things/Plant/Taggerung_Chromosia_Immature</immatureGraphicPath>
+      <harvestYield>2</harvestYield>
+      <harvestTag>Standard</harvestTag>
+      <harvestAfterGrowth>0.3</harvestAfterGrowth>
+      <harvestedThingDef>Taggerung_Chromosia</harvestedThingDef>
+      <visualSizeRange>0.6~1.1</visualSizeRange>
+      <topWindExposure>0.1</topWindExposure>
+      <wildOrder>2</wildOrder>
+      <purpose>Food</purpose>
+      <allowAutoCut>false</allowAutoCut>
+    </plant>
+  </ThingDef>
+
+</Defs>

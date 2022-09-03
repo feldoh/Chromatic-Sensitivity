@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- =========================== Good ============================-->
+
+  <IncidentDef>
+    <defName>Taggerung_ChromosiaSprout</defName>
+    <label>chromosia sprout</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Chromatic_Sensitivity.IncidentWorker_ChromosiaSprout</workerClass>
+    <baseChance>0.75</baseChance>
+    <letterLabel>Chromosia sprout</letterLabel>
+    <letterText>A grove of the mysterious chromosia bush has sprouted nearby! If you wait for the plants to grow, you'll be able to harvest the intensely colourful fruit.</letterText>
+    <letterDef>PositiveEvent</letterDef>
+    <allowedBiomes>
+      <li>TropicalRainforest</li>
+      <li>TropicalSwamp</li>
+      <li>TemperateForest</li>
+      <li>TemperateSwamp</li>
+      <li>BorealForest</li>
+      <li>AridShrubland</li>
+      <li MayRequire="sarg.alphabiomes">AB_FeraliskInfestedJungle</li>
+      <li MayRequire="sarg.alphabiomes">AB_GallatrossGraveyard</li>
+      <li MayRequire="sarg.alphabiomes">AB_GelatinousSuperorganism</li>
+      <li MayRequire="sarg.alphabiomes">AB_IdyllicMeadows</li>
+      <li MayRequire="sarg.alphabiomes">AB_MiasmicMangrove</li>
+      <li MayRequire="sarg.alphabiomes">AB_MycoticJungle</li>
+      <li MayRequire="sarg.alphabiomes">AB_OcularForest</li>
+      <li MayRequire="sarg.alphabiomes">AB_TarPits</li>
+      <li MayRequire="biomesteam.biomesislands">BiomesIslands_Atoll</li>
+      <li MayRequire="biomesteam.biomesislands">BiomesIslands_BorealIsland</li>
+      <li MayRequire="biomesteam.biomesislands">BiomesIslands_TemperateIsland</li>
+      <li MayRequire="biomesteam.biomesislands">BiomesIslands_TemperateArchipelago</li>
+      <li MayRequire="biomesteam.biomesislands">BiomesIslands_TropicalIsland</li>
+      <li MayRequire="biomesteam.biomesislands">BiomesIslands_TropicalArchipelago</li>
+      <li MayRequire="biomesteam.oasis">BMT_ChromaticOasis</li>
+      <li MayRequire="biomesteam.bunnies">Bunnies_Carrotopia</li>
+      <li MayRequire="mlie.advancedbiomes">PoisonForest</li>
+      <li MayRequire="mlie.advancedbiomes">Wetland</li>
+      <li MayRequire="mlie.naturesprettysweet">TKKN_RedwoodForest</li>
+      <li MayRequire="mlie.naturesprettysweet">TKKN_Grasslands</li>
+      <li MayRequire="mlie.naturesprettysweet">TKKN_Oasis</li>
+      <li MayRequire="mlie.rfarchipelagos">BorealArchipelago</li>
+      <li MayRequire="mlie.rfarchipelagos">TemperateArchipelago</li>
+      <li MayRequire="mlie.rfarchipelagos">TropicalArchipelago</li>
+      <li MayRequire="mlie.rimuniversebiomes">MoistDeciduousForest</li>
+      <li MayRequire="mlie.rimuniversebiomes">Woodland</li>
+      <li MayRequire="mlie.terraprojectcore">SpikeMountains</li>
+      <li MayRequire="mlie.terraprojectcore">Oasis</li>
+      <li MayRequire="mlie.terraprojectcore">VolcanicIsland</li>
+      <li MayRequire="mlie.terraprojectcore">Atoll</li>
+      <li MayRequire="zylle.morevanillabiomes">ZBiome_CloudForest</li>
+      <li MayRequire="zylle.morevanillabiomes">ZBiome_DesertOasis</li>
+      <li MayRequire="regrowth.botr.animaforest">RG_AnimaForest</li>
+      <li MayRequire="regrowth.botr.animaforest">RG-AF_AspenForest</li>
+    </allowedBiomes>
+  </IncidentDef>
+
+</Defs>
+
