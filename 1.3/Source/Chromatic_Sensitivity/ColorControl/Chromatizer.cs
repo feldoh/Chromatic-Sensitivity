@@ -10,7 +10,7 @@ namespace Chromatic_Sensitivity.ColorControl
     static Chromatizer()
     {
       ChromaticSensitivity.Settings.ExposeData();
-      var colorExtractor = new ColorExtractor();
+      var colorExtractor = new ColorHelper();
       foreach (var ingestible in DefDatabase<ThingDef>.AllDefs.Where(def =>
                  def.IsIngestible && typeof(ThingWithComps).IsAssignableFrom(def.thingClass)))
       {
@@ -18,7 +18,11 @@ namespace Chromatic_Sensitivity.ColorControl
         var compPropertiesChromaticFood = new CompProperties_ChromaticFood();
         var maybeDominantColor = colorExtractor.ExtractDominantColor(ingestible);
         // Pre-calculate dominant color for things without an overriden color with a valid texture to avoid runtime texture parsing. 
-        if (maybeDominantColor is Color dominantColor) compPropertiesChromaticFood.forcedColor = dominantColor;
+        if (maybeDominantColor is Color dominantColor)
+        {
+          compPropertiesChromaticFood.forcedColor = dominantColor;
+          Log.Verbose($"Chromatized: {ingestible.defName}, set color to {dominantColor}");
+        }
         ingestible.comps.Add(compPropertiesChromaticFood);
       }
     }

@@ -125,7 +125,7 @@ namespace Chromatic_Sensitivity
       if (_options.ButtonTextLabeled("ChromaticSensitivity_ExcludeColor".Translate(),
             "ChromaticSensitivity_Add".Translate()))
       {
-        ExcludedColors.SetOrAdd(ColorExtractor.CompactColor(GetSelectedColor32()),
+        ExcludedColors.SetOrAdd(ColorHelper.CompactColor(GetSelectedColor32()),
           _colorName);
       }
 
@@ -166,14 +166,14 @@ namespace Chromatic_Sensitivity
       tweakedColorListing.Label("ChromaticSensitivity_ColorExclusionLabel".Translate());
       tweakedColorListing.Indent(Indent);
       foreach (var unpacked in from excludedColor in ExcludedColors.ToList()
-               let unpacked = ColorExtractor.UnpackColor(excludedColor.Key)
+               let unpacked = ColorHelper.UnpackColor32(excludedColor.Key)
                let translatedKey = "ChromaticSensitivity_ExcludingColor".Translate(excludedColor.Value,
                  RGBString(unpacked).Colorize(unpacked)).ToString()
                where tweakedColorListing.ButtonTextLabeled(translatedKey, "ChromaticSensitivity_Remove".Translate())
                select unpacked)
       {
         ExcludedColors.Remove(
-          ColorExtractor.CompactColor(new Color32(unpacked.r, unpacked.g, unpacked.b, byte.MaxValue)));
+          ColorHelper.CompactColor(new Color32(unpacked.r, unpacked.g, unpacked.b, byte.MaxValue)));
       }
 
       tweakedColorListing.Outdent(Indent);
@@ -218,7 +218,7 @@ namespace Chromatic_Sensitivity
     private static void DumpAllTexturesWithSelectedColors(string path)
     {
       Directory.CreateDirectory(path);
-      var c = new ColorExtractor();
+      var c = new ColorHelper();
       foreach (var ingestible in DefDatabase<ThingDef>.AllDefsListForReading.Where(def =>
                  def.IsIngestible && typeof(ThingWithComps).IsAssignableFrom(def.thingClass)))
       {

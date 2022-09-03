@@ -4,8 +4,10 @@ using Verse;
 
 namespace Chromatic_Sensitivity.ColorControl
 {
-  public class ColorExtractor
+  public class ColorHelper
   {
+    public static Color RandomColor => new Color(Rand.Value, Rand.Value, Rand.Value);
+    
     public Color? ExtractDominantColor(ThingDef thingDef)
     {
       return GetDefColorOverride(thingDef.defName) ??
@@ -42,7 +44,9 @@ namespace Chromatic_Sensitivity.ColorControl
       return color.r | color.g << 8 | color.b << 16;
     }
 
-    public static Color32 UnpackColor(int compactedColor)
+    public static Color UnpackColor(int compactedColor) => UnpackColor32(compactedColor);
+    
+    public static Color32 UnpackColor32(int compactedColor)
     {
       return new Color32(
         (byte)(255 & compactedColor),
@@ -65,9 +69,10 @@ namespace Chromatic_Sensitivity.ColorControl
         bestColor = countedColor.First();
         bestKey = countedColor.Key;
         commonality = newCommonality;
-        Log.Verbose($"New most dominant color ({bestColor}): {commonality} pixels");
+        if (commonality > 75) Log.Verbose($"New most dominant color ({bestColor}): {commonality} pixels");
       }
 
+      Log.Verbose($"Best colour determined as ({bestColor}): {commonality} pixels");
       return bestColor is Color32 chosen
         ? new Color32(chosen.r, chosen.g, chosen.b, byte.MaxValue)
         : (Color?)null;

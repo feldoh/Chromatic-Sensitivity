@@ -10,6 +10,8 @@ namespace Chromatic_Sensitivity
     private const string AlienRacesPackageId = "erdelf.humanoidalienraces";
     public static bool AlienRacesEnabled;
     public static ISkinColorManager SkinColorManager;
+    public static ColorHelper ColorHelper = new ColorHelper();
+    public static IGraphicHandler GraphicHandler = new DefaultGraphicHandler();
 
     public ChromaticSensitivity(ModContentPack content) : base(content)
     {

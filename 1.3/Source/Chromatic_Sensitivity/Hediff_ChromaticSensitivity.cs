@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Chromatic_Sensitivity.ColorControl;
 using RimWorld;
@@ -8,58 +9,81 @@ namespace Chromatic_Sensitivity
 {
   public class Hediff_ChromaticSensitivity : HediffWithComps
   {
-    private readonly ColorExtractor _colorExtractor;
+    private readonly ColorHelper _colorHelper;
+    private readonly IGraphicHandler _graphicHandler;
 
     #region Properties
 
     public HediffDef_ChromaticSensitivity Def => def as HediffDef_ChromaticSensitivity;
+    public Color? OriginalColor;
 
     #endregion Properties
 
-    public Hediff_ChromaticSensitivity() : this(new ColorExtractor()) { }
+    public Hediff_ChromaticSensitivity() : this(null, null) { }
 
-    public Hediff_ChromaticSensitivity(ColorExtractor colorExtractor)
+    public Hediff_ChromaticSensitivity(ColorHelper colorHelper, IGraphicHandler graphicHandler)
     {
-      _colorExtractor = colorExtractor;
+      _colorHelper = colorHelper ?? ChromaticSensitivity.ColorHelper;
+      _graphicHandler = graphicHandler ?? ChromaticSensitivity.GraphicHandler;
+    }
+
+    public override void PostAdd(DamageInfo? damageInfo)
+    {
+      base.PostAdd(damageInfo); 
+      OriginalColor = ChromaticSensitivity.SkinColorManager.GetSkinColor(pawn);
+      Log.Verbose($"Saved pawn base color {OriginalColor}");
+    }
+
+    public override void PostRemoved()
+    {
+      var restoredColor = OriginalColor ?? PawnSkinColors.GetSkinColor(pawn.story?.melanin ?? PawnSkinColors.RandomMelanin(pawn.Faction));
+      Log.Verbose($"Restoring pawn base color to {restoredColor} (Original: {OriginalColor}) from {ChromaticSensitivity.SkinColorManager.GetSkinColor(pawn)}");
+      ChromaticSensitivity.SkinColorManager.SetSkinColor(pawn, restoredColor);
+      base.PostRemoved();
+    }
+
+    public override void ExposeData()
+    {
+      base.ExposeData();
+      Scribe_Values.Look(ref OriginalColor, "OriginalColor");
     }
 
     #region Helpers
 
-    private Color MoveColorsCloser(Color currentColor, Color targetColor)
+    private Color MoveColorsCloser(Color currentColor, Color? maybeTargetColor, float amount)
     {
-      return Color.Lerp(currentColor, targetColor, Severity);
+      return maybeTargetColor is Color targetColor ? Color.Lerp(currentColor, targetColor, amount) : currentColor;
     }
 
     public override float Severity => ChromaticSensitivity.Settings.Severity;
 
-    private Color? MoveTowardsColorFromFood(Thing food, Color startingColor)
+    private Color? MoveTowardsColorFromFood(Thing food, Color startingColor, float amount)
     {
       var comp = food.TryGetComp<CompIngredients>();
       if (comp == null || (comp.ingredients?.Count ?? 0) <= 0)
       {
         return food.Stuff?.stuffProps?.color is Color stuffColor
-          ? MoveColorsCloser(startingColor, stuffColor)
-          : MoveColorsCloser(startingColor,
-            _colorExtractor.ExtractDominantColor(food) ?? startingColor);
+          ? MoveColorsCloser(startingColor, stuffColor , amount)
+          : MoveColorsCloser(startingColor, _colorHelper.ExtractDominantColor(food), amount);
       }
 
-      var newCol = comp.ingredients.Aggregate(startingColor, MoveColorTowardsIngredientColor);
+      var newCol = comp.ingredients.Aggregate(startingColor, ColorModifierFromThingDefWithAmount(amount));
       Log.Verbose($"New col {newCol.r} {newCol.g} {newCol.b}");
       return newCol;
     }
 
-    private Color MoveColorTowardsIngredientColor(Color color, ThingDef ingredient)
+    private Func<Color, ThingDef, Color> ColorModifierFromThingDefWithAmount(float amount) => (color, ingredient) => MoveColorTowardsIngredientColor(color, ingredient, amount);
+
+    private Color MoveColorTowardsIngredientColor(Color color, ThingDef ingredient, float amount)
     {
       return ingredient.stuffProps?.color is Color stuffColor
-        ? MoveColorsCloser(color, stuffColor)
-        : _colorExtractor.ExtractDominantColor(ingredient) is Color newColor
-          ? MoveColorsCloser(color, newColor)
-          : color;
+        ? MoveColorsCloser(color, stuffColor, amount)
+        : MoveColorsCloser(color, _colorHelper.ExtractDominantColor(ingredient), amount);
     }
     
     #endregion Helpers
  
-    public void FoodIngested(Thing food, Color? compForcedColor)
+    public void FoodIngested(Thing food, CompProperties_ChromaticFood compProperties)
     {
       var defName = food.def.defName;
       if (ChromaticSensitivity.Settings.ExcludedDefs.Contains(defName))
@@ -77,11 +101,14 @@ namespace Chromatic_Sensitivity
 
       var forcedColor = ChromaticSensitivity.Settings.ThingDefColors.TryGetValue(defName, out var defForcedColor)
         ? defForcedColor
-        : compForcedColor;
-      
+        : compProperties.GetForcedColor();
+      if (forcedColor == null && compProperties.chromaticColorType == ChromaticColorType.Random) forcedColor = ColorHelper.RandomColor;
+
+      var chromaticIntensity = Mathf.Clamp01(compProperties.chromaticIntensity * Severity);
+
       var newColor = forcedColor.HasValue
-        ? MoveColorsCloser(startingColor.Value, forcedColor.Value)
-        : MoveTowardsColorFromFood(food, startingColor.Value) ?? startingColor.Value;
+        ? MoveColorsCloser(startingColor.Value, forcedColor.Value, chromaticIntensity)
+        : MoveTowardsColorFromFood(food, startingColor.Value, chromaticIntensity) ?? startingColor.Value;
       
       if (newColor.Equals(startingColor.Value))
       {
@@ -89,10 +116,8 @@ namespace Chromatic_Sensitivity
         return;
       }
       ChromaticSensitivity.SkinColorManager.SetSkinColor(pawn, newColor);
-      
+      _graphicHandler.RefreshPawnGraphics(pawn);
       Log.Verbose($"Color changed from ({startingColor}) to ({newColor})");
-      pawn.Drawer.renderer.graphics.SetAllGraphicsDirty();
-      PortraitsCache.SetDirty(pawn);
       if (!pawn.NonHumanlikeOrWildMan() && pawn.Awake() && newColor.b > 0.9 && startingColor.Value.b < newColor.b)
         MoteMaker.ThrowText(pawn.DrawPos, pawn.Map,
           "TextMote_ChromaticSensitivity_FeelingBlue".Translate(), 6.5f);

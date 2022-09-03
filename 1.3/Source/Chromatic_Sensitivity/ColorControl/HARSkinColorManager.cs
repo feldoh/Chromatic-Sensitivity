@@ -6,6 +6,14 @@ namespace Chromatic_Sensitivity.ColorControl
 {
   class HARSkinColorManager : ISkinColorManager
   {
+    private readonly IGraphicHandler _graphicHandler;
+
+    public HARSkinColorManager(): this(null) {}
+    public HARSkinColorManager(IGraphicHandler graphicHandler)
+    {
+      _graphicHandler = graphicHandler ?? ChromaticSensitivity.GraphicHandler;
+    }
+    
     public Color? GetSkinColor(Pawn pawn)
     {
       Log.Verbose($"Trying HAR skin color Get");
@@ -26,6 +34,7 @@ namespace Chromatic_Sensitivity.ColorControl
       if (!channels.ContainsKey(channelName)) return false;
       channels[channelName].first = color;
       Log.Verbose($"Updating probable HAR skin color channel {channelName} to {color}");
+      _graphicHandler.RefreshPawnGraphics(pawn);
       return true;
     }
   }
