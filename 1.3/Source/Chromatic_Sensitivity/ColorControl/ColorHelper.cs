@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -59,6 +60,7 @@ namespace Chromatic_Sensitivity.ColorControl
       Color32? bestColor = null;
       var bestKey = 0;
       var commonality = 0;
+      var log = new StringBuilder();
       foreach (var countedColor in texture2D.GetPixels32()
                  .Where(p => p.a > 5) // Ignore anything that's basically transparent 
                  .GroupBy(CompactColor))
@@ -69,10 +71,13 @@ namespace Chromatic_Sensitivity.ColorControl
         bestColor = countedColor.First();
         bestKey = countedColor.Key;
         commonality = newCommonality;
-        if (commonality > 75) Log.Verbose($"New most dominant color ({bestColor}): {commonality} pixels");
+        if (ChromaticSensitivity.Settings.VerboseLogging)
+        {
+          log.AppendLine($"New most dominant color ({bestColor}): {commonality} pixels");
+        }
       }
 
-      Log.Verbose($"Best colour determined as ({bestColor}): {commonality} pixels");
+      Log.Verbose(log.AppendLine($"Best colour determined as ({bestColor}): {commonality} pixels").ToString());
       return bestColor is Color32 chosen
         ? new Color32(chosen.r, chosen.g, chosen.b, byte.MaxValue)
         : (Color?)null;
