@@ -19,7 +19,6 @@ namespace Chromatic_Sensitivity
     private const float DefaultSeverity = 0.05f;
     private float? _severity;
 
-    public bool AllowInfection;
     public bool VerboseLogging;
 
     public float Severity {
@@ -81,16 +80,12 @@ namespace Chromatic_Sensitivity
       _options.Begin(wrect);
 
       _options.CheckboxLabeled("ChromaticSensitivity_Verbose".Translate(), ref VerboseLogging);
-      _options.CheckboxLabeled("ChromaticSensitivity_Infection".Translate(), ref AllowInfection,
-        "ChromaticSensitivity_InfectionHelp".Translate());
       _options.Gap();
 
       var severityRect = _options.GetRect(RowHeight);
       var severityLabel = "ChromaticSensitivity_SeverityPercent".Translate(Severity * 100);
       Severity = Widgets.HorizontalSlider(severityRect, Severity * 100, 0f, 100.0f, false,
         severityLabel, "0", "100", 0.5f) / 100f;
-
-      UpdateHediffDef();
 
       _options.Gap();
       _exportPath = _options.TextEntryLabeled("ChromaticSensitivity_ExportPath".Translate() + "\t", _exportPath);
@@ -203,13 +198,6 @@ namespace Chromatic_Sensitivity
       return $"({color32.r},{color32.g},{color32.b})";
     }
 
-    private void UpdateHediffDef()
-    {
-      var hediffDef = DefDatabase<HediffDef>.GetNamed("Taggerung_ChromaticSensitivity", false);
-      if (hediffDef == null) return;
-      hediffDef.scenarioCanAdd = AllowInfection;
-    }
-
     private string CurrentColorAsHexString()
     {
       return $"{(int)_red:X2}{(int)_green:X2}{(int)_blue:X2}";
@@ -259,7 +247,6 @@ namespace Chromatic_Sensitivity
     {
       base.ExposeData();
       Scribe_Values.Look(ref VerboseLogging, "VerboseLogging");
-      Scribe_Values.Look(ref AllowInfection, "AllowInfection");
       Scribe_Values.Look(ref _severity, "Severity", 0.05f);
       Scribe_Collections.Look(ref ExcludedDefs, "ExcludedDefs", LookMode.Value);
       Scribe_Collections.Look(ref ExcludedColors, "ExcludedColors", LookMode.Value, LookMode.Value);
@@ -267,7 +254,6 @@ namespace Chromatic_Sensitivity
       if ((ExcludedDefs?.Count ?? 0) == 0) ExcludedDefs = DefaultExcludedDefs.Value;
       if ((ExcludedColors?.Count ?? 0) == 0) ExcludedColors = DefaultExcludedColors.Value;
       if ((ThingDefColors?.Count ?? 0) == 0) ThingDefColors = DefaultThingDefColors;
-      UpdateHediffDef();
     }
   }
 }

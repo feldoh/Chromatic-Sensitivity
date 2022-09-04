@@ -54,8 +54,7 @@
       <li MayRequire="mlie.terraprojectcore">Atoll</li>
       <li MayRequire="zylle.morevanillabiomes">ZBiome_CloudForest</li>
       <li MayRequire="zylle.morevanillabiomes">ZBiome_DesertOasis</li>
-      <li MayRequire="regrowth.botr.animaforest">RG_AnimaForest</li>
-      <li MayRequire="regrowth.botr.animaforest">RG-AF_AspenForest</li>
+      <li MayRequire="regrowth.botr.aspenForest">RG-AF_AspenForest</li>
     </allowedBiomes>
   </IncidentDef>
 

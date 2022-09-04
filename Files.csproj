@@ -22,7 +22,6 @@
     <Folder Include="Common\Languages" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="About\PublishedFileId.txt" />
     <Content Include="Assets\Things\Item\Drug\Taggerung_Chromosia\Chromosia_a.xcf" />
     <Content Include="Assets\Things\Item\Drug\Taggerung_Chromosia\Chromosia_b.xcf" />
     <Content Include="Assets\Things\Plant\Chromosia.xcf" />

@@ -8,7 +8,6 @@
     <descriptionHyperlinks>
       <HediffDef>Taggerung_ChromaticSensitivity</HediffDef>
     </descriptionHyperlinks>
-    <tradeability>Sellable</tradeability>
     <socialPropernessMatters>true</socialPropernessMatters>
     <tickerType>Rare</tickerType>
     <graphicData>
@@ -16,7 +15,7 @@
       <graphicClass>Graphic_StackCount</graphicClass>
     </graphicData>
     <statBases>
-      <MarketValue>15</MarketValue>
+      <MarketValue>40</MarketValue>
       <Mass>0.1</Mass>
       <DeteriorationRate>4</DeteriorationRate>
       <Nutrition>0.2</Nutrition>

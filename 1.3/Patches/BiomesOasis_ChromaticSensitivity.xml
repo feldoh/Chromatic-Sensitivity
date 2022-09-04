@@ -12,7 +12,7 @@
           <xpath>Defs/BiomeDef[defName="BMT_ChromaticOasis"]/diseases</xpath>
           <value>
             <li>
-              <diseaseInc>Taggerung_ChromaticSensitivity</diseaseInc>
+              <diseaseInc>Taggerung_Disease_ChromaticSensitivity</diseaseInc>
               <commonality>50</commonality>
             </li>
           </value>

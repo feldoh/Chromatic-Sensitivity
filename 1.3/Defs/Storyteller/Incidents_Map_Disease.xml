@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <IncidentDef ParentName="DiseaseIncident">
+    <defName>Taggerung_Disease_ChromaticSensitivity</defName>
+    <label>chromatic sensitivity</label>
+    <diseaseIncident>Taggerung_ChromaticSensitivity</diseaseIncident>
+    <letterLabel>Disease: Chromatic Sensitivity</letterLabel>
+    <diseaseVictimFractionRange>0.1~0.3</diseaseVictimFractionRange>
+    <letterText>{0} of your {1} have gained {2}.\n\nThey will find themselves physiologically affected by colors.\n\nThe following {1} have become chromatically sensitive:\n\n{3}</letterText>
+    <letterDef>NeutralEvent</letterDef>
+  </IncidentDef>
+  
+</Defs>
