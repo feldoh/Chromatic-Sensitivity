@@ -16,6 +16,7 @@ namespace Chromatic_Sensitivity
 
     public HediffDef_ChromaticSensitivity Def => def as HediffDef_ChromaticSensitivity;
     public Color? OriginalColor;
+    public Color? SkinColor;
 
     #endregion Properties
 
@@ -46,6 +47,7 @@ namespace Chromatic_Sensitivity
     {
       base.ExposeData();
       Scribe_Values.Look(ref OriginalColor, "OriginalColor");
+      Scribe_Values.Look(ref SkinColor, "SkinColor");
     }
 
     #region Helpers
@@ -115,6 +117,8 @@ namespace Chromatic_Sensitivity
         MaybeGainBoringChromaticFoodThought(newColor);
         return;
       }
+
+      SkinColor = newColor;
       ChromaticSensitivity.SkinColorManager.SetSkinColor(pawn, newColor);
       _graphicHandler.RefreshPawnGraphics(pawn);
       Log.Verbose($"Color changed from ({startingColor}) to ({newColor})");

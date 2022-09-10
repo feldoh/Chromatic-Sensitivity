@@ -13,6 +13,7 @@ namespace Chromatic_Sensitivity.ColorControl
         var skinColorManagers = new List<ISkinColorManager>();
         if (ChromaticSensitivity.AlienRacesEnabled) skinColorManagers.Add(new HARSkinColorManager());
         skinColorManagers.Add(new BasicSkinColorManager());
+        skinColorManagers.Add(new NonHumanlikeSkinColorManager());
         return new CompoundSkinColorManager(skinColorManagers);
       });
 

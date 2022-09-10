@@ -20,6 +20,7 @@ namespace Chromatic_Sensitivity
     private float? _severity;
 
     public bool VerboseLogging;
+    public bool AllowWhite;
 
     public float Severity {
       get => _severity ?? DefaultSeverity;
@@ -80,6 +81,7 @@ namespace Chromatic_Sensitivity
       _options.Begin(wrect);
 
       _options.CheckboxLabeled("ChromaticSensitivity_Verbose".Translate(), ref VerboseLogging);
+      _options.CheckboxLabeled("ChromaticSensitivity_AllowWhite".Translate(), ref AllowWhite, "ChromaticSensitivity_AllowWhiteTooltip".Translate());
       _options.Gap();
 
       var severityRect = _options.GetRect(RowHeight);
@@ -246,7 +248,8 @@ namespace Chromatic_Sensitivity
     public override void ExposeData()
     {
       base.ExposeData();
-      Scribe_Values.Look(ref VerboseLogging, "VerboseLogging");
+      Scribe_Values.Look(ref VerboseLogging, "VerboseLogging", false);
+      Scribe_Values.Look(ref AllowWhite, "AllowWhite", true);
       Scribe_Values.Look(ref _severity, "Severity", 0.05f);
       Scribe_Collections.Look(ref ExcludedDefs, "ExcludedDefs", LookMode.Value);
       Scribe_Collections.Look(ref ExcludedColors, "ExcludedColors", LookMode.Value, LookMode.Value);

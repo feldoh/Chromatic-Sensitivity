@@ -1,4 +1,5 @@
 ﻿using Chromatic_Sensitivity.ColorControl;
+using HarmonyLib;
 using UnityEngine;
 using Verse;
 
@@ -22,6 +23,13 @@ namespace Chromatic_Sensitivity
       AlienRacesEnabled = LoadedModManager.RunningModsListForReading.Any(m => m.PackageId == AlienRacesPackageId);
       Log.Verbose($"AlienRacesEnabled: {AlienRacesEnabled}");
       SkinColorManager = SkinColorManagerFactory.DefaultSkinColorManager;
+      
+#if DEBUG
+	Harmony.DEBUG = true;
+#endif
+
+      Harmony harmony = new Harmony("Taggerung.ChromaticSensitivity");
+      harmony.PatchAll();
     }
 
     public override void DoSettingsWindowContents(Rect inRect)
