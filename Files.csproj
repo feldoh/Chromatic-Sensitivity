@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="Common\Sounds" />
     <Folder Include="Common\Languages" />
+    <Folder Include="Common\Textures\Things\Item\Resource" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Things\Item\Drug\Taggerung_Chromosia\Chromosia_a.xcf" />
