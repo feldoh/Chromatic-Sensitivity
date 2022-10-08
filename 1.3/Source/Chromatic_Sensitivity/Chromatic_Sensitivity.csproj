@@ -62,6 +62,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\..\Data\*\Defs\**\*">
+      <Link>AttachedDefs\Rimworld\%(RecursiveDir)/%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Defs\**\*">
+      <Link>AttachedDefs\Project\%(RecursiveDir)/%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <StartAction>Program</StartAction>

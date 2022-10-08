@@ -90,8 +90,9 @@ So no DLLs are in the dev folder. However the releases section will include the 
 
 ## Thanks
 * Ludeon for such a great game with excellent mod support.
-* ThatBartGuy for the inspiration and help with the art.
-* Bratwurstinator for pointing me at some good resources for texture processing.
+* [ThatBartGuy](https://github.com/CatLover366) for the inspiration and help with the art.
+* [Bratwurstinator](https://github.com/Bratwurstinator) for pointing me at some good resources for texture processing.
 * [Classifiedgiant](https://github.com/classifiedgiant) for help understanding Unity graphics concepts.
 * Evelyn, without whom I would not be where I am today and could never have made something like this.
-* Marnador for the RimWorld font
+* Marnador for the RimWorld font.
+* [Sovereign](https://steamcommunity.com/id/Sovereign484854/myworkshopfiles/?appid=294100) for the Chromabird art.

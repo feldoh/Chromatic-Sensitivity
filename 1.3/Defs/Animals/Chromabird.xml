@@ -102,31 +102,31 @@
       <li>
         <bodyGraphicData>
           <texPath>Things/Pawn/Animal/Taggerung_Chromabird/Chromabird</texPath>
-          <drawSize>0.5</drawSize>
+          <drawSize>1.0</drawSize>
         </bodyGraphicData>
         <dessicatedBodyGraphicData>
           <texPath>Things/Pawn/Animal/Chicken/Dessicated_Chicken</texPath>
-          <drawSize>0.5</drawSize>
+          <drawSize>1.0</drawSize>
         </dessicatedBodyGraphicData>
       </li>
       <li>
         <bodyGraphicData>
           <texPath>Things/Pawn/Animal/Taggerung_Chromabird/Chromabird</texPath>
-          <drawSize>0.60</drawSize>
+          <drawSize>1.4</drawSize>
         </bodyGraphicData>
         <dessicatedBodyGraphicData>
           <texPath>Things/Pawn/Animal/Chicken/Dessicated_Chicken</texPath>
-          <drawSize>0.60</drawSize>
+          <drawSize>1.4</drawSize>
         </dessicatedBodyGraphicData>
       </li>
       <li>
         <bodyGraphicData>
           <texPath>Things/Pawn/Animal/Taggerung_Chromabird/Chromabird</texPath>
-          <drawSize>0.70</drawSize>
+          <drawSize>1.7</drawSize>
         </bodyGraphicData>
         <dessicatedBodyGraphicData>
           <texPath>Things/Pawn/Animal/Chicken/Dessicated_Chicken</texPath>
-          <drawSize>0.70</drawSize>
+          <drawSize>1.7</drawSize>
         </dessicatedBodyGraphicData>
       </li>
     </lifeStages>
