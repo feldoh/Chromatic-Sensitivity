@@ -23,13 +23,6 @@
     <Folder Include="Common\Languages" />
     <Folder Include="Common\Textures\Things\Item\Resource" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Things\Item\Drug\Taggerung_Chromosia\Chromosia_a.xcf" />
-    <Content Include="Assets\Things\Item\Drug\Taggerung_Chromosia\Chromosia_b.xcf" />
-    <Content Include="Assets\Things\Plant\Chromosia.xcf" />
-    <Content Include="Assets\Things\Plant\Chromosia_Immature.xcf" />
-    <Content Include="Assets\Things\Plant\Chromosia_Leafless.xcf" />
-  </ItemGroup>
   <Target Name="Clean" />
   <Target Name="Build">
     <Copy SourceFiles="About\About-$(Configuration).xml" DestinationFiles="$(OutputPath)About\About.xml" SkipUnchangedFiles="true" />
