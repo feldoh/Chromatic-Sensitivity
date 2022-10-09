@@ -149,6 +149,7 @@
     <graphicData>
       <texPath>Things/Item/Resource/AnimalProductRaw/Taggerung_ChromaticEggSmall</texPath>
       <drawSize>0.7</drawSize>
+      <graphicClass>Graphic_StackCount</graphicClass>
     </graphicData>
     <statBases>
       <MarketValue>30.0</MarketValue>

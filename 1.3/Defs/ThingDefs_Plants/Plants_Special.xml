@@ -32,11 +32,11 @@
       <fertilitySensitivity>0.15</fertilitySensitivity>
       <growDays>6</growDays>
       <immatureGraphicPath>Things/Plant/Taggerung_Chromosia_Immature</immatureGraphicPath>
-      <harvestYield>2</harvestYield>
+      <harvestYield>1</harvestYield>
       <harvestTag>Standard</harvestTag>
       <harvestAfterGrowth>0.3</harvestAfterGrowth>
       <harvestedThingDef>Taggerung_Chromosia</harvestedThingDef>
-      <visualSizeRange>0.6~1.1</visualSizeRange>
+      <visualSizeRange>0.3~0.5</visualSizeRange>
       <topWindExposure>0.1</topWindExposure>
       <wildOrder>2</wildOrder>
       <purpose>Food</purpose>

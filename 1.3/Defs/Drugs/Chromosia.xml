@@ -13,6 +13,7 @@
     <graphicData>
       <texPath>Things/Item/Drug/Taggerung_Chromosia</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.8</drawSize>
     </graphicData>
     <statBases>
       <MarketValue>40</MarketValue>
