@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Common\Sounds" />
     <Folder Include="Common\Languages" />
-    <Folder Include="Common\Textures\Things\Item\Resource" />
   </ItemGroup>
   <Target Name="Clean" />
   <Target Name="Build">
