@@ -31,7 +31,6 @@
     <plant>
       <fertilitySensitivity>0.15</fertilitySensitivity>
       <growDays>6</growDays>
-      <leaflessGraphicPath>Things/Plant/Taggerung_Chromosia_Leafless</leaflessGraphicPath>
       <immatureGraphicPath>Things/Plant/Taggerung_Chromosia_Immature</immatureGraphicPath>
       <harvestYield>2</harvestYield>
       <harvestTag>Standard</harvestTag>
