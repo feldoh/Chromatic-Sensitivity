@@ -2,34 +2,44 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <BaseIntermediateOutputPath>.vs\unused\</BaseIntermediateOutputPath>
-    <ProjectGuid>{AA1EF112-E817-4ED1-849A-EE55B8DAF3C0}</ProjectGuid>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>.\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-	<OutputPath>..\ChromaticSensitivity\</OutputPath>
+	  <OutputPath>.\</OutputPath>
   </PropertyGroup>
-  <ItemGroup>
-    <ReleaseFiles Include="1.3\**" Exclude="1.3\Source\**" />
-    <ReleaseFiles Include="About\**" Exclude="About\About-*.xml;About\About.xml" />
-    <ReleaseFiles Include="Common\**" />
-    <AboutFiles Include="About\About-Debug.xml;About\About-Release.xml" />
-    <ReleaseFiles Include="README.md" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\Sounds" />
     <Folder Include="Common\Languages" />
   </ItemGroup>
-  <Target Name="Clean" />
+  <Target Name="Clean">
+    <RemoveDir Directories="Release" />
+    <Delete Files=".\$(SolutionName).zip;About/About.xml;loadFolders.xml;" />
+  </Target>  
+  <ItemGroup>
+    <ReleaseFiles Include=".\1.*\**" Exclude=".\1.*\Source\**" />
+    <AboutFiles Include=".\About\**" Exclude=".\About\About-*.xml" />
+    <CommonFiles Include=".\Common\**" />
+    <CompatibilityFiles Include=".\Compatibility\**" />
+    <AssemblyFiles Include=".\Assemblies\**" />
+    <ExtraFiles Include=".\LoadFolders.xml;.\LICENSE;README.md" />
+  </ItemGroup>
   <Target Name="Build">
-    <Copy SourceFiles="About\About-$(Configuration).xml" DestinationFiles="$(OutputPath)About\About.xml" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="loadFolders-$(Configuration).xml" DestinationFiles="$(OutputPath)loadFolders.xml" SkipUnchangedFiles="true" />
-    <Copy Condition=" '$(Configuration)' == 'Release' " SourceFiles="@(ReleaseFiles)" DestinationFiles="@(ReleaseFiles->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="About\About-$(Configuration).xml" DestinationFiles="$(OutputPath)About\About.xml" />
+    <Copy SourceFiles="loadFolders-$(Configuration).xml" DestinationFiles="$(OutputPath)loadFolders.xml" />
   </Target>
-  <Target Name="Rebuild" />
-  <Target Name="PostBuild" AfterTargets="Build">
+  <Target Name="PostBuild" AfterTargets="Build" Condition=" '$(Configuration)' == 'Release' ">
+    <Delete Files=".\$(SolutionName).zip" />
+    <Copy SourceFiles="@(AboutFiles)" DestinationFiles="@(AboutFiles->'.\Release\$(SolutionName)\About\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(CommonFiles)" DestinationFiles="@(CommonFiles->'.\Release\$(SolutionName)\Common\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(CompatibilityFiles)" DestinationFiles="@(CompatibilityFiles->'.\Release\$(SolutionName)\Compatibility\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ReleaseFiles)" DestinationFiles="@(ReleaseFiles->'.\Release\$(SolutionName)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(AssemblyFiles)" DestinationFiles="@(AssemblyFiles->'.\Release\$(SolutionName)\Assemblies\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ExtraFiles)" DestinationFolder=".\Release\$(SolutionName)\" />
+    <ZipDirectory DestinationFile=".\$(SolutionName).zip" SourceDirectory=".\Release" />
     <RemoveDir Directories="obj" />
   </Target>
+  
 </Project>

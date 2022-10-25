@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>Taggerung_Chromosia</defName>
+    <label>chromosia</label>
+    <description>A soft, rare and colourful fruit. Its surface seems to swirl with every conceivable color. Chromosia tastes wonderful but rumor has it, eat enough and you start tasting color!</description>
+    <descriptionHyperlinks>
+      <HediffDef>Taggerung_ChromaticSensitivity</HediffDef>
+    </descriptionHyperlinks>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <tickerType>Rare</tickerType>
+    <graphicData>
+      <texPath>Things/Item/Drug/Taggerung_Chromosia</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.8</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>40</MarketValue>
+      <Mass>0.1</Mass>
+      <DeteriorationRate>4</DeteriorationRate>
+      <Nutrition>0.2</Nutrition>
+    </statBases>
+    <techLevel>Neolithic</techLevel>
+    <ingestible>
+      <baseIngestTicks>80</baseIngestTicks>
+      <chairSearchRadius>4</chairSearchRadius>
+      <preferability>RawTasty</preferability>
+      <tasteThought>Taggerung_AteExcitingChromaticFoodChromavore</tasteThought>
+      <foodType>VegetableOrFruit</foodType>
+      <joyKind>Gluttonous</joyKind>
+      <joy>0.5</joy>
+      <nurseable>true</nurseable>
+      <drugCategory>None</drugCategory>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Taggerung_ChromaticSensitivity</hediffDef>
+          <chance>0.2</chance>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>30</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <chromaticIntensity>10</chromaticIntensity>
+        <chromaticColorType>Random</chromaticColorType>
+      </li>
+    </comps>
+    <tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+    <allowedArchonexusCount>20</allowedArchonexusCount>
+  </ThingDef>
+
+</Defs>

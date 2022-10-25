@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <DamageDef ParentName="Bite">
+    <defName>Taggerung_ChromaticBite</defName>
+    <label>chromatic bite</label>
+    <additionalHediffs>
+      <li>
+        <hediff>Taggerung_ChromaticSensitivity</hediff>
+        <severityFixed>0.05</severityFixed>
+        <victimSeverityScaling>ToxicSensitivity</victimSeverityScaling>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
+    <applyAdditionalHediffsIfHuntingForFood>true</applyAdditionalHediffsIfHuntingForFood>
+    <impactSoundType>Toxic</impactSoundType>
+    <damageEffecter>Impact_Toxic</damageEffecter>
+  </DamageDef>
+</Defs>
