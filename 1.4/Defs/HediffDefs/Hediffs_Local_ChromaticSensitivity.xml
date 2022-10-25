@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef ParentName="InfectionBase" Class="Chromatic_Sensitivity.HediffDef_ChromaticSensitivity">
+    <description>A curious condition which causes those with this condition to be highly affected by colors.</description>
+    <hediffClass>Chromatic_Sensitivity.Hediff_ChromaticSensitivity</hediffClass>
+    <defName>Taggerung_ChromaticSensitivity</defName>
+    <label>Chromatic Sensitivity</label>
+    <makesSickThought>false</makesSickThought>
+    <initialSeverity>0.05</initialSeverity>
+    <lethalSeverity>-1</lethalSeverity>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+    </comps>
+    <stages>
+      <li/>
+    </stages>
+  </HediffDef>
+
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>Taggerung_RemoveChromaticSensitivity</defName>
+    <label>anti-chromatic mechanite infusion</label>
+    <description>This special medical operation permanently cures a patient's chromatic sensitivity. It uses mechanites to deliver a concentrated dose of hyper-chromatic signaling chemicals to the pigmentation glands and color receptors in the brain to reset the body's natural pigmentation.</description>
+    <workerClass>Recipe_RemoveHediff</workerClass>
+    <jobString>Infusing chroma-blocker mechanites.</jobString>
+    <workAmount>2000</workAmount>
+    <hideBodyPartNames>true</hideBodyPartNames>
+    <isViolation>false</isViolation>
+    <targetsBodyPart>false</targetsBodyPart>
+    <removesHediff>Taggerung_ChromaticSensitivity</removesHediff>
+    <successfullyRemovedHediffMessage>{0} has successfully suppressed {1}'s chromatic sensitivity.</successfullyRemovedHediffMessage>
+    <skillRequirements>
+      <Medicine>5</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineUltratech</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Taggerung_Chromosia</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>MedicineUltratech</li>
+        <li>Taggerung_Chromosia</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+</Defs>
