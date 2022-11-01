@@ -11,8 +11,8 @@
 	  <OutputPath>.\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Common\Sounds" />
     <Folder Include="Common\Languages" />
+    <None Include="loadfolders-*.xml;About/About-*" />
   </ItemGroup>
   <Target Name="Clean">
     <RemoveDir Directories="Release" />

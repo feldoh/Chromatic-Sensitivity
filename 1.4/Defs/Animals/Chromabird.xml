@@ -11,7 +11,8 @@
       <ComfyTemperatureMax>70</ComfyTemperatureMax>
     </statBases>
     <race>
-      <meatColor>(255,51,153)</meatColor>
+      <specificMeatDef>Taggerung_ChromaticMeat</specificMeatDef>
+      <meatLabel>chromatic meat</meatLabel>
       <meatMarketValue>10.0</meatMarketValue>
       <herdAnimal>true</herdAnimal>
       <baseBodySize>0.2</baseBodySize>
@@ -94,6 +95,7 @@
   <PawnKindDef ParentName="BigBirdKindBase">
     <defName>Taggerung_Chromabird</defName>
     <label>chromabird</label>
+    <labelPlural>chromabirds</labelPlural>
     <race>Taggerung_Chromabird</race>
     <combatPower>25</combatPower>
     <ecoSystemWeight>0.1</ecoSystemWeight>
@@ -131,33 +133,4 @@
       </li>
     </lifeStages>
   </PawnKindDef>
-
-
-  <ThingDef ParentName="EggFertBase">
-    <defName>Taggerung_EggChromabirdFertilized</defName>
-    <label>chromabird egg (fert.)</label>
-    <description>A fertilized chromabird egg, it seems to shine with all the colors of the rimbow. If all goes well, it should hatch into a baby chromabird. It can be eaten raw, but it's much better cooked.</description>
-    <ingestible>
-      <outcomeDoers>
-        <li Class="IngestionOutcomeDoer_GiveHediff">
-          <hediffDef>Taggerung_ChromaticSensitivity</hediffDef>
-          <chance>0.3</chance>
-        </li>
-      </outcomeDoers>
-    </ingestible>
-    <graphicData>
-      <texPath>Things/Item/Resource/AnimalProductRaw/Taggerung_ChromaticEggSmall</texPath>
-      <drawSize>0.7</drawSize>
-      <graphicClass>Graphic_StackCount</graphicClass>
-    </graphicData>
-    <statBases>
-      <MarketValue>30.0</MarketValue>
-    </statBases>
-    <comps>
-      <li Class="CompProperties_Hatcher">
-        <hatcherDaystoHatch>5</hatcherDaystoHatch>
-        <hatcherPawn>Taggerung_Chromabird</hatcherPawn>
-      </li>
-    </comps>
-  </ThingDef>
 </Defs>

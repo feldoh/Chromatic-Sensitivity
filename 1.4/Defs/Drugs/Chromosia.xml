@@ -53,6 +53,9 @@
     <tradeTags>
       <li>ExoticMisc</li>
     </tradeTags>
+    <thingCategories>
+      <li>ChromaticFoodRaw</li>
+    </thingCategories>
     <allowedArchonexusCount>20</allowedArchonexusCount>
   </ThingDef>
 

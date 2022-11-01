@@ -7,7 +7,7 @@
       <li>
         <hediff>Taggerung_ChromaticSensitivity</hediff>
         <severityFixed>0.05</severityFixed>
-        <victimSeverityScaling>ToxicSensitivity</victimSeverityScaling>
+        <victimSeverityScaling>ToxicResistance</victimSeverityScaling>
         <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
       </li>
     </additionalHediffs>

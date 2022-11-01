@@ -1,47 +1,42 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Patch>
-  <Operation Class="PatchOperationSequence">
-    <success>Always</success>
-    <operations>
-      <li Class="PatchOperationAdd">
-        <xpath>Defs/ThingDef[@Name='MealBaseIngredientless']/comps</xpath>
-        <value>
-          <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood" />
-        </value>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[@Name='MealBaseIngredientless']/comps</xpath>
+    <value>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood" />
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName='Ambrosia']/comps</xpath>
+    <value>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <forcedColor>(255,200,15)</forcedColor>
       </li>
-      <li Class="PatchOperationAdd">
-        <xpath>Defs/ThingDef[defName='Ambrosia']/comps</xpath>
-        <value>
-          <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
-            <forcedColor>(255,200,15)</forcedColor>
-          </li>
-        </value>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName='RawCorn']/comps</xpath>
+    <value>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <forcedColor>(255,255,100)</forcedColor>
       </li>
-      <li Class="PatchOperationAdd">
-        <xpath>Defs/ThingDef[defName='RawCorn']/comps</xpath>
-        <value>
-          <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
-            <forcedColor>(255,255,100)</forcedColor>
-          </li>
-        </value>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName='RawHops']/comps</xpath>
+    <value>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <forcedColor>(178,255,102)</forcedColor>
       </li>
-      <li Class="PatchOperationAdd">
-        <xpath>Defs/ThingDef[defName='RawHops']/comps</xpath>
-        <value>
-          <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
-            <forcedColor>(178,255,102)</forcedColor>
-          </li>
-        </value>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName='Milk']/comps</xpath>
+    <value>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <forcedColor>(239,239,239)</forcedColor>
       </li>
-      <li Class="PatchOperationAdd">
-        <xpath>Defs/ThingDef[defName='Milk']/comps</xpath>
-        <value>
-          <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
-            <forcedColor>(239,239,239)</forcedColor>
-          </li>
-        </value>
-      </li>
-    </operations>
+    </value>
   </Operation>
 </Patch>

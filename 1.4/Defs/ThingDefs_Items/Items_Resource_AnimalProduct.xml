@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+  <ThingDef ParentName="EggFertBase">
+    <defName>Taggerung_EggChromabirdFertilized</defName>
+    <label>chromabird egg (fert.)</label>
+    <description>A fertilized chromabird egg, it seems to shine with all the colors of the rimbow. If all goes well, it should hatch into a baby chromabird. It can be eaten raw, but it's much better cooked.</description>
+    <ingestible>
+      <specialThoughtAsIngredient>Taggerung_AteFoodChromavore</specialThoughtAsIngredient>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Taggerung_ChromaticSensitivity</hediffDef>
+          <chance>0.3</chance>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <graphicData>
+      <texPath>Things/Item/Resource/AnimalProductRaw/Taggerung_ChromaticEggSmall</texPath>
+      <drawSize>0.7</drawSize>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>30.0</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Hatcher">
+        <hatcherDaystoHatch>5</hatcherDaystoHatch>
+        <hatcherPawn>Taggerung_Chromabird</hatcherPawn>
+      </li>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <chromaticIntensity>6</chromaticIntensity>
+        <chromaticColorType>Random</chromaticColorType>
+      </li>
+    </comps>
+    <thingCategories>
+      <li>ChromaticFoodRaw</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="OrganicProductBase">
+    <defName>Taggerung_ChromaticMeat</defName>
+    <label>chromatic meat</label>
+    <description>Meat from an animal that was bioreactive to color compounds. The continued chromatic reactivity of the flesh means this meat rots quickly but makes for a very colorful meal.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/MeatFoodRaw/Taggerung_Meat_Chromatic</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MarketValue>15</MarketValue> <!-- Can be used like meat in recipes -->
+      <Mass>0.045</Mass>
+      <MaxHitPoints>30</MaxHitPoints>
+      <DeteriorationRate>7</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+      <Nutrition>0.04</Nutrition>
+      <FoodPoisonChanceFixedHuman>0.03</FoodPoisonChanceFixedHuman>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>1</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+      <li Class="Chromatic_Sensitivity.CompProperties_ChromaticFood">
+        <chromaticIntensity>6</chromaticIntensity>
+        <chromaticColorType>Random</chromaticColorType>
+      </li>
+    </comps>
+    <ingestible>
+      <preferability>RawBad</preferability>
+      <foodType>Meat</foodType>
+      <tasteThought>AteRawFood</tasteThought>
+      <babiesCanIngest>false</babiesCanIngest>
+      <ingestEffect>EatMeat</ingestEffect>
+      <ingestSound>RawMeat_Eat</ingestSound>
+      <specialThoughtAsIngredient>Taggerung_AteFoodChromavore</specialThoughtAsIngredient>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Taggerung_ChromaticSensitivity</hediffDef>
+          <chance>0.3</chance>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <thingCategories>
+      <li>MeatRaw</li>
+      <li>ChromaticFoodRaw</li>
+    </thingCategories>
+    <allowedArchonexusCount>-1</allowedArchonexusCount>
+    <tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+  </ThingDef>
+</Defs>
