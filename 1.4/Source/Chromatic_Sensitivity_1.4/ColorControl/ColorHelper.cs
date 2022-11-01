@@ -22,7 +22,7 @@ namespace Chromatic_Sensitivity.ColorControl
     {
       return ChromaticSensitivity.Settings.ThingDefColors.TryGetValue(defName, out var colorForDef)
         ? colorForDef
-        : (Color?)null;
+        : null;
     }
 
     public Color? ExtractDominantColor(Thing thing)
@@ -33,7 +33,7 @@ namespace Chromatic_Sensitivity.ColorControl
 
     public Color? ExtractDominantColor(Texture2D texture)
     {
-      return texture == BaseContent.BadTex
+      return texture == null || texture == BaseContent.BadTex
         ? null
         : ExtractBestColor(texture.isReadable
           ? texture
@@ -78,9 +78,9 @@ namespace Chromatic_Sensitivity.ColorControl
       }
 
       Log.Verbose(log.AppendLine($"Best colour determined as ({bestColor}): {commonality} pixels").ToString());
-      return bestColor is Color32 chosen
+      return bestColor is { } chosen
         ? new Color32(chosen.r, chosen.g, chosen.b, byte.MaxValue)
-        : (Color?)null;
+        : null;
     }
   }
 }
