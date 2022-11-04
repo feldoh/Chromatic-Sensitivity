@@ -15,10 +15,11 @@
     <TargetFramework>net4.8</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG</DefineConstants>
     <OutputPath>..\..\..\Debug\1.4\Assemblies</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,6 +28,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
+	  <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\Assemblies\1.4\Assemblies</OutputPath>
     <ErrorReport>prompt</ErrorReport>

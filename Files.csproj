@@ -2,22 +2,21 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <BaseIntermediateOutputPath>.vs\unused\</BaseIntermediateOutputPath>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>.\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-	  <OutputPath>.\</OutputPath>
+    <OutputPath>.\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Common\Languages" />
     <None Include="loadfolders-*.xml;About/About-*" />
   </ItemGroup>
   <Target Name="Clean">
     <RemoveDir Directories="Release" />
     <Delete Files=".\$(SolutionName).zip;About/About.xml;loadFolders.xml;" />
-  </Target>  
+  </Target>
   <ItemGroup>
     <ReleaseFiles Include=".\1.*\**" Exclude=".\1.*\Source\**" />
     <AboutFiles Include=".\About\**" Exclude=".\About\About-*.xml" />
@@ -41,5 +40,4 @@
     <ZipDirectory DestinationFile=".\$(SolutionName).zip" SourceDirectory=".\Release" />
     <RemoveDir Directories="obj" />
   </Target>
-  
 </Project>
