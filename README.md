@@ -16,6 +16,10 @@ If you remove chromatic sensitivity this way the pawn will be restored to their 
 
 ## Features
 
+### Chromatic Influence
+If the pawn is surrounded by colorful edifices they have a chance to gain a stacking buff which is attuned to the color they are surrounded by. Try building a defensive area in Red or your lab in blue and see what happens.
+This uses the drawColor which can be set using the new ability to paint things in 1.4.
+
 ### You are what you eat
 Eating food will slowly transform a pawn with Chromatic Sensitivity making them approximately the same color as their food.
 * If they eat food with ingredients then the effect will be applied for each ingredient.

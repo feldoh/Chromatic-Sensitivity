@@ -8,6 +8,10 @@ namespace Chromatic_Sensitivity
   {
     public static ThingDef Taggerung_Chromosia;
     public static ThingDef Plant_Taggerung_Chromosia;
+    public static HediffDef Taggerung_ChromaticSensitivity;
+    public static HediffDef Taggerung_ChromaticSurroundings_Red;
+    public static HediffDef Taggerung_ChromaticSurroundings_Green;
+    public static HediffDef Taggerung_ChromaticSurroundings_Blue;
     
     static ChromaticDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof (ChromaticDefOf));
   }

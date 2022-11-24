@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Chromatic_Sensitivity.ColorControl;
 using RimWorld;
@@ -50,21 +51,106 @@ namespace Chromatic_Sensitivity
       Scribe_Values.Look(ref SkinColor, "SkinColor");
     }
 
-    #region Helpers
-
-    private Color MoveColorsCloser(Color currentColor, Color? maybeTargetColor, float amount)
+    public override void Tick()
     {
-      return maybeTargetColor is Color targetColor ? Color.Lerp(currentColor, targetColor, amount) : currentColor;
+      base.Tick();
+      if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f)) return;
+      LongEventHandler.ExecuteWhenFinished(() =>
+      {
+        if (DominantSurroundingColor(pawn.Position, pawn.Map) is { } dominantColor)
+          ApplySurroundingEffect(dominantColor);
+      });
     }
 
     public override float Severity => ChromaticSensitivity.Settings.Severity;
+
+    #region Helpers
+    
+    public void ApplySurroundingEffectFromDef(HediffDef hediffDef)
+    {
+      if (pawn.health.hediffSet.GetFirstHediffOfDef(hediffDef) is { } hediff)
+      {
+        hediff.Severity += 1;
+      }
+      else
+      {
+        Hediff chromaticSensitivity = HediffMaker.MakeHediff(hediffDef, pawn);
+        pawn.health.AddHediff(chromaticSensitivity);
+      }
+    }
+    
+    /**
+     * Pick a hediff based on the dominant color
+     * If the dominant color component isn't dominant by at least 30% then don't apply any hediff
+     */
+    public void ApplySurroundingEffect(Color dominantColor)
+    {
+      if (dominantColor.g * 1.3 < dominantColor.r && dominantColor.b * 1.3 < dominantColor.r)
+        ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Red);
+      else if (dominantColor.r * 1.3 < dominantColor.g && dominantColor.b * 1.3 < dominantColor.g)
+        ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Green);
+      else if (dominantColor.r * 1.3 < dominantColor.b && dominantColor.g * 1.3 < dominantColor.b)
+        ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Blue);
+    }
+
+    public static Color? DominantSurroundingColor(
+      IntVec3 rootCell,
+      Map map)
+    {
+      Dictionary<Color, int> surroundingColors = new();
+      Color? mostCommonColor = null;
+      int mostCommonColorCount = 0;
+      int num = GenRadial.NumCellsInRadius(11.9f);
+
+      void UpdateColorCommonality(Color color)
+      {
+        if (color is { r: 1.0f, g: 1.0f, b: 1.0f } or { r: 0.0f, g: 0.0f, b: 0.0f }) return;
+        var colorCount = surroundingColors.TryGetValue(color) + 1;
+        if (colorCount > mostCommonColorCount)
+        {
+          mostCommonColorCount = colorCount;
+          mostCommonColor = color;
+        }
+
+        surroundingColors.SetOrAdd(color, colorCount);
+      }
+
+      for (var cellIndex = 0; cellIndex < num; ++cellIndex)
+      {
+        IntVec3 intVec3 = rootCell + GenRadial.RadialPattern[cellIndex];
+        if (!intVec3.InBounds(map) || intVec3.Fogged(map) || !GenSight.LineOfSight(rootCell, intVec3, map)) continue;
+        foreach (Thing thing in intVec3.GetThingList(map))
+        {
+          if (thing is not Building { DrawColor: var drawColor }) continue;
+          UpdateColorCommonality(drawColor);
+        }
+
+        if (ChromaticSensitivity.Settings.ConsiderFloors)
+        {
+          UpdateColorCommonality(map.terrainGrid.ColorAt(intVec3)?.color ?? intVec3.GetTerrain(map).DrawColor);
+        }
+      }
+#if DEBUG
+  foreach ((Color color, var cnt) in surroundingColors)
+  {
+    Log.Verbose($"Surrounding color {ColorUtility.ToHtmlStringRGB(color)} => {cnt}");
+  }
+#endif
+      Log.Verbose($"Most common surrounding color ({mostCommonColorCount}) => {ColorUtility.ToHtmlStringRGB(mostCommonColor!.Value)}");
+      return mostCommonColor;
+    }
+    
+    private Color MoveColorsCloser(Color currentColor, Color? maybeTargetColor, float amount)
+    {
+      return maybeTargetColor is { } targetColor ? Color.Lerp(currentColor, targetColor, amount) : currentColor;
+    }
 
     private Color? MoveTowardsColorFromFood(Thing food, Color startingColor, float amount)
     {
       var comp = food.TryGetComp<CompIngredients>();
       if (comp == null || (comp.ingredients?.Count ?? 0) <= 0)
       {
-        return food.Stuff?.stuffProps?.color is Color stuffColor
+        return food.Stuff?.stuffProps?.color is { } stuffColor
           ? MoveColorsCloser(startingColor, stuffColor , amount)
           : MoveColorsCloser(startingColor, _colorHelper.ExtractDominantColor(food), amount);
       }
@@ -78,7 +164,7 @@ namespace Chromatic_Sensitivity
 
     private Color MoveColorTowardsIngredientColor(Color color, ThingDef ingredient, float amount)
     {
-      return ingredient.stuffProps?.color is Color stuffColor
+      return ingredient.stuffProps?.color is { } stuffColor
         ? MoveColorsCloser(color, stuffColor, amount)
         : MoveColorsCloser(color, _colorHelper.ExtractDominantColor(ingredient), amount);
     }
@@ -87,6 +173,8 @@ namespace Chromatic_Sensitivity
  
     public void FoodIngested(Thing food, CompProperties_ChromaticFood compProperties)
     {
+      LongEventHandler.ExecuteWhenFinished(() =>
+      {
       var defName = food.def.defName;
       if (ChromaticSensitivity.Settings.ExcludedDefs.Contains(defName))
       {
@@ -101,14 +189,14 @@ namespace Chromatic_Sensitivity
         return;
       }
 
-      var forcedColor = ChromaticSensitivity.Settings.ThingDefColors.TryGetValue(defName, out var defForcedColor)
+      var forcedColor = ChromaticSensitivity.Settings.ThingDefColors.TryGetValue(defName, out Color defForcedColor)
         ? defForcedColor
         : compProperties.GetForcedColor();
       if (forcedColor == null && compProperties.chromaticColorType == ChromaticColorType.Random) forcedColor = ColorHelper.RandomColor;
 
       var chromaticIntensity = Mathf.Clamp01(compProperties.chromaticIntensity * Severity);
 
-      var newColor = forcedColor.HasValue
+      Color newColor = forcedColor.HasValue
         ? MoveColorsCloser(startingColor.Value, forcedColor.Value, chromaticIntensity)
         : MoveTowardsColorFromFood(food, startingColor.Value, chromaticIntensity) ?? startingColor.Value;
       
@@ -127,6 +215,7 @@ namespace Chromatic_Sensitivity
           "TextMote_ChromaticSensitivity_FeelingBlue".Translate(), 6.5f);
       
       MaybeGainChromaticFoodThought(newColor);
+      });
     }
 
     private void MaybeGainChromaticFoodThought(Color color)
@@ -152,7 +241,7 @@ namespace Chromatic_Sensitivity
 
     private bool ColorIsSimilarToFavourite(Color color)
     {
-      return pawn?.story?.favoriteColor is Color favoriteColor &&
+      return pawn?.story?.favoriteColor is { } favoriteColor &&
              Mathf.Abs(color.r - favoriteColor.r) +
              Mathf.Abs(color.g - favoriteColor.g) +
              Mathf.Abs(color.b - favoriteColor.b) < 0.1;

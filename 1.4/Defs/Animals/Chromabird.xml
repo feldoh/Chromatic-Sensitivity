@@ -3,7 +3,7 @@
   <ThingDef ParentName="BigBirdThingBase">
     <defName>Taggerung_Chromabird</defName>
     <label>chromabird</label>
-    <description>A small rare and intensely colorful bird found in warmer climes. It is naturally chromatically sensitive and has a taste for chromosia, which explains its brilliant plumage</description>
+    <description>A small rare and intensely colorful bird found in warmer climes. It is naturally chromatically hypersensitive and has a taste for chromosia, which explains its brilliant plumage</description>
     <statBases>
       <MoveSpeed>4.6</MoveSpeed>
       <MarketValue>160</MarketValue>

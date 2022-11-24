@@ -4,7 +4,9 @@
   <ChromaticSensitivity_Outline>Outline; pure black</ChromaticSensitivity_Outline>
   <ChromaticSensitivity_Verbose>Enable Verbose logging</ChromaticSensitivity_Verbose>
   <ChromaticSensitivity_AllowWhite>Don't assume pure white means unset for non humanoids</ChromaticSensitivity_AllowWhite>
-  <ChromaticSensitivity_AllowWhiteTooltip>By default Rimworld uses pure white as unset, so it may cause colors to jump quickly towards almost white if we treat white as a real color when it was actually just unset. But goats for example are white and in most cases it's a multiplier so it actually does the right thing anyway like with donkeys. So by default we allow white to be considered real but only for non-humanoids. Untick this if you find your non-humanoid suddenly turning very white far faster than you'd expect from the severity setting.</ChromaticSensitivity_AllowWhiteTooltip>
+  <ChromaticSensitivity_AllowWhiteTooltip>By default Rimworld uses pure white as unset, so it may cause colors to jump quickly towards almost white if we treat white as a real color when it was actually just unset. But goats for example are white and in most cases it's a multiplier so it actually does the right thing anyway like with donkeys. So by default we allow white to be considered real but only for non-humanoids. Untick this if you find your non-humanoid suddenly turning very white far faster than you'd expect from the severity setting</ChromaticSensitivity_AllowWhiteTooltip>
+  <ChromaticSensitivity_ConsiderFloors>Include floors when determining surroundings color</ChromaticSensitivity_ConsiderFloors>
+  <ChromaticSensitivity_ConsiderFloorsTooltip>By default we only use buildings to avoid needing to floor the whole map to get a consistent color.\n\nThis will make it look at floors too</ChromaticSensitivity_ConsiderFloorsTooltip>
   <ChromaticSensitivity_Infection>Allow infection</ChromaticSensitivity_Infection>
   <ChromaticSensitivity_InfectionHelp>Allow the scenario to add the Chromatic_Sensitivity hediff to pawns</ChromaticSensitivity_InfectionHelp>
   <ChromaticSensitivity_SeverityPercent>Severity Percent: {0}</ChromaticSensitivity_SeverityPercent>
