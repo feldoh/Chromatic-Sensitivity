@@ -15,7 +15,7 @@ namespace Chromatic_Sensitivity.ColorControl
     static void Postfix(ref Pawn ___pawn, ref Graphic ___nakedGraphic)
     {
       if (___pawn.RaceProps.Humanlike // Humanlikes are already taken care of in the Hediff
-          || !(___pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("Taggerung_ChromaticSensitivity")) is Hediff_ChromaticSensitivity hediff) 
+          || ___pawn.health.hediffSet.GetFirstHediffOfDef(ChromaticDefOf.Taggerung_ChromaticSensitivity) is not Hediff_ChromaticSensitivity hediff 
           || hediff.SkinColor == null
           || ___nakedGraphic.Color.IndistinguishableFrom(hediff.SkinColor.Value)) return;
       ___nakedGraphic = ___nakedGraphic.GetColoredVersion(___nakedGraphic.Shader, hediff.SkinColor.Value, ___nakedGraphic.ColorTwo);

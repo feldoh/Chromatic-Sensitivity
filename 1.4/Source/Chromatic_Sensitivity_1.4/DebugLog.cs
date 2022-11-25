@@ -9,7 +9,7 @@ namespace Chromatic_Sensitivity
     {
       Verse.Log.Message(x);
     }
-    
+
     public static void Verbose(string x)
     {
       if (ChromaticSensitivity.Settings?.VerboseLogging == true)
@@ -21,6 +21,5 @@ namespace Chromatic_Sensitivity
         Debug(x);
       }
     }
-
   }
 }

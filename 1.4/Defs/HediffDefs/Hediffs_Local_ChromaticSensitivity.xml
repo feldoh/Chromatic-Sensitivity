@@ -58,5 +58,216 @@
       </thingDefs>
     </fixedIngredientFilter>
   </RecipeDef>
-
+  
+  <!-- Surrounding modifiers -->
+  <HediffDef>
+    <defName>Taggerung_ChromaticSurroundings_Red</defName>
+    <label>seeing red</label>
+    <labelNoun>a chromatic influence</labelNoun>
+    <description>Being influenced by an abundance of red to focus on violence, the body is being subtly tuned to this end.\n\nDue to the stress this puts on the body, this has been known to cause heart attacks!</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1,0,0)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>3.0</maxSeverity>
+    <minSeverity>0.0</minSeverity>
+    <isBad>false</isBad>
+    <tendable>false</tendable>
+    <makesAlert>false</makesAlert>
+    <makesSickThought>false</makesSickThought>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <multiplyStatChangesBySeverity>true</multiplyStatChangesBySeverity>
+        <capMods>
+          <li>
+            <capacity>Metabolism</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.1</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.1</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Talking</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MeleeHitChance>0.1</MeleeHitChance>
+          <MeleeDodgeChance>0.1</MeleeDodgeChance>
+          <MoveSpeed>0.5</MoveSpeed>
+          <WorkSpeedGlobal>-0.1</WorkSpeedGlobal>
+          <RestFallRateFactor>-0.1</RestFallRateFactor>
+          <MeditationFocusGain MayRequire="Ludeon.RimWorld.Royalty">-0.1</MeditationFocusGain>
+        </statOffsets>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>HeartAttack</hediff>
+            <mtbDays>30</mtbDays>
+            <partsToAffect>
+              <li>Heart</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>Taggerung_ChromaticSurroundings_Green</defName>
+    <label>seeing green</label>
+    <labelNoun>a chromatic influence</labelNoun>
+    <description>Being influenced by an abundance of green to focus on nature, the body is being subtly tuned to this end.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0,1,0)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>3.0</maxSeverity>
+    <minSeverity>0.0</minSeverity>
+    <isBad>false</isBad>
+    <tendable>false</tendable>
+    <makesAlert>false</makesAlert>
+    <makesSickThought>false</makesSickThought>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <multiplyStatChangesBySeverity>true</multiplyStatChangesBySeverity>
+        <capMods>
+          <li>
+            <capacity>Metabolism</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.1</offset>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <offset>0.2</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>0.2</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MeleeHitChance>-0.1</MeleeHitChance>
+          <MeleeDodgeChance>-0.1</MeleeDodgeChance>
+          <AimingDelayFactor>0.2</AimingDelayFactor>
+          <MoveSpeed>-0.1</MoveSpeed>
+          <WorkSpeedGlobal>-0.1</WorkSpeedGlobal>
+          <RestFallRateFactor>-0.2</RestFallRateFactor>
+          <MentalBreakThreshold>0.1</MentalBreakThreshold>
+          <PsychicSensitivity>0.2</PsychicSensitivity>
+          <RestRateMultiplier>0.1</RestRateMultiplier>
+          <ImmunityGainSpeed>0.1</ImmunityGainSpeed>
+          <InjuryHealingFactor>0.1</InjuryHealingFactor>
+          <PainShockThreshold>-0.1</PainShockThreshold>
+          <MeditationFocusGain MayRequire="Ludeon.RimWorld.Royalty">0.2</MeditationFocusGain>
+          <PsychicEntropyMax MayRequire="Ludeon.RimWorld.Royalty">2</PsychicEntropyMax>
+          <PsychicEntropyRecoveryRate MayRequire="Ludeon.RimWorld.Royalty">0.1</PsychicEntropyRecoveryRate>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>Taggerung_ChromaticSurroundings_Blue</defName>
+    <label>seeing blue</label>
+    <labelNoun>a chromatic influence</labelNoun>
+    <description>Being influenced by an abundance of blue to focus on science, the body is being subtly tuned to this end.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0,0,1)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>3.0</maxSeverity>
+    <minSeverity>0.0</minSeverity>
+    <isBad>false</isBad>
+    <tendable>false</tendable>
+    <makesAlert>false</makesAlert>
+    <makesSickThought>false</makesSickThought>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <multiplyStatChangesBySeverity>true</multiplyStatChangesBySeverity>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.2</offset>
+          </li>
+          <li>
+            <capacity>Talking</capacity>
+            <offset>0.1</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>0.2</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.1</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <AimingDelayFactor>-0.2</AimingDelayFactor>
+          <ShootingAccuracyPawn>0.1</ShootingAccuracyPawn>
+          <MoveSpeed>-0.1</MoveSpeed>
+          <WorkSpeedGlobal>0.2</WorkSpeedGlobal>
+          <MentalBreakThreshold>-0.1</MentalBreakThreshold>
+          <PsychicSensitivity>-0.1</PsychicSensitivity>
+          <RestRateMultiplier>-0.1</RestRateMultiplier>
+          <ImmunityGainSpeed>0.1</ImmunityGainSpeed>
+          <InjuryHealingFactor>0.1</InjuryHealingFactor>
+          <PainShockThreshold>-0.1</PainShockThreshold>
+          <MeditationFocusGain MayRequire="Ludeon.RimWorld.Royalty">-0.1</MeditationFocusGain>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
 </Defs>

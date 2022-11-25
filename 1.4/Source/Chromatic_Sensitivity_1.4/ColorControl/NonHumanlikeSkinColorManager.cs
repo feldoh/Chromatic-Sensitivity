@@ -16,10 +16,10 @@ namespace Chromatic_Sensitivity.ColorControl
     public Color? GetSkinColor(Pawn pawn)
     {
       Log.Verbose($"non humanlike skin color get, graphic is using shader {pawn.Drawer.renderer.graphics.nakedGraphic.Shader.name}");
-      var color = pawn.Drawer.renderer.graphics.nakedGraphic.Color;
+      Color color = pawn.Drawer.renderer.graphics.nakedGraphic.Color;
       
       // White is the default so might just be lies but we let users decide
-      return color == Color.white && !ChromaticSensitivity.Settings.AllowWhite ? (Color?) null : color;
+      return color == Color.white && !ChromaticSensitivity.Settings.AllowWhite ? null : color;
     }
 
     /**
@@ -32,7 +32,7 @@ namespace Chromatic_Sensitivity.ColorControl
     public bool SetSkinColor(Pawn pawn, Color color)
     {
       if (pawn.RaceProps.Humanlike
-          || !(pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("Taggerung_ChromaticSensitivity")) is Hediff_ChromaticSensitivity hediff)) return false;
+          || pawn.health.hediffSet.GetFirstHediffOfDef(ChromaticDefOf.Taggerung_ChromaticSensitivity) is not Hediff_ChromaticSensitivity hediff) return false;
       hediff.SkinColor = color;
       Log.Verbose("non humanlike skin color set");
       pawn.Drawer.renderer.graphics.ResolveAllGraphics();

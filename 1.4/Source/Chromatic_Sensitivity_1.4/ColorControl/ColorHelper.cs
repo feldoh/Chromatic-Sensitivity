@@ -7,7 +7,7 @@ namespace Chromatic_Sensitivity.ColorControl
 {
   public class ColorHelper
   {
-    public static Color RandomColor => new Color(Rand.Value, Rand.Value, Rand.Value);
+    public static Color RandomColor => new(Rand.Value, Rand.Value, Rand.Value);
     
     public Color? ExtractDominantColor(ThingDef thingDef)
     {
@@ -20,7 +20,7 @@ namespace Chromatic_Sensitivity.ColorControl
 
     private Color? GetDefColorOverride(string defName)
     {
-      return ChromaticSensitivity.Settings.ThingDefColors.TryGetValue(defName, out var colorForDef)
+      return ChromaticSensitivity.Settings.ThingDefColors.TryGetValue(defName, out Color colorForDef)
         ? colorForDef
         : null;
     }
