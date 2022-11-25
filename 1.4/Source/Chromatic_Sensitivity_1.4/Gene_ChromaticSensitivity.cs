@@ -46,7 +46,8 @@ public class Gene_ChromaticSensitivity : Gene
     }
   }
 
-  public Hediff? GetHediff() => pawn.health.hediffSet.GetFirstHediffOfDef(ChromaticDefOf.Taggerung_ChromaticSensitivity);
+  public Hediff? GetHediff() =>
+    pawn.health.hediffSet.GetFirstHediffOfDef(ChromaticDefOf.Taggerung_ChromaticSensitivity);
 
   public void ApplyHediff()
   {
