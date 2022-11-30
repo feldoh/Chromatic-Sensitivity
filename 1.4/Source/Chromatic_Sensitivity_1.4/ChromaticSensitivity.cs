@@ -40,7 +40,7 @@ namespace Chromatic_Sensitivity
 
     public override string SettingsCategory()
     {
-      return "Chromatic Sensitivity";
+      return "ChromaticSensitivity_Name".TranslateSimple();
     }
   }
 }

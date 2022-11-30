@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+  <ChromaticSensitivity_Name>Chromatic Sensitivity</ChromaticSensitivity_Name>
+  <ChromaticSensitivity_Settings_Basics>Basics</ChromaticSensitivity_Settings_Basics>
+  <ChromaticSensitivity_Settings_Overrides>Overrides</ChromaticSensitivity_Settings_Overrides>
+  <ChromaticSensitivity_Settings_Exclusions>Exclusions</ChromaticSensitivity_Settings_Exclusions>
   <ChromaticSensitivity_RawFoodBoxes>Raw Food Boxes</ChromaticSensitivity_RawFoodBoxes>
   <ChromaticSensitivity_Outline>Outline; pure black</ChromaticSensitivity_Outline>
   <ChromaticSensitivity_Verbose>Enable Verbose logging</ChromaticSensitivity_Verbose>
@@ -9,6 +13,7 @@
   <ChromaticSensitivity_ConsiderFloorsTooltip>By default we only use buildings to avoid needing to floor the whole map to get a consistent color.\n\nThis will make it look at floors too</ChromaticSensitivity_ConsiderFloorsTooltip>
   <ChromaticSensitivity_Infection>Allow infection</ChromaticSensitivity_Infection>
   <ChromaticSensitivity_InfectionHelp>Allow the scenario to add the Chromatic_Sensitivity hediff to pawns</ChromaticSensitivity_InfectionHelp>
+  <ChromaticSensitivity_SeverityPercent_Description>How much should the pawn's color change towards the new one on each ingestion</ChromaticSensitivity_SeverityPercent_Description>
   <ChromaticSensitivity_SeverityPercent>Severity Percent: {0}</ChromaticSensitivity_SeverityPercent>
   <ChromaticSensitivity_ExportPath>Export path</ChromaticSensitivity_ExportPath>
   <ChromaticSensitivity_DumpAll>Dump All</ChromaticSensitivity_DumpAll>
@@ -29,4 +34,13 @@
   <ChromaticSensitivity_DefExclusionLabel>ThingDefs to not consider for chromatic actions</ChromaticSensitivity_DefExclusionLabel>
   <ChromaticSensitivity_ExcludingColor>Excluding {0}: {1}</ChromaticSensitivity_ExcludingColor>
   <ChromaticSensitivity_ExcludingDef>Excluding {0}</ChromaticSensitivity_ExcludingDef>
+  <ChromaticSensitivity_PeriodicSkinEffect>Periodic skin effect: {0}</ChromaticSensitivity_PeriodicSkinEffect>
+  <ChromaticSensitivity_PeriodicHairEffect>Periodic hair effect: {0}</ChromaticSensitivity_PeriodicHairEffect>
+  <ChromaticSensitivity_PeriodicEyeEffect>Periodic eye effect: {0}</ChromaticSensitivity_PeriodicEyeEffect>
+  <ChromaticSensitivity_IngestionSkinEffect>Food skin effect: {0}</ChromaticSensitivity_IngestionSkinEffect>
+  <ChromaticSensitivity_IngestionHairEffect>Food hair effect: {0}</ChromaticSensitivity_IngestionHairEffect>
+  <ChromaticSensitivity_IngestionEyeEffect>Food eye effect: {0}</ChromaticSensitivity_IngestionEyeEffect>
+  <ChromaticSensitivity_ChromaticColorType_None>None</ChromaticSensitivity_ChromaticColorType_None>
+  <ChromaticSensitivity_ChromaticColorType_Dominant>Dominant</ChromaticSensitivity_ChromaticColorType_Dominant>
+  <ChromaticSensitivity_ChromaticColorType_Random>Random</ChromaticSensitivity_ChromaticColorType_Random>
 </LanguageData>

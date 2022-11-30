@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Chromatic_Sensitivity.ColorControl;
+using JetBrains.Annotations;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -21,6 +22,7 @@ namespace Chromatic_Sensitivity
 
     #endregion Properties
 
+    [UsedImplicitly]
     public Hediff_ChromaticSensitivity() : this(null, null)
     {
     }
