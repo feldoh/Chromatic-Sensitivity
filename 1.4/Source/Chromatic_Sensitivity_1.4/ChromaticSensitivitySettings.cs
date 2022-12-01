@@ -195,7 +195,7 @@ namespace Chromatic_Sensitivity
 
     private Rect DrawTabs(Rect rect)
     {
-      List<TabRecord> TabsList = new()
+      List<TabRecord> tabsList = new()
       {
         new TabRecord("ChromaticSensitivity_Settings_Basics".Translate(), () => _tab = Tab.Basics,
           _tab == Tab.Basics),
@@ -209,7 +209,7 @@ namespace Chromatic_Sensitivity
       {
         yMin = 80
       };
-      TabDrawer.DrawTabs(tabRect, TabsList);
+      TabDrawer.DrawTabs(tabRect, tabsList);
 
       return tabRect.GetInnerRect();
     }
