@@ -22,16 +22,17 @@ namespace Chromatic_Sensitivity
     public bool VerboseLogging;
     public bool AllowWhite;
     public bool ConsiderFloors;
-    
+
     public ChromaticColorType PeriodicSkinEffect = ChromaticColorType.None;
     public ChromaticColorType PeriodicHairEffect = ChromaticColorType.Random;
     public ChromaticColorType PeriodicEyeEffect = ChromaticColorType.Random;
-    
+
     public ChromaticColorType IngestionSkinEffect = ChromaticColorType.Dominant;
     public ChromaticColorType IngestionHairEffect = ChromaticColorType.None;
     public ChromaticColorType IngestionEyeEffect = ChromaticColorType.None;
 
-    public float Severity {
+    public float Severity
+    {
       get => _severity ?? DefaultSeverity;
       set => _severity = value;
     }
@@ -41,7 +42,7 @@ namespace Chromatic_Sensitivity
     private byte _blue = 125;
     private string _colorName = "helpful name for color";
     private string _exportPath = "C:\\RimworldExport";
-    
+
     /**
      * List of colors to exclude from possible consideration
      * Used to avoid the box counting as the dominant color for things like Rice, Corn etc.
@@ -52,7 +53,7 @@ namespace Chromatic_Sensitivity
      * List of explicit overrides for defs where the algorithm picks an undesirable color 
      */
     public Dictionary<string, Color> ThingDefColors = new();
-    
+
     /**
      * List of defs to not even try to run chromatic actions on e.g. packaged survival meals
      * When eaten gives a small mood debuff for eating such blandly coloured food. 
@@ -74,7 +75,7 @@ namespace Chromatic_Sensitivity
     {
       "MealSurvivalPack"
     });
-      
+
     private static readonly Lazy<Dictionary<int, string>> DefaultExcludedColors = new(
       () => new Dictionary<int, string>
       {
@@ -90,7 +91,7 @@ namespace Chromatic_Sensitivity
       Overrides,
       Exclusions
     }
-    
+
     private static Tab _tab = Tab.Basics;
 
     public void DoWindowContents(Rect wrect)
@@ -101,7 +102,7 @@ namespace Chromatic_Sensitivity
       switch (_tab)
       {
         case Tab.Basics:
-          DrawBasics(viewPort);
+          DrawBasics();
           break;
         case Tab.Overrides:
           DrawOverrides(viewPort);
@@ -112,21 +113,23 @@ namespace Chromatic_Sensitivity
         default:
           throw new ArgumentException($"Unknown tab selected: {_tab.ToString()}");
       }
+
       _options.End();
     }
 
     private void DrawExclusions(Rect viewPort)
     {
       DrawColorPicker();
-      
+
       if (_options.ButtonTextLabeled("ChromaticSensitivity_ExcludeColor".Translate(),
             "ChromaticSensitivity_Add".Translate()))
       {
         ExcludedColors.SetOrAdd(ColorHelper.CompactColor(GetSelectedColor32()),
           _colorName);
       }
-      
-      Listing_Standard scrollableListing = MakeScrollableSubListing(viewPort, TweakedColorRowHeight * (ExcludedColors.Count + ExcludedDefs.Count) + 100f);
+
+      Listing_Standard scrollableListing = MakeScrollableSubListing(viewPort,
+        TweakedColorRowHeight * (ExcludedColors.Count + ExcludedDefs.Count) + 100f);
       scrollableListing.Label("ChromaticSensitivity_ColorExclusionLabel".Translate());
       scrollableListing.Indent(Indent);
       foreach (Color32 unpacked in from excludedColor in ExcludedColors.ToList()
@@ -154,12 +157,12 @@ namespace Chromatic_Sensitivity
 
       EndScrollableSubListing(scrollableListing);
     }
-    
+
     private void DrawOverrides(Rect viewPort)
     {
       _options.Label("ChromaticSensitivity_ColorTweaking".Translate());
       DrawColorPicker();
-      
+
       if (_options.ButtonTextLabeled("ChromaticSensitivity_OverrideColor".Translate(),
             "ChromaticSensitivity_Add".Translate()))
       {
@@ -169,7 +172,8 @@ namespace Chromatic_Sensitivity
       _options.Gap();
       _options.Label("ChromaticSensitivity_TweakedColors".Translate());
 
-      Listing_Standard scrollableListing = MakeScrollableSubListing(viewPort, TweakedColorRowHeight * (ThingDefColors.Count) + 100f);
+      Listing_Standard scrollableListing =
+        MakeScrollableSubListing(viewPort, TweakedColorRowHeight * (ThingDefColors.Count) + 100f);
       scrollableListing.Label("ChromaticSensitivity_ColorOverridesLabel".Translate());
       scrollableListing.Indent(Indent);
       foreach (var colorForDef in ThingDefColors.ToList()
@@ -193,20 +197,23 @@ namespace Chromatic_Sensitivity
     {
       List<TabRecord> TabsList = new()
       {
-        new TabRecord("ChromaticSensitivity_Settings_Basics".Translate(), () => _tab = Tab.Basics, _tab == Tab.Basics),
-        new TabRecord("ChromaticSensitivity_Settings_Overrides".Translate(), () => _tab = Tab.Overrides, _tab == Tab.Overrides),
-        new TabRecord("ChromaticSensitivity_Settings_Exclusions".Translate(), () => _tab = Tab.Exclusions, _tab == Tab.Exclusions)
+        new TabRecord("ChromaticSensitivity_Settings_Basics".Translate(), () => _tab = Tab.Basics,
+          _tab == Tab.Basics),
+        new TabRecord("ChromaticSensitivity_Settings_Overrides".Translate(), () => _tab = Tab.Overrides,
+          _tab == Tab.Overrides),
+        new TabRecord("ChromaticSensitivity_Settings_Exclusions".Translate(), () => _tab = Tab.Exclusions,
+          _tab == Tab.Exclusions)
       };
-      
+
       Rect tabRect = new(rect)
       {
         yMin = 80
       };
       TabDrawer.DrawTabs(tabRect, TabsList);
-      
+
       return tabRect.GetInnerRect();
     }
-    
+
     private void EndScrollableSubListing(Listing scrollableListing)
     {
       scrollableListing.Outdent(Indent);
@@ -214,7 +221,7 @@ namespace Chromatic_Sensitivity
       scrollableListing.End();
       Widgets.EndScrollView();
     }
-    
+
     private Listing_Standard MakeScrollableSubListing(Rect viewPort, float height)
     {
       Rect scrollRect = viewPort.BottomPartPixels(viewPort.yMax - _options.CurHeight);
@@ -225,7 +232,7 @@ namespace Chromatic_Sensitivity
       scrollableListing.Begin(tweakColorsRect);
       return scrollableListing;
     }
-    
+
     private void DrawColorPicker()
     {
       _options.Label("ChromaticSensitivity_Red".Translate().Colorize(Color.red));
@@ -244,19 +251,21 @@ namespace Chromatic_Sensitivity
       _blue = (byte)Widgets.HorizontalSlider(rectB, _blue, 0f, 255f, false,
         _blue.ToString(CultureInfo.InvariantCulture),
         "0", "255", 1f);
-      
+
       _options.Gap();
       _options.Label(
         "ChromaticSensitivity_SelectedColor".Translate(CurrentColorAsHexString()
           .Colorize(GetSelectedColor32())));
       _colorName = _options.TextEntryLabeled($"{"ChromaticSensitivity_ColorName".Translate()}\t", _colorName);
     }
-    
-    private void DrawBasics(Rect viewPort)
+
+    private void DrawBasics()
     {
       _options.CheckboxLabeled("ChromaticSensitivity_Verbose".Translate(), ref VerboseLogging);
-      _options.CheckboxLabeled("ChromaticSensitivity_AllowWhite".Translate(), ref AllowWhite, "ChromaticSensitivity_AllowWhiteTooltip".Translate());
-      _options.CheckboxLabeled("ChromaticSensitivity_ConsiderFloors".Translate(), ref ConsiderFloors, "ChromaticSensitivity_ConsiderFloorsTooltip".Translate());
+      _options.CheckboxLabeled("ChromaticSensitivity_AllowWhite".Translate(), ref AllowWhite,
+        "ChromaticSensitivity_AllowWhiteTooltip".Translate());
+      _options.CheckboxLabeled("ChromaticSensitivity_ConsiderFloors".Translate(), ref ConsiderFloors,
+        "ChromaticSensitivity_ConsiderFloorsTooltip".Translate());
       _options.Gap();
 
       _options.Label("ChromaticSensitivity_SeverityPercent_Description".Translate());
@@ -264,73 +273,84 @@ namespace Chromatic_Sensitivity
       TaggedString severityLabel = "ChromaticSensitivity_SeverityPercent".Translate(Severity * 100);
       Severity = Widgets.HorizontalSlider(severityRect, Severity * 100, 0f, 100.0f, false,
         severityLabel, "0", "100", 0.5f) / 100f;
-      
+
       _options.Gap();
       _exportPath = _options.TextEntryLabeled("ChromaticSensitivity_ExportPath".Translate() + "\t", _exportPath);
       if (_options.ButtonText("ChromaticSensitivity_DumpAll".Translate(), widthPct: 0.4f))
       {
         DumpAllTexturesWithSelectedColors(_exportPath);
       }
+
       _options.GapLine();
       Rect dropDownRect = _options.GetRect(RowHeight, 0.8f);
       Widgets.Dropdown(dropDownRect,
         this,
         s => s.PeriodicSkinEffect,
-        s => ChromaticColorTypeMenuOptions(s, c => s.PeriodicSkinEffect = c),
-        "ChromaticSensitivity_PeriodicSkinEffect".Translate(PeriodicSkinEffect.ToString()).Truncate(dropDownRect.width));
-      
+        s => ChromaticColorTypeMenuOptions(s,
+          (settings, chromaticColorType) => settings.PeriodicSkinEffect = chromaticColorType),
+        "ChromaticSensitivity_PeriodicSkinEffect".Translate(PeriodicSkinEffect.ToString())
+          .Truncate(dropDownRect.width));
+
       _options.GapLine(3f);
       dropDownRect = _options.GetRect(RowHeight, 0.8f);
       Widgets.Dropdown(dropDownRect,
         this,
         s => s.PeriodicHairEffect,
-        s => ChromaticColorTypeMenuOptions(s, c => s.PeriodicHairEffect = c),
-        "ChromaticSensitivity_PeriodicHairEffect".Translate(PeriodicHairEffect.ToString()).Truncate(dropDownRect.width));
-      
+        s => ChromaticColorTypeMenuOptions(s,
+          (settings, chromaticColorType) => settings.PeriodicHairEffect = chromaticColorType),
+        "ChromaticSensitivity_PeriodicHairEffect".Translate(PeriodicHairEffect.ToString())
+          .Truncate(dropDownRect.width));
+
       _options.GapLine(3f);
       dropDownRect = _options.GetRect(RowHeight, 0.8f);
       Widgets.Dropdown(dropDownRect,
         this,
         s => s.PeriodicEyeEffect,
-        s => ChromaticColorTypeMenuOptions(s, c => s.PeriodicEyeEffect = c),
-        "ChromaticSensitivity_PeriodicEyeEffect".Translate(PeriodicEyeEffect.ToString()).Truncate(dropDownRect.width));
-      
+        s => ChromaticColorTypeMenuOptions(s,
+          (settings, chromaticColorType) => settings.PeriodicEyeEffect = chromaticColorType),
+        "ChromaticSensitivity_PeriodicEyeEffect".Translate(PeriodicEyeEffect.ToString())
+          .Truncate(dropDownRect.width));
+
       _options.GapLine();
       dropDownRect = _options.GetRect(RowHeight, 0.8f);
       Widgets.Dropdown(dropDownRect,
         this,
         s => s.IngestionSkinEffect,
-        s => ChromaticColorTypeMenuOptions(s, c => s.IngestionSkinEffect = c),
-        "ChromaticSensitivity_IngestionSkinEffect".Translate(IngestionSkinEffect.ToString()).Truncate(dropDownRect.width));
-      
+        s => ChromaticColorTypeMenuOptions(s,
+          (settings, chromaticColorType) => settings.IngestionSkinEffect = chromaticColorType),
+        "ChromaticSensitivity_IngestionSkinEffect".Translate(IngestionSkinEffect.ToString())
+          .Truncate(dropDownRect.width));
+
       _options.GapLine(3f);
       dropDownRect = _options.GetRect(RowHeight, 0.8f);
       Widgets.Dropdown(dropDownRect,
         this,
         s => s.IngestionHairEffect,
-        s => ChromaticColorTypeMenuOptions(s, c => s.IngestionHairEffect = c),
-        "ChromaticSensitivity_IngestionHairEffect".Translate(IngestionHairEffect.ToString()).Truncate(dropDownRect.width));
-      
+        s => ChromaticColorTypeMenuOptions(s,
+          (settings, chromaticColorType) => settings.IngestionHairEffect = chromaticColorType),
+        "ChromaticSensitivity_IngestionHairEffect".Translate(IngestionHairEffect.ToString())
+          .Truncate(dropDownRect.width));
+
       _options.GapLine(3f);
       dropDownRect = _options.GetRect(RowHeight, 0.8f);
       Widgets.Dropdown(dropDownRect,
         this,
         s => s.IngestionEyeEffect,
-        s => ChromaticColorTypeMenuOptions(s, c => s.IngestionEyeEffect = c),
-        "ChromaticSensitivity_IngestionEyeEffect".Translate(IngestionEyeEffect.ToString()).Truncate(dropDownRect.width));
+        s => ChromaticColorTypeMenuOptions(s,
+          (settings, chromaticColorType) => settings.IngestionEyeEffect = chromaticColorType),
+        "ChromaticSensitivity_IngestionEyeEffect".Translate(IngestionEyeEffect.ToString())
+          .Truncate(dropDownRect.width));
     }
-    
-    private static IEnumerable<Widgets.DropdownMenuElement<ChromaticColorType>> ChromaticColorTypeMenuOptions(ChromaticSensitivitySettings settings, Action<ChromaticColorType> action)
+
+    private static IEnumerable<Widgets.DropdownMenuElement<ChromaticColorType>> ChromaticColorTypeMenuOptions(
+      ChromaticSensitivitySettings settings, Action<ChromaticSensitivitySettings, ChromaticColorType> action)
     {
-      var x = (int c) => Console.WriteLine();
-      foreach (ChromaticColorType effect in (ChromaticColorType[]) Enum.GetValues(typeof(ChromaticColorType)))
-      {
-        yield return new Widgets.DropdownMenuElement<ChromaticColorType>()
+      return ((ChromaticColorType[])Enum.GetValues(typeof(ChromaticColorType)))
+        .Select(effect => new Widgets.DropdownMenuElement<ChromaticColorType>
         {
-          option = new FloatMenuOption(effect.ToString(), () => action(effect)),
+          option = new FloatMenuOption(effect.ToString(), () => action(settings, effect)),
           payload = effect
-        };
-      }
+        });
     }
 
     private Color32 GetSelectedColor32()
