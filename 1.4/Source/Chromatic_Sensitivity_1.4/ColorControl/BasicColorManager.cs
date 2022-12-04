@@ -3,12 +3,12 @@ using Verse;
 
 namespace Chromatic_Sensitivity.ColorControl
 {
-  class BasicSkinColorManager : ISkinColorManager
+  class BasicColorManager : IColorManager
   {
     private readonly IGraphicHandler _graphicHandler;
 
-    public BasicSkinColorManager(): this(null) {}
-    public BasicSkinColorManager(IGraphicHandler graphicHandler)
+    public BasicColorManager(): this(null) {}
+    public BasicColorManager(IGraphicHandler graphicHandler)
     {
       _graphicHandler = graphicHandler ?? ChromaticSensitivity.GraphicHandler;
     }

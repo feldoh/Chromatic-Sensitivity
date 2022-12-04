@@ -10,8 +10,8 @@ namespace Chromatic_Sensitivity
     public static ChromaticSensitivitySettings Settings;
     private const string AlienRacesPackageId = "erdelf.humanoidalienraces";
     public static bool AlienRacesEnabled;
-    public static ISkinColorManager ColorManager;
-    public static ColorHelper ColorHelper = new ColorHelper();
+    public static IColorManager ColorManager;
+    public static ColorHelper ColorHelper = new();
     public static IGraphicHandler GraphicHandler = new DefaultGraphicHandler();
 
     public ChromaticSensitivity(ModContentPack content) : base(content)
@@ -22,7 +22,7 @@ namespace Chromatic_Sensitivity
       Settings = GetSettings<ChromaticSensitivitySettings>();
       AlienRacesEnabled = LoadedModManager.RunningModsListForReading.Any(m => m.PackageId == AlienRacesPackageId);
       Log.Verbose($"AlienRacesEnabled: {AlienRacesEnabled}");
-      ColorManager = SkinColorManagerFactory.DefaultSkinColorManager;
+      ColorManager = ColorManagerFactory.DefaultColorManager;
 
 #if DEBUG
 	Harmony.DEBUG = true;

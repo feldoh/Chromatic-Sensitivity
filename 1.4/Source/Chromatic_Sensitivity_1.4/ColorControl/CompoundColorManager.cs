@@ -5,11 +5,11 @@ using Verse;
 
 namespace Chromatic_Sensitivity.ColorControl
 {
-  class CompoundSkinColorManager : ISkinColorManager
+  class CompoundColorManager : IColorManager
   {
-    private readonly List<ISkinColorManager> _subManagers;
+    private readonly List<IColorManager> _subManagers;
 
-    public CompoundSkinColorManager(List<ISkinColorManager> subManagers)
+    public CompoundColorManager(List<IColorManager> subManagers)
     {
       _subManagers = subManagers;
     }

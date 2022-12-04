@@ -4,12 +4,12 @@ using Verse;
 
 namespace Chromatic_Sensitivity.ColorControl
 {
-  class HARSkinColorManager : ISkinColorManager
+  class HarColorManager : IColorManager
   {
     private readonly IGraphicHandler _graphicHandler;
 
-    public HARSkinColorManager(): this(null) {}
-    public HARSkinColorManager(IGraphicHandler graphicHandler)
+    public HarColorManager(): this(null) {}
+    public HarColorManager(IGraphicHandler graphicHandler)
     {
       _graphicHandler = graphicHandler ?? ChromaticSensitivity.GraphicHandler;
     }

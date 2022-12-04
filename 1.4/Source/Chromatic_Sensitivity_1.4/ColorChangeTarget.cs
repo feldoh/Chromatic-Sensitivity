@@ -27,7 +27,7 @@ public static class ChromaticColorTargetExtensions
       _ => ChromaticColorType.None
     };
   
-  public static Color? GetColor(this ColorChangeTarget chromaticColorChangeTarget, ISkinColorManager colorManager, Pawn pawn) =>
+  public static Color? GetColor(this ColorChangeTarget chromaticColorChangeTarget, IColorManager colorManager, Pawn pawn) =>
     chromaticColorChangeTarget switch
     {
       ColorChangeTarget.Skin => colorManager.GetSkinColor(pawn),
@@ -35,7 +35,7 @@ public static class ChromaticColorTargetExtensions
       _ => null
     };
   
-  public static bool SetColor(this ColorChangeTarget chromaticColorChangeTarget, ISkinColorManager colorManager, Pawn pawn, Color targetColor) =>
+  public static bool SetColor(this ColorChangeTarget chromaticColorChangeTarget, IColorManager colorManager, Pawn pawn, Color targetColor) =>
     chromaticColorChangeTarget switch
     {
       ColorChangeTarget.Skin => colorManager.SetSkinColor(pawn, targetColor),
