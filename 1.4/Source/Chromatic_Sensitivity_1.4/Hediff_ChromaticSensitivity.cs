@@ -73,13 +73,12 @@ namespace Chromatic_Sensitivity
     public override void Tick()
     {
       base.Tick();
-      if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f)) return;
+      if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f) || !ChromaticSensitivity.Settings.AnyPeriodicEffect()) return;
       LongEventHandler.ExecuteWhenFinished(() =>
       {
         Color? dominantSurroundingColor = DominantSurroundingColor(pawn.Position, pawn.Map);
-        if (dominantSurroundingColor.HasValue)
-          ApplySurroundingEffect(dominantSurroundingColor.Value);
-
+        
+        ApplySurroundingEffect(dominantSurroundingColor);
         ApplyPeriodicEffect(ColorChangeTarget.Skin, dominantSurroundingColor);
         ApplyPeriodicEffect(ColorChangeTarget.Hair, dominantSurroundingColor);
       });
@@ -88,7 +87,8 @@ namespace Chromatic_Sensitivity
     public void ApplyPeriodicEffect(ColorChangeTarget target, Color? dominantSurroundingColor)
     {
       if (target.GetColor(ChromaticSensitivity.ColorManager, pawn) is not { } currentColor) return;
-      switch (ChromaticSensitivity.Settings.PeriodicHairEffect)
+      Log.Verbose($"Applying Periodic Effect {target.PeriodicChromaticColorType()} to {target}");
+      switch (target.PeriodicChromaticColorType())
       {
         case ChromaticColorType.Dominant when dominantSurroundingColor.HasValue:
           target.SetColor(ChromaticSensitivity.ColorManager, pawn,
@@ -124,13 +124,14 @@ namespace Chromatic_Sensitivity
      * Pick a hediff based on the dominant color
      * If the dominant color component isn't dominant by at least 30% then don't apply any hediff
      */
-    public void ApplySurroundingEffect(Color dominantColor)
+    public void ApplySurroundingEffect(Color? dominantColor)
     {
-      if (dominantColor.g * 1.3 < dominantColor.r && dominantColor.b * 1.3 < dominantColor.r)
+      if (dominantColor is not { } safeDominantColor) return;
+      if (safeDominantColor.g * 1.3 < safeDominantColor.r && safeDominantColor.b * 1.3 < safeDominantColor.r)
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Red);
-      else if (dominantColor.r * 1.3 < dominantColor.g && dominantColor.b * 1.3 < dominantColor.g)
+      else if (safeDominantColor.r * 1.3 < safeDominantColor.g && safeDominantColor.b * 1.3 < safeDominantColor.g)
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Green);
-      else if (dominantColor.r * 1.3 < dominantColor.b && dominantColor.g * 1.3 < dominantColor.b)
+      else if (safeDominantColor.r * 1.3 < safeDominantColor.b && safeDominantColor.g * 1.3 < safeDominantColor.b)
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Blue);
     }
 
@@ -268,10 +269,7 @@ namespace Chromatic_Sensitivity
 
       if (globalSetting == ChromaticColorType.None ||
           target.GetColor(ChromaticSensitivity.ColorManager, pawn) is not { } startingColor) return alreadyGainedThought;
-      Color newColor = (forcedColor ??
-                        (compEffect.IsRandom(globalSetting)
-                          ? ColorHelper.RandomColor
-                          : null)) is { } finalColor
+      Color newColor = (compEffect.IsRandom(globalSetting) ? ColorHelper.RandomColor : forcedColor) is { } finalColor
         ? MoveColorsCloser(startingColor, finalColor, chromaticIntensity)
         : MoveTowardsColorFromFood(thingIngested, startingColor, chromaticIntensity) ?? startingColor;
 
