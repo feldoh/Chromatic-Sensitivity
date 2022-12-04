@@ -1,3 +1,4 @@
+using Chromatic_Sensitivity.ColorControl;
 using UnityEngine;
 using Verse;
 
@@ -5,7 +6,7 @@ namespace Chromatic_Sensitivity
 {
   public class CompProperties_ChromaticFood : CompProperties
   {
-    public Color forcedColor = new Color(-1f, -1f, -1f, 0f);
+    public Color forcedColor = new(-1f, -1f, -1f, 0f);
     public ChromaticColorType chromaticColorType = ChromaticColorType.Dominant;
 
     // Used as a multiplier to determine how much a color should affect the ingesting pawn.
@@ -13,6 +14,8 @@ namespace Chromatic_Sensitivity
 
     public CompProperties_ChromaticFood() => compClass = typeof(CompChromaticFood);
 
-    public Color? GetForcedColor() => forcedColor.a <= 0 ? (Color?)null : forcedColor;
+    public Color? GetForcedColor() => forcedColor.a <= 0
+      ? null
+      : forcedColor;
   }
 }

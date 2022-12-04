@@ -24,5 +24,8 @@ namespace Chromatic_Sensitivity.ColorControl
   {
     Color? GetSkinColor(Pawn pawn);
     bool SetSkinColor(Pawn pawn, Color color);
+    
+    Color? GetHairColor(Pawn pawn);
+    bool SetHairColor(Pawn pawn, Color color);
   }
 }

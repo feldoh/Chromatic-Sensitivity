@@ -25,17 +25,20 @@ namespace Chromatic_Sensitivity
 
     public ChromaticColorType PeriodicSkinEffect = ChromaticColorType.None;
     public ChromaticColorType PeriodicHairEffect = ChromaticColorType.Random;
-    public ChromaticColorType PeriodicEyeEffect = ChromaticColorType.Random;
 
     public ChromaticColorType IngestionSkinEffect = ChromaticColorType.Dominant;
     public ChromaticColorType IngestionHairEffect = ChromaticColorType.None;
-    public ChromaticColorType IngestionEyeEffect = ChromaticColorType.None;
 
     public float Severity
     {
       get => _severity ?? DefaultSeverity;
       set => _severity = value;
     }
+
+    public bool AnyIngestionEffect() => IngestionHairEffect != ChromaticColorType.None ||
+                                        IngestionSkinEffect != ChromaticColorType.None;
+    public bool AnyPeriodicEffect() => PeriodicHairEffect != ChromaticColorType.None ||
+                                        PeriodicSkinEffect != ChromaticColorType.None;
 
     private byte _red = 125;
     private byte _green = 125;
@@ -301,16 +304,6 @@ namespace Chromatic_Sensitivity
         "ChromaticSensitivity_PeriodicHairEffect".Translate(PeriodicHairEffect.ToString())
           .Truncate(dropDownRect.width));
 
-      _options.GapLine(3f);
-      dropDownRect = _options.GetRect(RowHeight, 0.8f);
-      Widgets.Dropdown(dropDownRect,
-        this,
-        s => s.PeriodicEyeEffect,
-        s => ChromaticColorTypeMenuOptions(s,
-          (settings, chromaticColorType) => settings.PeriodicEyeEffect = chromaticColorType),
-        "ChromaticSensitivity_PeriodicEyeEffect".Translate(PeriodicEyeEffect.ToString())
-          .Truncate(dropDownRect.width));
-
       _options.GapLine();
       dropDownRect = _options.GetRect(RowHeight, 0.8f);
       Widgets.Dropdown(dropDownRect,
@@ -329,16 +322,6 @@ namespace Chromatic_Sensitivity
         s => ChromaticColorTypeMenuOptions(s,
           (settings, chromaticColorType) => settings.IngestionHairEffect = chromaticColorType),
         "ChromaticSensitivity_IngestionHairEffect".Translate(IngestionHairEffect.ToString())
-          .Truncate(dropDownRect.width));
-
-      _options.GapLine(3f);
-      dropDownRect = _options.GetRect(RowHeight, 0.8f);
-      Widgets.Dropdown(dropDownRect,
-        this,
-        s => s.IngestionEyeEffect,
-        s => ChromaticColorTypeMenuOptions(s,
-          (settings, chromaticColorType) => settings.IngestionEyeEffect = chromaticColorType),
-        "ChromaticSensitivity_IngestionEyeEffect".Translate(IngestionEyeEffect.ToString())
           .Truncate(dropDownRect.width));
     }
 
@@ -417,10 +400,8 @@ namespace Chromatic_Sensitivity
       Scribe_Values.Look(ref _severity, "Severity", 0.05f);
       Scribe_Values.Look(ref PeriodicSkinEffect, "PeriodicSkinEffect", ChromaticColorType.None);
       Scribe_Values.Look(ref PeriodicHairEffect, "PeriodicHairEffect", ChromaticColorType.Random);
-      Scribe_Values.Look(ref PeriodicEyeEffect, "PeriodicEyeEffect", ChromaticColorType.Random);
       Scribe_Values.Look(ref IngestionSkinEffect, "IngestionSkinEffect", ChromaticColorType.Dominant);
       Scribe_Values.Look(ref IngestionHairEffect, "IngestionHairEffect", ChromaticColorType.None);
-      Scribe_Values.Look(ref IngestionEyeEffect, "IngestionEyeEffect", ChromaticColorType.None);
       Scribe_Collections.Look(ref ExcludedDefs, "ExcludedDefs", LookMode.Value);
       Scribe_Collections.Look(ref ExcludedColors, "ExcludedColors", LookMode.Value, LookMode.Value);
       Scribe_Collections.Look(ref ThingDefColors, "ThingDefColors", LookMode.Value, LookMode.Value);

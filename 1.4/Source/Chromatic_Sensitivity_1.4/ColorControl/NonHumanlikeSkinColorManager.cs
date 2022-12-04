@@ -39,5 +39,25 @@ namespace Chromatic_Sensitivity.ColorControl
       _graphicHandler.RefreshPawnGraphics(pawn);
       return true;
     }
+
+    public Color? GetHairColor(Pawn pawn)
+    {
+      Log.Verbose($"non humanlike hair color get, graphic is using shader {pawn.Drawer.renderer.graphics.furCoveredGraphic?.Shader.name}");
+      Color? color = pawn.Drawer.renderer.graphics.furCoveredGraphic?.Color;
+      
+      // White is the default so might just be lies but we let users decide
+      return color == Color.white && !ChromaticSensitivity.Settings.AllowWhite ? null : color;
+    }
+
+    public bool SetHairColor(Pawn pawn, Color color)
+    {
+      if (pawn.RaceProps.Humanlike
+          || pawn.health.hediffSet.GetFirstHediffOfDef(ChromaticDefOf.Taggerung_ChromaticSensitivity) is not Hediff_ChromaticSensitivity hediff) return false;
+      hediff.HairColor = color;
+      Log.Verbose("non humanlike hair color set");
+      pawn.Drawer.renderer.graphics.ResolveAllGraphics();
+      _graphicHandler.RefreshPawnGraphics(pawn);
+      return true;
+    }
   }
 }

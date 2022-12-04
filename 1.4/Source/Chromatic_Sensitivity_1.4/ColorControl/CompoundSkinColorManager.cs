@@ -25,5 +25,17 @@ namespace Chromatic_Sensitivity.ColorControl
     {
       return _subManagers.Where(m => m.SetSkinColor(pawn, color)).FirstOrFallback() != null;
     }
+
+    public Color? GetHairColor(Pawn pawn)
+    {
+      return _subManagers.Select(manager => manager.GetHairColor(pawn))
+              .Where(color => color.HasValue)
+              .FirstOrFallback();
+    }
+
+    public bool SetHairColor(Pawn pawn, Color color)
+    {
+      return _subManagers.Where(m => m.SetSkinColor(pawn, color)).FirstOrFallback() != null;
+    }
   }
 }
