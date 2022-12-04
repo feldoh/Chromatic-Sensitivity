@@ -5,11 +5,11 @@ using Verse;
 
 namespace Chromatic_Sensitivity.ColorControl
 {
-  class CompoundSkinColorManager : ISkinColorManager
+  class CompoundColorManager : IColorManager
   {
-    private readonly List<ISkinColorManager> _subManagers;
+    private readonly List<IColorManager> _subManagers;
 
-    public CompoundSkinColorManager(List<ISkinColorManager> subManagers)
+    public CompoundColorManager(List<IColorManager> subManagers)
     {
       _subManagers = subManagers;
     }
@@ -24,6 +24,18 @@ namespace Chromatic_Sensitivity.ColorControl
     public bool SetSkinColor(Pawn pawn, Color color)
     {
       return _subManagers.Where(m => m.SetSkinColor(pawn, color)).FirstOrFallback() != null;
+    }
+
+    public Color? GetHairColor(Pawn pawn)
+    {
+      return _subManagers.Select(manager => manager.GetHairColor(pawn))
+              .Where(color => color.HasValue)
+              .FirstOrFallback();
+    }
+
+    public bool SetHairColor(Pawn pawn, Color color)
+    {
+      return _subManagers.Where(m => m.SetHairColor(pawn, color)).FirstOrFallback() != null;
     }
   }
 }

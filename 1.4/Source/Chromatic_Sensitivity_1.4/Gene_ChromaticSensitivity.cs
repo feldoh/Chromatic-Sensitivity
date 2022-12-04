@@ -21,7 +21,7 @@ public class Gene_ChromaticSensitivity : Gene
     ApplyHediff();
     if (!(pawn.story?.SkinColorOverriden ?? false))
     {
-      ChromaticSensitivity.SkinColorManager.SetSkinColor(pawn, ColorHelper.RandomColor);
+      ChromaticSensitivity.ColorManager.SetSkinColor(pawn, ColorHelper.RandomColor);
     }
   }
 
@@ -34,16 +34,8 @@ public class Gene_ChromaticSensitivity : Gene
   public override void Tick()
   {
     base.Tick();
-    if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f)) return;
-    if (GetHediff() == null)
-    {
-      if (Rand.Chance(0.5f)) ApplyHediff();
-    }
-    else
-    {
-      pawn.story.HairColor = ColorHelper.RandomColor;
-      ChromaticSensitivity.GraphicHandler.RefreshPawnGraphics(pawn);
-    }
+    if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f) || GetHediff() != null) return;
+    if (Rand.Chance(0.5f)) ApplyHediff();
   }
 
   public Hediff? GetHediff() =>

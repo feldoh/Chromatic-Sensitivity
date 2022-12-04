@@ -3,12 +3,12 @@ using Verse;
 
 namespace Chromatic_Sensitivity.ColorControl
 {
-  class BasicSkinColorManager : ISkinColorManager
+  class BasicColorManager : IColorManager
   {
     private readonly IGraphicHandler _graphicHandler;
 
-    public BasicSkinColorManager(): this(null) {}
-    public BasicSkinColorManager(IGraphicHandler graphicHandler)
+    public BasicColorManager(): this(null) {}
+    public BasicColorManager(IGraphicHandler graphicHandler)
     {
       _graphicHandler = graphicHandler ?? ChromaticSensitivity.GraphicHandler;
     }
@@ -24,6 +24,21 @@ namespace Chromatic_Sensitivity.ColorControl
       Log.Verbose($"basic skin color set");
       if (pawn.story == null) return false;
       pawn.story.skinColorOverride = color;
+      _graphicHandler.RefreshPawnGraphics(pawn);
+      return true;
+    }
+
+    public Color? GetHairColor(Pawn pawn)
+    {
+      Log.Verbose($"basic hair color get");
+      return pawn.story?.HairColor;
+    }
+
+    public bool SetHairColor(Pawn pawn, Color color)
+    {
+      Log.Verbose($"basic hair color set");
+      if (pawn.story == null) return false;
+      pawn.story.HairColor = color;
       _graphicHandler.RefreshPawnGraphics(pawn);
       return true;
     }

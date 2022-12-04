@@ -4,12 +4,12 @@ using Verse;
 
 namespace Chromatic_Sensitivity.ColorControl
 {
-  class HARSkinColorManager : ISkinColorManager
+  class HarColorManager : IColorManager
   {
     private readonly IGraphicHandler _graphicHandler;
 
-    public HARSkinColorManager(): this(null) {}
-    public HARSkinColorManager(IGraphicHandler graphicHandler)
+    public HarColorManager(): this(null) {}
+    public HarColorManager(IGraphicHandler graphicHandler)
     {
       _graphicHandler = graphicHandler ?? ChromaticSensitivity.GraphicHandler;
     }
@@ -34,6 +34,30 @@ namespace Chromatic_Sensitivity.ColorControl
       if (!channels.ContainsKey(channelName)) return false;
       channels[channelName].first = color;
       Log.Verbose($"Updating probable HAR skin color channel {channelName} to {color}");
+      _graphicHandler.RefreshPawnGraphics(pawn);
+      return true;
+    }
+
+    public Color? GetHairColor(Pawn pawn)
+    {
+      Log.Verbose($"Trying HAR hair color Get");
+      var channels = pawn.TryGetComp<AlienPartGenerator.AlienComp>()?.ColorChannels;
+      if (channels == null) return null;
+      if (!channels.TryGetValue("hair", out var hairColorChannels)) channels.TryGetValue("base", out hairColorChannels);
+      if (hairColorChannels == null) return null;
+      Log.Verbose($"Found probable HAR hair color channel ({hairColorChannels.first.ToString()})");
+      return hairColorChannels.first;
+    }
+
+    public bool SetHairColor(Pawn pawn, Color color)
+    {
+      Log.Verbose($"Trying HAR hair color Set");
+      var channels = pawn.TryGetComp<AlienPartGenerator.AlienComp>()?.ColorChannels;
+      if (channels == null) return false;
+      var channelName = channels.ContainsKey("hair") ? "hair" : "base";
+      if (!channels.ContainsKey(channelName)) return false;
+      channels[channelName].first = color;
+      Log.Verbose($"Updating probable HAR hair color channel {channelName} to {color}");
       _graphicHandler.RefreshPawnGraphics(pawn);
       return true;
     }
