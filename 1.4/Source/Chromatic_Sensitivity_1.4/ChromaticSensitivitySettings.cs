@@ -176,7 +176,7 @@ namespace Chromatic_Sensitivity
       _options.Label("ChromaticSensitivity_TweakedColors".Translate());
 
       Listing_Standard scrollableListing =
-        MakeScrollableSubListing(viewPort, TweakedColorRowHeight * (ThingDefColors.Count) + 100f);
+        MakeScrollableSubListing(viewPort, TweakedColorRowHeight * (ThingDefColors.Count) + 200f);
       scrollableListing.Label("ChromaticSensitivity_ColorOverridesLabel".Translate());
       scrollableListing.Indent(Indent);
       foreach (var colorForDef in ThingDefColors.ToList()
