@@ -179,7 +179,7 @@ namespace Chromatic_Sensitivity
   }
 #endif
       Log.Verbose(
-        $"Most common surrounding color ({mostCommonColorCount}) => {ColorUtility.ToHtmlStringRGB(mostCommonColor!.Value)}");
+        $"Most common surrounding color ({mostCommonColorCount}) => {(mostCommonColor == null ? "N/A" : ColorUtility.ToHtmlStringRGB(mostCommonColor.Value))}");
       return mostCommonColor;
     }
 
