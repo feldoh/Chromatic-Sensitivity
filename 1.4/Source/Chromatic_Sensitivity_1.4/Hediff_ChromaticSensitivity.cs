@@ -73,11 +73,12 @@ namespace Chromatic_Sensitivity
     public override void Tick()
     {
       base.Tick();
-      if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f) || !ChromaticSensitivity.Settings.AnyPeriodicEffect()) return;
+      if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f) ||
+          !ChromaticSensitivity.Settings.AnyPeriodicEffect()) return;
       LongEventHandler.ExecuteWhenFinished(() =>
       {
         Color? dominantSurroundingColor = DominantSurroundingColor(pawn.Position, pawn.Map);
-        
+
         ApplySurroundingEffect(dominantSurroundingColor);
         ApplyPeriodicEffect(ColorChangeTarget.Skin, dominantSurroundingColor);
         ApplyPeriodicEffect(ColorChangeTarget.Hair, dominantSurroundingColor);
@@ -126,12 +127,16 @@ namespace Chromatic_Sensitivity
      */
     public void ApplySurroundingEffect(Color? dominantColor)
     {
-      if (dominantColor is not { } safeDominantColor) return;
-      if (safeDominantColor.g * 1.3 < safeDominantColor.r && safeDominantColor.b * 1.3 < safeDominantColor.r)
+      if (!pawn.Awake()
+          || dominantColor is not { } safeDominantColor
+          || (safeDominantColor.r >= 0.745 && safeDominantColor.g >= 0.745 && safeDominantColor.b >= 0.745) // Too pale
+          || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098)) return; // Too dark
+      Color.RGBToHSV(safeDominantColor, out var hue, out var saturation, out var lightness);
+      if (hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941)
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Red);
-      else if (safeDominantColor.r * 1.3 < safeDominantColor.g && safeDominantColor.b * 1.3 < safeDominantColor.g)
+      else if (hue > 0.180 && hue <= 0.472)
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Green);
-      else if (safeDominantColor.r * 1.3 < safeDominantColor.b && safeDominantColor.g * 1.3 < safeDominantColor.b)
+      else if (hue > 0.472 && hue < 0.736)
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Blue);
     }
 
@@ -255,20 +260,24 @@ namespace Chromatic_Sensitivity
           ? defForcedColor
           : compProperties.GetForcedColor();
 
-        var gainedThought = ApplyIngestionColorChange(ColorChangeTarget.Skin, false, forcedColor, compProperties.chromaticColorType,
+        var gainedThought = ApplyIngestionColorChange(ColorChangeTarget.Skin, false, forcedColor,
+          compProperties.chromaticColorType,
           chromaticIntensity, food);
-        ApplyIngestionColorChange(ColorChangeTarget.Hair, gainedThought, forcedColor, compProperties.chromaticColorType, chromaticIntensity, food);
+        ApplyIngestionColorChange(ColorChangeTarget.Hair, gainedThought, forcedColor, compProperties.chromaticColorType,
+          chromaticIntensity, food);
 
         _graphicHandler.RefreshPawnGraphics(pawn);
       });
     }
 
-    public bool ApplyIngestionColorChange(ColorChangeTarget target, bool alreadyGainedThought, Color? forcedColor, ChromaticColorType compEffect, float chromaticIntensity, Thing thingIngested)
+    public bool ApplyIngestionColorChange(ColorChangeTarget target, bool alreadyGainedThought, Color? forcedColor,
+      ChromaticColorType compEffect, float chromaticIntensity, Thing thingIngested)
     {
       ChromaticColorType globalSetting = target.IngestionChromaticColorType();
 
       if (globalSetting == ChromaticColorType.None ||
-          target.GetColor(ChromaticSensitivity.ColorManager, pawn) is not { } startingColor) return alreadyGainedThought;
+          target.GetColor(ChromaticSensitivity.ColorManager, pawn) is not { } startingColor)
+        return alreadyGainedThought;
       Color newColor = (compEffect.IsRandom(globalSetting) ? ColorHelper.RandomColor : forcedColor) is { } finalColor
         ? MoveColorsCloser(startingColor, finalColor, chromaticIntensity)
         : MoveTowardsColorFromFood(thingIngested, startingColor, chromaticIntensity) ?? startingColor;
