@@ -43,6 +43,10 @@ namespace Chromatic_Sensitivity
     private byte _red = 125;
     private byte _green = 125;
     private byte _blue = 125;
+    private float _redBuffer = 125f;
+    private float _greenBuffer = 125f;
+    private float _blueBuffer = 125f;
+    private float _severityBuffer = DefaultSeverity;
     private string _colorName = "helpful name for color";
     private string _exportPath = "C:\\RimworldExport";
 
@@ -240,20 +244,18 @@ namespace Chromatic_Sensitivity
     {
       _options.Label("ChromaticSensitivity_Red".Translate().Colorize(Color.red));
       Rect rectR = _options.GetRect(RowHeight);
-      _red = (byte)Widgets.HorizontalSlider(rectR, _red, 0f, 255f, false, _red.ToString(CultureInfo.InvariantCulture),
-        "0",
-        "255", 1f);
+      Widgets.HorizontalSlider(rectR, ref _redBuffer, new FloatRange(0f, 255f), _redBuffer.ToString(CultureInfo.InvariantCulture));
+      _red = (byte)_redBuffer;
 
       _options.Label("ChromaticSensitivity_Green".Translate().Colorize(Color.green));
       Rect rectG = _options.GetRect(RowHeight);
-      _green = (byte)Widgets.HorizontalSlider(rectG, _green, 0f, 255f, false,
-        _green.ToString(CultureInfo.InvariantCulture), "0", "255", 1f);
+      Widgets.HorizontalSlider(rectG, ref _greenBuffer, new FloatRange(0f, 255f), _greenBuffer.ToString(CultureInfo.InvariantCulture));
+      _green = (byte)_greenBuffer;
 
       _options.Label("ChromaticSensitivity_Blue".Translate().Colorize(Color.blue));
       Rect rectB = _options.GetRect(RowHeight);
-      _blue = (byte)Widgets.HorizontalSlider(rectB, _blue, 0f, 255f, false,
-        _blue.ToString(CultureInfo.InvariantCulture),
-        "0", "255", 1f);
+      Widgets.HorizontalSlider(rectB, ref _blueBuffer, new FloatRange(0f, 255f), _blueBuffer.ToString(CultureInfo.InvariantCulture));
+      _blue = (byte)_blueBuffer;
 
       _options.Gap();
       _options.Label(
@@ -273,9 +275,9 @@ namespace Chromatic_Sensitivity
 
       _options.Label("ChromaticSensitivity_SeverityPercent_Description".Translate());
       Rect severityRect = _options.GetRect(RowHeight);
-      TaggedString severityLabel = "ChromaticSensitivity_SeverityPercent".Translate(Severity * 100);
-      Severity = Widgets.HorizontalSlider(severityRect, Severity * 100, 0f, 100.0f, false,
-        severityLabel, "0", "100", 0.5f) / 100f;
+      _severityBuffer = Severity * 100;
+      Widgets.HorizontalSlider(severityRect, ref _severityBuffer, new FloatRange(0f, 100f), "ChromaticSensitivity_SeverityPercent".Translate(_severityBuffer));
+      _severity = _severityBuffer / 100;
 
       _options.Gap();
       _exportPath = _options.TextEntryLabeled("ChromaticSensitivity_ExportPath".Translate() + "\t", _exportPath);
