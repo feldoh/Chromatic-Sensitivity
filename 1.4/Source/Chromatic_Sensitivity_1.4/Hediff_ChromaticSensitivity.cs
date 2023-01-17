@@ -130,7 +130,8 @@ namespace Chromatic_Sensitivity
       if (!pawn.Awake()
           || dominantColor is not { } safeDominantColor
           || (safeDominantColor.r >= 0.745 && safeDominantColor.g >= 0.745 && safeDominantColor.b >= 0.745) // Too pale
-          || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098)) return; // Too dark
+          || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098))
+        return; // Too dark
       Color.RGBToHSV(safeDominantColor, out var hue, out var saturation, out var lightness);
       if (hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941)
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Red);
@@ -145,13 +146,14 @@ namespace Chromatic_Sensitivity
       Map map)
     {
       Dictionary<Color, int> surroundingColors = new();
+      Dictionary<Color, HashSet<string>> thingsOfColor = new();
       Color? mostCommonColor = null;
       int mostCommonColorCount = 0;
       int num = GenRadial.NumCellsInRadius(11.9f);
 
-      void UpdateColorCommonality(Color color)
+      bool UpdateColorCommonality(Color color)
       {
-        if (color is { r: 1.0f, g: 1.0f, b: 1.0f } or { r: 0.0f, g: 0.0f, b: 0.0f }) return;
+        if (color is { r: 1.0f, g: 1.0f, b: 1.0f } or { r: 0.0f, g: 0.0f, b: 0.0f }) return false;
         var colorCount = surroundingColors.TryGetValue(color) + 1;
         if (colorCount > mostCommonColorCount)
         {
@@ -160,8 +162,10 @@ namespace Chromatic_Sensitivity
         }
 
         surroundingColors.SetOrAdd(color, colorCount);
+        return true;
       }
 
+      var listColorOrigin = ChromaticSensitivity.Settings.VerboseLogging;
       for (var cellIndex = 0; cellIndex < num; ++cellIndex)
       {
         IntVec3 intVec3 = rootCell + GenRadial.RadialPattern[cellIndex];
@@ -169,7 +173,9 @@ namespace Chromatic_Sensitivity
         foreach (Thing thing in intVec3.GetThingList(map))
         {
           if (thing is not Building { DrawColor: var drawColor }) continue;
-          UpdateColorCommonality(drawColor);
+          if (!UpdateColorCommonality(drawColor) || !listColorOrigin) continue;
+          if (!thingsOfColor.ContainsKey(drawColor)) thingsOfColor.SetOrAdd(drawColor, new HashSet<string>());
+          thingsOfColor[drawColor].Add(thing.def.defName);
         }
 
         if (ChromaticSensitivity.Settings.ConsiderFloors)
@@ -184,7 +190,7 @@ namespace Chromatic_Sensitivity
   }
 #endif
       Log.Verbose(
-        $"Most common surrounding color ({mostCommonColorCount}) => {(mostCommonColor == null ? "N/A" : ColorUtility.ToHtmlStringRGB(mostCommonColor.Value))}");
+        $"Most common surrounding color ({mostCommonColorCount}) => {(mostCommonColor == null ? "N/A" : ColorUtility.ToHtmlStringRGB(mostCommonColor.Value))}\nRelevant things:{thingsOfColor.TryGetValue(mostCommonColor ?? new Color())?.ToLineList() ?? "N/A"}");
       return mostCommonColor;
     }
 
