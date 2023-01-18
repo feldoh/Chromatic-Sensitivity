@@ -130,14 +130,14 @@ namespace Chromatic_Sensitivity
       if (!pawn.Awake()
           || dominantColor is not { } safeDominantColor
           || (safeDominantColor.r >= 0.745 && safeDominantColor.g >= 0.745 && safeDominantColor.b >= 0.745) // Too pale
-          || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098))
-        return; // Too dark
+          || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098)) // Too dark
+        return;
       Color.RGBToHSV(safeDominantColor, out var hue, out var saturation, out var lightness);
-      if (hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941)
+      if ((hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941) && safeDominantColor.g < 0.27 && safeDominantColor.b < 0.27 && safeDominantColor.r > (safeDominantColor.b + safeDominantColor.g))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Red);
-      else if (hue > 0.180 && hue <= 0.472)
+      else if (hue > 0.180 && hue <= 0.472 && (safeDominantColor.g > 1.25 * safeDominantColor.b || safeDominantColor.g > 1.25 * safeDominantColor.r))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Green);
-      else if (hue > 0.472 && hue < 0.736)
+      else if (hue > 0.472 && hue < 0.736 && (safeDominantColor.b > 1.25 * safeDominantColor.g || safeDominantColor.b > 1.25 * safeDominantColor.r))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Blue);
     }
 
