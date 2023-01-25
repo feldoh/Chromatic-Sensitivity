@@ -133,11 +133,14 @@ namespace Chromatic_Sensitivity
           || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098)) // Too dark
         return;
       Color.RGBToHSV(safeDominantColor, out var hue, out var saturation, out var lightness);
-      if ((hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941) && safeDominantColor.g < 0.27 && safeDominantColor.b < 0.27 && safeDominantColor.r > (safeDominantColor.b + safeDominantColor.g))
+      if ((hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941) && safeDominantColor.g < 0.27 &&
+          safeDominantColor.b < 0.27 && safeDominantColor.r > (safeDominantColor.b + safeDominantColor.g))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Red);
-      else if (hue > 0.180 && hue <= 0.472 && (safeDominantColor.g > 1.20 * safeDominantColor.b || safeDominantColor.g > 1.20 * safeDominantColor.r))
+      else if (hue > 0.180 && hue <= 0.472 && (safeDominantColor.g > 1.20 * safeDominantColor.b ||
+                                               safeDominantColor.g > 1.20 * safeDominantColor.r))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Green);
-      else if (hue > 0.472 && hue < 0.736 && (safeDominantColor.b > 1.20 * safeDominantColor.g || safeDominantColor.b > 1.20 * safeDominantColor.r))
+      else if (hue > 0.472 && hue < 0.736 && (safeDominantColor.b > 1.20 * safeDominantColor.g ||
+                                              safeDominantColor.b > 1.20 * safeDominantColor.r))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Blue);
     }
 
@@ -194,7 +197,7 @@ namespace Chromatic_Sensitivity
           if (thing.TryGetComp<CompGlower>() is { Glows: true } compGlower)
           {
             Color glowColor = compGlower.GlowColor.ToColor;
-            if (UpdateColorCommonality(glowColor, 5))
+            if (UpdateColorCommonality(glowColor, Math.Min(5, (int)compGlower.Props.glowRadius / 2)))
             {
               RecordThingColor(glowColor, thingDef.defName + " - Light");
             }
