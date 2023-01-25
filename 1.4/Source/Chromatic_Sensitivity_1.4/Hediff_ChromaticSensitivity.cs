@@ -73,7 +73,7 @@ namespace Chromatic_Sensitivity
     public override void Tick()
     {
       base.Tick();
-      if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.75f) ||
+      if (!pawn.Spawned || !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) || Rand.Chance(0.2f) ||
           !ChromaticSensitivity.Settings.AnyPeriodicEffect()) return;
       LongEventHandler.ExecuteWhenFinished(() =>
       {
@@ -130,18 +130,18 @@ namespace Chromatic_Sensitivity
       if (!pawn.Awake()
           || dominantColor is not { } safeDominantColor
           || (safeDominantColor.r >= 0.745 && safeDominantColor.g >= 0.745 && safeDominantColor.b >= 0.745) // Too pale
-          || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098))
-        return; // Too dark
+          || (safeDominantColor.r < 0.098 && safeDominantColor.g < 0.098 && safeDominantColor.b < 0.098)) // Too dark
+        return;
       Color.RGBToHSV(safeDominantColor, out var hue, out var saturation, out var lightness);
-      if (hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941)
+      if ((hue < 0.013 || (hue < 0.041 && saturation > 0.85) || hue > 0.941) && safeDominantColor.g < 0.27 && safeDominantColor.b < 0.27 && safeDominantColor.r > (safeDominantColor.b + safeDominantColor.g))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Red);
-      else if (hue > 0.180 && hue <= 0.472)
+      else if (hue > 0.180 && hue <= 0.472 && (safeDominantColor.g > 1.20 * safeDominantColor.b || safeDominantColor.g > 1.20 * safeDominantColor.r))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Green);
-      else if (hue > 0.472 && hue < 0.736)
+      else if (hue > 0.472 && hue < 0.736 && (safeDominantColor.b > 1.20 * safeDominantColor.g || safeDominantColor.b > 1.20 * safeDominantColor.r))
         ApplySurroundingEffectFromDef(ChromaticDefOf.Taggerung_ChromaticSurroundings_Blue);
     }
 
-    public static Color? DominantSurroundingColor(
+    public Color? DominantSurroundingColor(
       IntVec3 rootCell,
       Map map)
     {
@@ -151,10 +151,19 @@ namespace Chromatic_Sensitivity
       int mostCommonColorCount = 0;
       int num = GenRadial.NumCellsInRadius(11.9f);
 
-      bool UpdateColorCommonality(Color color)
+      var listColorOrigin = ChromaticSensitivity.Settings.VerboseLogging;
+
+      void RecordThingColor(Color color, string name)
+      {
+        if (!listColorOrigin) return;
+        if (!thingsOfColor.ContainsKey(color)) thingsOfColor.SetOrAdd(color, new HashSet<string>());
+        thingsOfColor[color].Add(name);
+      }
+
+      bool UpdateColorCommonality(Color color, int increment = 1)
       {
         if (color is { r: 1.0f, g: 1.0f, b: 1.0f } or { r: 0.0f, g: 0.0f, b: 0.0f }) return false;
-        var colorCount = surroundingColors.TryGetValue(color) + 1;
+        var colorCount = surroundingColors.TryGetValue(color) + increment;
         if (colorCount > mostCommonColorCount)
         {
           mostCommonColorCount = colorCount;
@@ -165,23 +174,40 @@ namespace Chromatic_Sensitivity
         return true;
       }
 
-      var listColorOrigin = ChromaticSensitivity.Settings.VerboseLogging;
       for (var cellIndex = 0; cellIndex < num; ++cellIndex)
       {
         IntVec3 intVec3 = rootCell + GenRadial.RadialPattern[cellIndex];
         if (!intVec3.InBounds(map) || intVec3.Fogged(map) || !GenSight.LineOfSight(rootCell, intVec3, map)) continue;
         foreach (Thing thing in intVec3.GetThingList(map))
         {
-          if (thing is not Building { DrawColor: var drawColor }) continue;
-          if (!UpdateColorCommonality(drawColor) || !listColorOrigin) continue;
-          if (!thingsOfColor.ContainsKey(drawColor)) thingsOfColor.SetOrAdd(drawColor, new HashSet<string>());
-          thingsOfColor[drawColor].Add(thing.def.defName);
+          if (thing.def.defName.Contains("Blood") && thing is not Building && UpdateColorCommonality(thing.DrawColor))
+          {
+            RecordThingColor(thing.DrawColor, thing.def.defName);
+          }
+          else if (thing is Plant { LeaflessNow: false } &&
+                   _colorHelper.ExtractDominantColor(thing) is { } plantColor && UpdateColorCommonality(plantColor))
+          {
+            RecordThingColor(plantColor, thing.def.defName);
+          }
+
+          if (thing is not Building { DrawColor: var drawColor, def: var thingDef }) continue;
+          if (thing.TryGetComp<CompGlower>() is { Glows: true } compGlower)
+          {
+            Color glowColor = compGlower.GlowColor.ToColor;
+            if (UpdateColorCommonality(glowColor, 5))
+            {
+              RecordThingColor(glowColor, thingDef.defName + " - Light");
+            }
+          }
+
+          if (!UpdateColorCommonality(drawColor)) continue;
+          RecordThingColor(drawColor, thingDef.defName);
         }
 
-        if (ChromaticSensitivity.Settings.ConsiderFloors)
-        {
-          UpdateColorCommonality(map.terrainGrid.ColorAt(intVec3)?.color ?? intVec3.GetTerrain(map).DrawColor);
-        }
+        if (!ChromaticSensitivity.Settings.ConsiderFloors) continue;
+        Color floorColor = map.terrainGrid.ColorAt(intVec3)?.color ?? intVec3.GetTerrain(map).DrawColor;
+        if (!UpdateColorCommonality(floorColor)) continue;
+        RecordThingColor(floorColor, "_Floor");
       }
 #if DEBUG
   foreach ((Color color, var cnt) in surroundingColors)
