@@ -48,4 +48,42 @@
       </li>
     </stages>
   </ThoughtDef>
+  <ThoughtDef>
+    <defName>Taggerung_FavoriteChromaticSurroundings</defName>
+    <durationDays>0.3</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>surrounded by glorious color</label>
+        <description>Wow being surrounded by my favorite color is like being steeped in a bath of joy</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>Taggerung_FavoriteChromaticBedroom</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>1</stackLimit>
+    <nullifiedIfNotColonist>true</nullifiedIfNotColonist>
+    <stages>
+      <li>
+        <label>chromatic bedroom</label>
+        <description>I got to sleep engulfed in a sea of my favorite color, I'm so lucky.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>Taggerung_FavoriteChromaticBed</defName>
+    <durationDays>0.5</durationDays>
+    <stackLimit>1</stackLimit>
+    <nullifiedIfNotColonist>true</nullifiedIfNotColonist>
+    <stages>
+      <li>
+        <label>chromatic bed</label>
+        <description>My bed is my favorite color, sleeping in it is such a joy.</description>
+        <baseMoodEffect>1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
 </Defs>
