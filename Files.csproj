@@ -19,7 +19,7 @@
   </Target>
   <ItemGroup>
     <ReleaseFiles Include=".\1.*\**" Exclude=".\1.*\Source\**" />
-    <AboutFiles Include=".\About\**" Exclude=".\About\About-*.xml" />
+    <AboutFiles Include=".\About\**" Exclude=".\About\About-*.xml;.\About\*.png~" />
     <CommonFiles Include=".\Common\**" />
     <CompatibilityFiles Include=".\Compatibility\**" />
     <AssemblyFiles Include=".\Assemblies\**" />
