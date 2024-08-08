@@ -3,11 +3,16 @@
   <v1.3>
     <li>Common</li>
     <li>1.3</li>
-    <li>Assemblies/1.3</li>
+    <li>Debug/1.3</li>
   </v1.3>
   <v1.4>
     <li>Common</li>
     <li>1.4</li>
-    <li>Assemblies/1.4</li>
+    <li>Debug/1.4</li>
   </v1.4>
+  <v1.5>
+    <li>Common</li>
+    <li>1.5</li>
+    <li>Debug/1.5</li>
+  </v1.5>
 </loadFolders>

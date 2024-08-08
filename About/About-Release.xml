@@ -6,6 +6,7 @@
   <supportedVersions>
     <li>1.3</li>
     <li>1.4</li>
+    <li>1.5</li>
   </supportedVersions>
   <packageId>Taggerung.ChromaticSensitivity</packageId>
   <description>Allows pawns to be affected by the colors they interact with. If you eat too many blueberries you might just become one!</description>
