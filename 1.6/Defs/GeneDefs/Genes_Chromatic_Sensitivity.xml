@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+
+  <GeneDef>
+    <defName>Taggerung_Chromatic_Sensitivity</defName>
+    <label>Chromatically Sensitive</label>
+    <description>Carriers of this gene are chromavores and as such need slightly less food than usual as they are able to extract a small amount of energy from the chromatic compounds in the foods they eat.\n\nThey also have chromatically hypersensitive pigmentation glands which are commonly affected by ambient color.</description>
+    <geneClass>Chromatic_Sensitivity.Gene_ChromaticSensitivity</geneClass>
+    <iconPath>GeneIcons/Taggerung_Gene_ChromaticSensitivity</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <marketValueFactor>0.9</marketValueFactor>
+    <biostatCpx>1</biostatCpx>
+    <biostatMet>-1</biostatMet>
+    <neverGrayHair>true</neverGrayHair>
+    <customEffectDescriptions>
+      <li>May be affected by surrounding colors.</li>
+      <li>Will gradually become the color of any food eaten.</li>
+      <li>May gain mood bonus from eating particularly colorful food, or food that matches their favorite color.</li>
+      <li>Might gain mood negative from eating particularly bland food, or the same color of food for too long.</li>
+      <li>Can never go grey and hair color may change naturally over time.</li>
+      <li>Random skin color.</li>
+      <li>Chromatic sensitivity cannot be removed only temporarily repressed.</li>
+    </customEffectDescriptions>
+    <symbolPack>
+      <wholeNameSymbols>
+        <li>
+          <symbol>colorful</symbol>
+        </li>
+        <li>
+          <symbol>chromatic</symbol>
+        </li>
+        <li>
+          <symbol>irridescent</symbol>
+        </li>
+      </wholeNameSymbols>
+      <prefixSymbols>
+        <li>
+          <symbol>chroma</symbol>
+        </li>
+      </prefixSymbols>
+      <suffixSymbols>
+        <li>
+          <symbol>chrominance</symbol>
+        </li>
+        <li>
+          <symbol>colorfulness</symbol>
+        </li>
+      </suffixSymbols>
+    </symbolPack>
+  </GeneDef>
+
+</Defs>

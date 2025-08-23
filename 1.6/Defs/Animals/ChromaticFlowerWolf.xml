@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+
+  <ThingDef ParentName="ThingBaseWolf">
+    <defName>Taggerung_ChromaticFlowerWolf</defName>
+    <label>chromatic flower wolf</label>
+    <description>A rare and intensely colorful predator. Chromatic flower wolves undulate with inner color; fueled by their preferred diet of chromabirds.\n\nTheir colorfulness limits their ability to stalk prey stealthily, so they cover their backs in vibrant flowers in the hopes they will be mistaken for a bed of flowers. This allows them to lie in wait for prey, ready to pounce at any moment. Their small close-knit packs help each other arrange their floral camoflage.\n\nSome tribes believe the reason nobody has seen a chromatic flower wolf without its flowers in living memory is because seeing one without its flower cover would be so beautiful as to freeze them in place, leaving them an easy meal for the ever hungry beasts.</description>
+    <statBases>
+      <MarketValue>200</MarketValue>
+    </statBases>
+    <race>
+      <specificMeatDef>Taggerung_ChromaticMeat</specificMeatDef>
+      <meatLabel>chromatic meat</meatLabel>
+      <meatMarketValue>10.0</meatMarketValue>
+    </race>
+    <tools>
+      <li>
+        <label>left claw</label>
+        <capacities>
+          <li>Scratch</li>
+        </capacities>
+        <power>10.9</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>FrontLeftPaw</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+        <chanceFactor>0.5</chanceFactor>
+      </li>
+      <li>
+        <label>right claw</label>
+        <capacities>
+          <li>Scratch</li>
+        </capacities>
+        <power>10.9</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>FrontRightPaw</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+        <chanceFactor>0.5</chanceFactor>
+      </li>
+      <li>
+        <capacities>
+          <li>Taggerung_ChromaticBite</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+        <chanceFactor>0.9</chanceFactor>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>6</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <tradeTags>
+      <li>AnimalExotic</li>
+    </tradeTags>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBaseWolf">
+    <defName>Taggerung_ChromaticFlowerWolf</defName>
+    <label>chromatic flower wolf</label>
+    <labelPlural>chromatic flower wolves</labelPlural>
+    <race>Taggerung_ChromaticFlowerWolf</race>
+    <ecoSystemWeight>0.1</ecoSystemWeight>
+    <wildGroupSize>1~3</wildGroupSize>
+    <lifeStages>
+      <li>
+        <label>chromatic flower wolf puppy</label>
+        <labelPlural>chromatic flower wolf puppies</labelPlural>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Taggerung_ChromaticFlowerWolf/Taggerung_ChromaticFlowerWolf</texPath>
+          <drawSize>1.05</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Wolf_Timber/Dessicated_Wolf_Timber</texPath>
+          <drawSize>1.05</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Taggerung_ChromaticFlowerWolf/Taggerung_ChromaticFlowerWolf</texPath>
+          <drawSize>1.5</drawSize>
+          <shadowData>
+            <volume>(0.25, 0.3, 0.25)</volume>
+            <offset>(0,0,-0.15)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Wolf_Timber/Dessicated_Wolf_Timber</texPath>
+          <drawSize>1.5</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Taggerung_ChromaticFlowerWolf/Taggerung_ChromaticFlowerWolf</texPath>
+          <drawSize>1.95</drawSize>
+          <shadowData>
+            <volume>(0.3, 0.4, 0.3)</volume>
+            <offset>(0,0,-0.15)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Wolf_Timber/Dessicated_Wolf_Timber</texPath>
+          <drawSize>1.95</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+</Defs>

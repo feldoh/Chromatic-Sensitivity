@@ -1,58 +1,58 @@
 <p>
-  <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2856889316" alt="Steam Workshop Link">
-  <img src="https://img.shields.io/static/v1?label=Steam&message=Workshop&color=blue&logo=steam&link=https://steamcommunity.com/sharedfiles/filedetails/?id=2856889316"/>
+  <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2856889316">
+  <img src="https://img.shields.io/static/v1?label=Steam&message=Workshop&color=blue&logo=steam&link=https://steamcommunity.com/sharedfiles/filedetails/?id=2856889316" alt="Steam Workshop Link"/>
   </a>
 </p>
 
 # Chromatic Sensitivity
 
-Rimworld mod to make pawns more affected by the colors they interact with.
+Rimworld mod to make pawns more affected by the colours they interact with.
 Most of the features of this mod are related to the `ChromaticSensitivity` Hediff.
 
 ### How can I get it
-* On most maps with reasonable fertility the Chromosia plant will spawn, if a pawn consumes the fruit they have a chance to become chromatically sensitive.
+* On most maps with reasonable fertility, the Chromosia plant will spawn. If a pawn consumes the fruit, they have a chance to become chromatically sensitive.
 * If you are playing in a [Biomes! Chromatic Oasis](https://steamcommunity.com/sharedfiles/filedetails/?id=2538518381) it has a chance to appear naturally as a disease.
 * You can add it in scenario editor
 * Add the hediff in dev mode
 
 ### How can I get rid of it
-If a pawn has Chromatic sensitivity you can perform a surgery with a little glitterworld medicine and some chromosia to remove it.
+If a pawn has Chromatic sensitivity, you can perform a surgery with a little glitterworld medicine and some chromosia to remove it.
 Though Why you wouldn't want a garish green pawn I don't know.
-If you remove chromatic sensitivity this way the pawn will be restored to their original color.
+If you remove chromatic sensitivity this way, the pawn will be restored to their original colour.
 
 ## Features
 
 ### Chromatic Influence
-* If the pawn is surrounded by colorful edifices they have a chance to gain a stacking buff which is attuned to the color they are surrounded by. Try building a defensive area in Red or your lab in blue and see what happens.
+* If the pawn is surrounded by colourful edifices, they have a chance to gain a stacking buff which is attuned to the colour they are surrounded by. Try building a defensive area in Red or your lab in blue and see what happens.
 * This uses the drawColor which can be set using the new ability to paint things in 1.4.
-* If the pawn's bedroom, bed or general surroundings are close to their favorite color they gain mood buffs.
+* If the pawn's bedroom, bed or general surroundings are close to their favorite colour, they gain mood buffs.
 
 ### You are what you eat
-Eating food will slowly transform a pawn with Chromatic Sensitivity making them approximately the same color as their food.
-* If they eat food with ingredients then the effect will be applied for each ingredient.
-* The severity dictates how quickly their color will change. This defaults to 5% per item consumed. This is quite slow but makes it smooth and natural. You can change this in the modsettings all the way up to 100% if you want them to change color after every snack.
-* The color is determined by simply finding the most common pixel color in the texture so sometimes this can be a little off, e.g. if the border ends up being the most common color. Core items should all have reasonable colors but you can add your own if you really want someone eating something silver to go blue.
-  * If you wish to exclude specific colors or specify a color for a specific item you can do so in the mod settings or via XML patch.
-  * To patch a new color in XML add the `Chromatic_Sensitivity.CompProperties_ChromaticFood` with a `forcedColor` tag in the RGB format, e.g. `(255,255,255)` for white into the comps for the `ThingDef` you want to set a color for.
-    * Note that as this is a comp it must be a `ThingWithComps` for this to work. You can set the color on any ThingDef in the mod settings but XML is restricted to ThingDefs where the thing supports comps i.e. where the `ThingDef` has `<thingClass>ThingWithComps</thingClass>`.
-* If you want to see what colors specific foods will turn you hit the dump all button in the mod settings. This will export each graphic along with the color you can expect to become when you eat it. See one you don't like, then change it!
-* Some foods like Chromosia will change you to a totally random color.
-* Some foods are of higher chromatic intensity. This acts as a multiplier on severity for the rate of change towards a new color. For example chromosia is 10x more potent than usual.
+Eating food will slowly transform a pawn with Chromatic Sensitivity, making them approximately the same colour as their food.
+* If they eat food with ingredients, then the effect will be applied for each ingredient.
+* The severity dictates how quickly their colour will change. This defaults to 5% per item consumed. This is quite slow but makes it smooth and natural. You can change this in the modsettings all the way up to 100% if you want them to change colour after every snack.
+* The colour is determined by simply finding the most common pixel colour in the texture, so sometimes this can be a little off, e.g. if the border ends up being the most common colour. Core items should all have reasonable colours, but you can add your own if you really want someone eating something silver to go blue.
+  * If you wish to exclude specific colours or specify a colour for a specific item, you can do so in the mod settings or via XML patch.
+  * To patch a new colour in XML add the `Chromatic_Sensitivity.CompProperties_ChromaticFood` with a `forcedColor` tag in the RGB format, e.g. `(255,255,255)` for white into the comps for the `ThingDef` you want to set a colour for.
+    * Note that as this is a comp it must be a `ThingWithComps` for this to work. You can set the colour on any ThingDef in the mod settings, but XML is restricted to ThingDefs where the thing supports comps i.e. where the `ThingDef` has `<thingClass>ThingWithComps</thingClass>`.
+* If you want to see what colours specific foods will turn, you hit the dump all button in the mod settings. This will export each graphic along with the colour you can expect to become when you eat it. See one you don't like, then change it!
+* Some foods like Chromosia will change you to a totally random colour.
+* Some foods are of higher chromatic intensity. This acts as a multiplier on severity for the rate of change towards a new colour. For example, chromosia is 10x more potent than usual.
 * Moodlets for chromatic food choices:
-  * Chance for a small mood buff when eating any food that results in a color change.
-  * Bigger buff if they eat things very similar to their favourite color (Ideology only).
+  * Chance for a small mood buff when eating any food that results in a colour change.
+  * Bigger buff if they eat things very similar to their favourite colour (Ideology only).
   * Small mood debuff when eating food with no determinable colour (List of foods in mod settings, e.g. Packaged Survival Meals with no ingredients).
-  * Chance for a small food boredom mood debuff for eating food which has a defined colour but doesn't result in any changes. This might trigger if you have them eat only one thing constantly for example.
+  * Chance for a small food boredom mood debuff for eating food which has a defined colour but doesn't result in any changes. This might trigger if you have them eat only one thing constantly, for example.
 
 ### Chromosia
-The chromosia plant looks and acts fairly similar to ambrosia. You can't become addicted but you might become chromatically sensitive.
+The chromosia plant looks and acts fairly similar to ambrosia. You can't become addicted, but you might become chromatically sensitive.
 
 Eating chromosia gives a small mood buff. It always counts as exciting chromatic food.
-If the pawn has chromatic sensitivity (or they get it from eating the fruit), they will change color to a totally random color.
-Chromosia is configured to be intensely colourful so the rate of colour change towards the random color is 10x what you get from eating normal food.
+If the pawn has chromatic sensitivity (or they get it from eating the fruit), they will change colour to a totally random colour.
+Chromosia is configured to be intensely colourful, so the rate of colour change towards the random colour is 10x what you get from eating normal food.
 
 It can sometimes be purchased from shaman merchants, the empire or exotic goods traders.
-It can also spawn as a special event in most non-extreme biomes including modded biomes from:
+It can also spawn as a special event in most non-extreme biomes, including modded biomes from:
 * [Alpha Biomes](https://steamcommunity.com/sharedfiles/filedetails/?id=1841354677)
 * [Biomes! Islands](https://steamcommunity.com/sharedfiles/filedetails/?id=2038001322)
 * [Biomes! Chromatic Oasis](https://steamcommunity.com/sharedfiles/filedetails/?id=2538518381)
@@ -68,9 +68,9 @@ It can also spawn as a special event in most non-extreme biomes including modded
 ## Compatibility
 * Safe to add mid-save: yes
 * Safe to remove mid-save: yes
-  * The first time you load in post removal you'll see errors about an unknown `Hediff` but it is benign and simply saving and reloading again clears it.
+  * The first time you load in post-removal, you'll see errors about an unknown `Hediff` but it is benign and simply saving and reloading again clears it.
 * This should be compatible with Aliens defined using the [HAR Framework](https://github.com/erdelf/AlienRaces)
-  * The color modification is applied to the first of the two color channels, it uses `skin` where possible or falls back to `base`.
+  * The colour modification is applied to the first of the two colour channels, it uses `skin` where possible or falls back to `base`.
 * Chromosia spawning is compatible with the biome mods listed above.
 * Chromatic Sensitivity is a natural illness in [Biomes! Chromatic Oasis](https://steamcommunity.com/sharedfiles/filedetails/?id=2538518381)
 * Combat extended - Probably ¯\\(ツ)/¯
@@ -107,3 +107,6 @@ So no DLLs are in the dev folder. However the releases section will include the 
 * Evelyn, without whom I would not be where I am today and could never have made something like this.
 * Marnador for the RimWorld font.
 * [Sovereign](https://steamcommunity.com/id/Sovereign484854/myworkshopfiles/?appid=294100) for the Chromabird art.
+
+## Continuity
+See [CONTINUITY.md](CONTINUITY.md) for details on continuity and succession of this project in the event of my death or long-term absence.

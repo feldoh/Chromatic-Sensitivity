@@ -1,43 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <BaseIntermediateOutputPath>.vs\unused\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>.vs/unused/</BaseIntermediateOutputPath>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ModName>$(SolutionName)</ModName>
+    <SteamModsPath>$(RIMWORLD_STEAM_MODS_PATH)</SteamModsPath>
+    <SteamPath>$(RIMWORLD_STEAM_PATH)</SteamPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>.\</OutputPath>
+    <OutputPath>./</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>.\</OutputPath>
+    <OutputPath>./</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Include="loadfolders-*.xml;About/About-*" />
   </ItemGroup>
   <Target Name="Clean">
     <RemoveDir Directories="Release" />
-    <Delete Files=".\$(SolutionName).zip;About/About.xml;loadFolders.xml;" />
+    <Delete Files="./$(SolutionName).zip;About/About.xml;loadFolders.xml;" />
   </Target>
   <ItemGroup>
-    <ReleaseFiles Include=".\1.*\**" Exclude=".\1.*\Source\**" />
-    <AboutFiles Include=".\About\**" Exclude=".\About\About-*.xml;.\About\*.png~" />
-    <CommonFiles Include=".\Common\**" />
-    <CompatibilityFiles Include=".\Compatibility\**" />
-    <AssemblyFiles Include=".\Assemblies\**" />
-    <ExtraFiles Include=".\LoadFolders.xml;.\LICENSE;README.md" />
+    <ReleaseFiles Include="./1.*/**" Exclude="./1.*/Source/**" />
+    <AboutFiles Include="./About/**" Exclude="./About/About-*.xml;./About/*.png~" />
+    <CommonFiles Include="./Common/**" />
+    <CompatibilityFiles Include="./Compatibility/**" />
+    <AssemblyFiles Include="./Assemblies/**" />
+    <ExtraFiles Include="./LoadFolders.xml;./LICENSE;README.md;CONTINUITY.md" />
+    <None Include="./Assets/**" LinkBase="Assets" />
   </ItemGroup>
   <Target Name="Build">
-    <Copy SourceFiles="About\About-$(Configuration).xml" DestinationFiles="$(OutputPath)About\About.xml" />
+    <Copy SourceFiles="About/About-$(Configuration).xml" DestinationFiles="$(OutputPath)About/About.xml" />
     <Copy SourceFiles="loadFolders-$(Configuration).xml" DestinationFiles="$(OutputPath)loadFolders.xml" />
   </Target>
   <Target Name="PostBuild" AfterTargets="Build" Condition=" '$(Configuration)' == 'Release' ">
-    <Delete Files=".\$(SolutionName).zip" />
-    <Copy SourceFiles="@(AboutFiles)" DestinationFiles="@(AboutFiles->'.\Release\$(SolutionName)\About\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(CommonFiles)" DestinationFiles="@(CommonFiles->'.\Release\$(SolutionName)\Common\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(CompatibilityFiles)" DestinationFiles="@(CompatibilityFiles->'.\Release\$(SolutionName)\Compatibility\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(ReleaseFiles)" DestinationFiles="@(ReleaseFiles->'.\Release\$(SolutionName)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(AssemblyFiles)" DestinationFiles="@(AssemblyFiles->'.\Release\$(SolutionName)\Assemblies\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(ExtraFiles)" DestinationFolder=".\Release\$(SolutionName)\" />
-    <ZipDirectory DestinationFile=".\$(SolutionName).zip" SourceDirectory=".\Release" />
+    <Delete Files="./$(SolutionName).zip" />
+    <Copy SourceFiles="@(AboutFiles)" DestinationFiles="@(AboutFiles->'./Release/$(SolutionName)/About/%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(CommonFiles)" DestinationFiles="@(CommonFiles->'./Release/$(SolutionName)/Common/%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(CompatibilityFiles)" DestinationFiles="@(CompatibilityFiles->'./Release/$(SolutionName)/Compatibility/%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ReleaseFiles)" DestinationFiles="@(ReleaseFiles->'./Release/$(SolutionName)/%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(AssemblyFiles)" DestinationFiles="@(AssemblyFiles->'./Release/$(SolutionName)/Assemblies/%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ExtraFiles)" DestinationFolder="./Release/$(SolutionName)/" />
+    <ZipDirectory DestinationFile="./$(SolutionName).zip" SourceDirectory="./Release" />
     <RemoveDir Directories="obj" />
+    <ItemGroup>
+        <ReleaseFolder Include="./Release/$(SolutionName)/**" />
+        <ReleaseFolder Condition=" '$(Configuration)' == 'Debug' " Include="./1.*/Assemblies/*.pdb;./Compatibility/**/*.pdb" />
+    </ItemGroup>
+    <RemoveDir Condition="Exists('$(SteamModsPath)')" Directories="$(SteamModsPath)/$(ModName)" ContinueOnError="true" />
+    <Message Text="Copying mod to $(SteamModsPath)/$(ModName) for release" Importance="high" />
+    <Copy Condition="Exists('$(SteamModsPath)')" SourceFiles="@(ReleaseFolder)"
+          DestinationFiles="@(ReleaseFolder->'$(SteamModsPath)/$(ModName)/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
 </Project>
